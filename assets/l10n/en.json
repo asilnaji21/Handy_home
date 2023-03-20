@@ -1,0 +1,57 @@
+{
+    "appTitle": "HandyHome App",
+    "takeCareText":"LOVE & TAKE CARE",
+
+    "featureText":"Feature ",
+    "firstText": "First",
+    "secondText": "Second",
+    "thirdText": "Third",
+    "subFeature1Text": "This text is an example of text that can be replaced in the same space. This text was generated from the Arabic text generator. ",
+    "subFeature2Text": "This text is an example of text that can be replaced in the same space. This text was generated from the Arabic text generator.",
+    "subFeature3Text": "This text is an example of text that can be replaced in the same space. This text was generated from the Arabic text generator.",
+    "nextText":"Next",
+    "visitorLiginText":"Login As Visitor",
+
+    "newUserText" : "New user",
+    "subSignupText" : "Please, fill in the following information to discover our services!",
+    "fullNameText" :"Full Name",
+    "emailText": "Email",
+    "passwordText": "Password",
+    "confirmPasswordText":"Confirm Password",
+    "signupButtonText":"Register @:newUserText",
+    "privacyTerms1Text":"By clicking on the new user registration button, you agree to",
+    "privacyTerms2Text":"Terms of Use and Privacy",
+    "signupFooter1Text" : "Already have an account?",
+    "signupFooter2Text" : "Log in now",
+    
+    "loginText" :"Login",
+    "subLoginText" : "Please, fill in the following information to start using the app.",
+    "forgetPasswordText" : "Did you forget your password? ",
+    "loginFooter1Text" : "You don't have an account",
+    "loginFooter2Text" : "Register now",
+   
+    "emailVerificationText" : "@:emailText Verification",
+    "subemailVerificationText" : "We have sent an activation link to your email. Please click on the activation link there to activate your account.",
+    "openEmailText":"Open @:emailText",
+    "activationEmailText":"Didn't you receive the activation email?",
+    "pressHereText": "Press Here",
+
+    "restorePasswordText" : "Restore @:passwordText",
+    "subRestorePasswordText": "Enter the email associated with your account to recover your password.",
+    "restoreText":"Restore",
+    "footerRestorePassword1Text":"Did you remember your password?",
+    "footerRestorePassword2Text":"Back to login",
+
+    "newPasswordText": "New @:passwordText",
+    "subNewPasswordText": "It's OK! Create a new password for your account and please don't share it with others!" ,
+    "saveText":"Save",
+
+    "mainText":"Main",
+    "cleaningText":"Cleaning",
+    "cookingText":"Cooking",
+    "plumbingText":"Plumbing",
+    "electricityText":"Electricity",
+    "mostWantedText":"Most Wanted",
+    "showMoreText":"Show More",
+    "recentlyAddedText":"Recently Added"
+ }

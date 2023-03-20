@@ -1,0 +1,57 @@
+{
+    "appTitle": "تطبيق الخدمات المنزلية",
+    "takeCareText":"الحب والرعاية",
+
+    "featureText":"الميزة ",
+    "firstText": "الأولى",
+    "secondText": "الثانية",
+    "thirdText": "الثالثة",
+    "subFeature1Text": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
+    "subFeature2Text": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
+    "subFeature3Text": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى",
+    "nextText":"التالي",
+    "visitorLiginText":"الدخول كزائر",
+
+    "newUserText" : "مستخدم جديد",
+    "subSignupText" : "من فضلك ، املأ المعلومات التالية لاكتشاف خدماتنا!",
+    "fullNameText" :"الإسم الكامل ",
+    "emailText": "البريد الإلكتروني",
+    "passwordText": "كلمة المرور",
+    "confirmPasswordText":"تأكيد كلمة المرور",
+    "signupButtonText":"تسجيل @:newUserText",
+    "privacyTerms1Text":"بالضغط على زر تسجيل مستخدم جديد فأنت توافق على",
+    "privacyTerms2Text":"شروط الاستخدام والخصوصية",
+    "signupFooter1Text" : "لديك حساب بالفعل؟",
+    "signupFooter2Text" : "سجل دخول الآن",
+    
+    "loginText" : "تسجيل الدخول",
+    "subLoginText" : "من فضلك، املأ المعلومات التالية لبدء استخدام التطبيق.",
+    "forgetPasswordText" : "هل نسيت كلمة المرور؟ ",
+    "loginFooter1Text" : "ليس لديك حساب ",
+    "loginFooter2Text" : "سجل الآن",
+   
+    "emailVerificationText" : "توثيق @:emailText",
+    "subemailVerificationText" : "لقد قمنا بارسال رابط تفعيل الى بريدك الالكتروني٬ يرجى الضغط على رابط التفعيل هناك لتفعيل حسابك",
+    "openEmailText":"فتح @:emailText",
+    "activationEmailText": "لم تستلم بريد التفعيل؟",
+    "pressHereText": "اضغط هنا",
+
+    "restorePasswordText" : "استعادة @:passwordText",
+    "subRestorePasswordText": "ادخل البريد الالكتروني المرتبط بحسابك لاستعادة كلمة المرور الخاصة بك",
+    "restoreText":"استعادة",
+    "footerRestorePassword1Text":"هل تذكرت كلمة المرور؟",
+    "footerRestorePassword2Text":"العودة لتسجيل الدخول",
+
+    "newPasswordText": "@:passwordText الجديدة",
+    "subNewPasswordText": "كله تمام! أنشئ كلمة مرور جديدة لحسابك ويرجى عدم مشاركتها مع الآخرين!",
+    "saveText":"حفظ",
+
+    "mainText":"الرئيسية",
+    "cleaningText":"التنظيف",
+    "cookingText":"الطبخ",
+    "plumbingText":"السباكة",
+    "electricityText":"الكهرباء",
+    "mostWantedText":"الأكثر طلباً",
+    "showMoreText":"عرض المزيد",
+    "recentlyAddedText":"المضافة حديثاً"
+ }
