@@ -1,105 +1,108 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:handy_home_app/presentation/resources/font_manager.dart';
 
+import 'color_manager.dart';
+import 'style_manager.dart';
+import 'values_manager.dart';
 
-// import 'color_manager.dart';
-// import 'style_manager.dart';
-// import 'values_manager.dart';
+ThemeData getApplicationTheme() {
+  return ThemeData(
+      // ---------main colors ------------
+      primaryColor: ColorManager.whiteColor,
+      primaryColorDark: ColorManager.darkTextPrimaryColor,
+      primaryColorLight: ColorManager.whiteColor,
+      disabledColor: ColorManager.primaryMainDisableColor,
+      errorColor: ColorManager.statusErrorColor,
+      // splashColor: ColorManager.lightPrimary,
 
-// ThemeData getApplicationTheme() {
-//   return ThemeData(
-//       // ---------main colors ------------ 
-//       primaryColor: ColorManager.whiteColor,
-//       primaryColorDark: ColorManager.darkTextPrimaryColor,
-//       primaryColorLight: ColorManager.whiteColor,
-//       disabledColor: ColorManager.primaryMainDisableColor,
-//    errorColor: ColorManager.statusErrorColor,
-//       // splashColor: ColorManager.lightPrimary,
+      //** appar theme  **
+      appBarTheme: AppBarTheme(
+          centerTitle: false,
+          color: ColorManager.whiteColor,
+          elevation: AppSize.s4,
+          titleTextStyle: getHeading1Style(
+              fontsize: 16, color: ColorManager.darkTextPrimaryColor)),
 
-//       //** appar theme  **
-//       appBarTheme: AppBarTheme(
-//           centerTitle: false,
-//           color: ColorManager.whiteColor,
-//           elevation: Appsize.s4,
-        
-//           titleTextStyle:
-//               getRegularStyle(fontsize: 16, color: ColorManager.darkTextPrimaryColor)),
+      //button theme
 
-//       //button theme
+      buttonTheme: ButtonThemeData(
+        shape: const StadiumBorder(),
+        disabledColor: ColorManager.primaryMainDisableColor,
+        buttonColor: ColorManager.primaryMainEnableColor,
+      ),
+      //elevted button
+      elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              textStyle: getHeading1Style(
+                  color: ColorManager.darkTextPrimaryColor,
+                  fontsize: AppFontSize.s12),
+              primary: ColorManager.primaryMainEnableColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ))),
+      //text theme
+      textTheme: TextTheme(
+        displayLarge: getHeading1Style(
+            color: ColorManager.darkTextPrimaryColor,
+            fontsize: AppFontSize.s22),
+        headlineLarge: getChipsBoldleStyle(
+            color: ColorManager.darkTextPrimaryColor,
+            fontsize: AppFontSize.s14),
 
-//       buttonTheme: ButtonThemeData(
-//         shape: const StadiumBorder(),
-//         disabledColor: ColorManager.primaryMainDisableColor,
-//         buttonColor: ColorManager.primaryMainEnableColor,
-//       ),
-//       //elevted button
-//       elevatedButtonTheme: ElevatedButtonThemeData(
-//           style: ElevatedButton.styleFrom(
-//               textStyle: getRegularStyle(
-//                   color: ColorManager.darkTextPrimaryColor, fontsize: FontSize.s17),
-//               primary: ColorManager.primaryMainEnableColor,
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(12),
-//               ))),
-//       //text theme
-//       textTheme: TextTheme(
-//         displayLarge: getSemiBoldStyle(
-//             color: ColorManager.darkTextPrimaryColor, fontsize: FontSize.s16), //2021
-//         headlineLarge: getSemiBoldStyle(
-//             color: ColorManager.darkTextPrimaryColor,
-//             fontsize:
-//                 FontSize.s16), //2018 متعمليييش مكس ما بين مجموعتين التيمممم
+        headlineMedium: getDescBoldStyle(
+            color: ColorManager.darkTextPrimaryColor,
+            fontsize: AppFontSize.s14),
 
-//         headlineMedium: getRegularStyle(
-//             color: ColorManager.darkTextPrimaryColor, fontsize: FontSize.s14),
+        titleLarge: getDescriptionStyle(
+            color: ColorManager.darkTextPrimaryColor,
+            fontsize: AppFontSize.s14),
 
-//         titleLarge: getRegularStyle(
-//             color: ColorManager.darkTextPrimaryColor,
-//             fontsize: FontSize.s14), 
+        titleMedium: getHeading1Style(
+            color: ColorManager.darkTextPrimaryColor,
+            fontsize: AppFontSize.s16),
+        bodyLarge: getHeading2Style(
+            color: ColorManager.darkTextPrimaryColor,
+            fontsize: AppFontSize.s16), //caption
+        bodySmall: getHeading2Style(
+            color: ColorManager.darkTextPrimaryColor,
+            fontsize: AppFontSize.s14), //bodyText1
+      ),
 
-//         titleMedium: getRegularStyle(
-//             color: ColorManager.darkTextPrimaryColor, fontsize: FontSize.s16),
-//         bodyLarge: getMediumStyle(
-//             color: ColorManager.darkTextPrimaryColor, fontsize: FontSize.s16), //caption
-//         bodySmall: getMediumStyle(
-//             color: ColorManager.darkTextPrimaryColor, fontsize: FontSize.s14), //bodyText1
-//       ),
+      // input decoration theme  (Text form field )
+      inputDecorationTheme: InputDecorationTheme(
+        //content padding
+        contentPadding: const EdgeInsets.all(AppPadding.p8),
+        //hint Style
+        hintStyle: getHeading1Style(
+            color: ColorManager.greyColor, fontsize: AppFontSize.s14),
+        //label Style Lama Al user Ekteb Bel TextFormField
+        labelStyle: getHeading2Style(
+            color: ColorManager.greyColor, fontsize: AppFontSize.s14),
+        errorStyle: getHeading1Style(color: ColorManager.statusErrorColor),
+        //enabeld border style
+        enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+                color: ColorManager.primaryMainEnableColor,
+                width: AppSize.s1_5),
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
 
-     
-//       // input decoration theme  (Text form field )
-//       inputDecorationTheme: InputDecorationTheme(
-//         //content padding
-//         contentPadding: const EdgeInsets.all(AppPadding.p8),
-//         //hint Style
-//         hintStyle:
-//             getRegularStyle(color: ColorManager.greyColor, fontsize: FontSize.s14),
-//         //label Style Lama Al user Ekteb Bel TextFormField
-//         labelStyle:
-//             getMediumStyle(color: ColorManager.greyColor, fontsize: FontSize.s14),
-//         errorStyle: getRegularStyle(color: ColorManager.statusErrorColor),
-//         //enabeld border style
-//         enabledBorder: const OutlineInputBorder(
-//             borderSide:
-//                 BorderSide(color: ColorManager.primaryMainEnableColor, width: Appsize.s1_5),
-//             borderRadius: BorderRadius.all(Radius.circular(Appsize.s8))),
-
-//         // fe halet Al focus
-//         focusedBorder: const OutlineInputBorder(
-//             borderSide:
-//                 BorderSide(color: ColorManager.greyColor, width: Appsize.s1_5),
-//             borderRadius: BorderRadius.all(Radius.circular(Appsize.s8))),
-//         //error border style
-//         errorBorder: OutlineInputBorder(
-//             borderSide:
-//                 BorderSide(color: ColorManager.statusErrorColor, width: Appsize.s1_5),
-//             borderRadius: const BorderRadius.all(Radius.circular(Appsize.s8))),
-//         //focus error border style
-//         focusedErrorBorder: OutlineInputBorder(
-//             borderSide:
-//                 BorderSide(color: ColorManager.statusErrorColor, width: Appsize.s1_5),
-//             borderRadius: const BorderRadius.all(Radius.circular(Appsize.s8))),
-//       ));
-// }
-
+        // fe halet Al focus
+        focusedBorder: const OutlineInputBorder(
+            borderSide:
+                BorderSide(color: ColorManager.greyColor, width: AppSize.s1_5),
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
+        //error border style
+        errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: ColorManager.statusErrorColor, width: AppSize.s1_5),
+            borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
+        //focus error border style
+        focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: ColorManager.statusErrorColor, width: AppSize.s1_5),
+            borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
+      ));
+}
 
 // //2018
 // // headline1    96.0  light   -1.5
