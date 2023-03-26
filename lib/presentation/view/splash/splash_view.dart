@@ -7,7 +7,6 @@ import 'package:handy_home_app/presentation/view/onBoarding/onboarding.dart';
 
 import '../../../customwidget/sizedbox_custom.dart';
 import '../../resources/assets_manager.dart';
-import '../../resources/color_manager.dart';
 import '../../resources/values_manager.dart';
 
 class SplashView extends StatefulWidget {
@@ -39,7 +38,7 @@ class _SplashViewState extends State<SplashView>
       if (status == AnimationStatus.completed) {
         Future.delayed(const Duration(seconds: 3), () {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => OnBoardingScreen()),
+            MaterialPageRoute(builder: (context) => const OnBoardingScreen()),
           );
         });
       }

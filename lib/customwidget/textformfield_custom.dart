@@ -7,11 +7,11 @@ class CustomTextFormField extends StatelessWidget {
     Key? key,
     required TextEditingController fullNameController,
     required this.text,
-    this.prefixIcon,
+    this.suffixIcon,
   })  : _fullNameController = fullNameController,
         super(key: key);
   final String text;
-  final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final TextEditingController _fullNameController;
 
   @override
@@ -23,7 +23,7 @@ class CustomTextFormField extends StatelessWidget {
           textAlign: TextAlign.right,
           controller: _fullNameController,
           decoration: InputDecoration(
-            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
             fillColor: ColorManager.whiteColor,
             filled: true,
             border: InputBorder.none,

@@ -8,7 +8,8 @@ class ImagePath {
   static const String takeCare = "$IMAGE_PATH/takecare.svg";
   static const String onboarding = "$IMAGE_PATH/onBording.png";
   static const String plumbingIcon = "$IMAGE_PATH/plumbingIcon.svg";
-  static const String resetPassword = "$IMAGE_PATH/resetPassword.png";
+  static const String resetPasswordImage = "$IMAGE_PATH/resetPassword.png";
   static const String undrawVerified = "$IMAGE_PATH/undraw_verified.png";
   static const String cleaningIcon = "$IMAGE_PATH/cleaningIcon.svg";
+  static const String newPasswordImage = "$IMAGE_PATH/newPassword.png";
 }
