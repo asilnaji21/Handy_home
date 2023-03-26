@@ -20,10 +20,7 @@ class NewPasswordView extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: AppWidthSize.w20),
         child: ListView(
           children: [
-             SizedBoxCustom(
-              height: AppHeightSize.h8,
-            ),
-           const BackButtonCstom(),
+            const BackButtonCstom(),
             SizedBoxCustom(
               height: AppHeightSize.h52,
             ),

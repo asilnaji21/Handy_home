@@ -19,16 +19,12 @@ class EmailVerificationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: AppHeightSize.h12, horizontal: AppWidthSize.w20),
+            padding: EdgeInsets.symmetric(horizontal: AppWidthSize.w20),
             child: ListView(children: [
-             SizedBoxCustom(
-              height: AppHeightSize.h8,
-            ),
-           const BackButtonCstom(),
-            SizedBoxCustom(
-              height: AppHeightSize.h52,
-            ),
+              const BackButtonCstom(),
+              SizedBoxCustom(
+                height: AppHeightSize.h52,
+              ),
               Image.asset(
                 ImagePath.undrawVerified,
                 width: AppWidthSize.w180,

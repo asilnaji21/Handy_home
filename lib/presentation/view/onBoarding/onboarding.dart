@@ -119,7 +119,7 @@ class BuildPageView extends StatelessWidget {
             onPressed: () {
               if (index == 2) {
                 NavigationManager.navigationConfiguration
-                    .pushNamed(RouteConstants.signupRoute);
+                    .pushNamedReplacement(RouteConstants.signupRoute);
               } else {
                 nextPage.nextPage(
                     duration: const Duration(milliseconds: 300),

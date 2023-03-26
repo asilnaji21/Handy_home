@@ -75,7 +75,7 @@ class LoginView extends StatelessWidget {
             text: Text(LocaleKeys.loginText.tr()),
           ),
           SizedBoxCustom(
-            height: AppHeightSize.h300,
+            height: AppHeightSize.h261,
           ),
           RichTextCustom(
               text1: LocaleKeys.loginFooter1Text.tr(),

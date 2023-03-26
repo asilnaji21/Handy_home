@@ -7,6 +7,7 @@ import 'package:handy_home_app/presentation/view/onBoarding/onboarding.dart';
 
 import '../../../customwidget/sizedbox_custom.dart';
 import '../../resources/assets_manager.dart';
+import '../../resources/color_manager.dart';
 import '../../resources/values_manager.dart';
 
 class SplashView extends StatefulWidget {
@@ -70,7 +71,8 @@ class _SplashViewState extends State<SplashView>
                   ),
                 ),
                 SizedBoxCustom(height: AppHeightSize.h8),
-                SvgPicture.asset(ImagePath.wordHome, width: AppWidthSize.w122, height: AppHeightSize.h35_45),
+                SvgPicture.asset(ImagePath.wordHome,
+                    width: AppWidthSize.w122, height: AppHeightSize.h35_45),
                 SizedBoxCustom(height: AppHeightSize.h8),
                 SvgPicture.asset(ImagePath.takeCare)
               ],

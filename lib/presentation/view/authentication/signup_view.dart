@@ -61,7 +61,7 @@ class SigUpView extends StatelessWidget {
               CustomTextFormField(
                 fullNameController: _fullNameController,
                 text: LocaleKeys.confirmPasswordText.tr(),
-                suffixIcon: Icon(Icons.visibility_outlined),
+                suffixIcon:const Icon(Icons.visibility_outlined),
               ),
               SizedBoxCustom(
                 height: AppHeightSize.h24,

@@ -25,10 +25,7 @@ class RestorPasswordView extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: AppWidthSize.w20),
         child: ListView(
           children: [
-            SizedBoxCustom(
-              height: AppHeightSize.h8,
-            ),
-           const BackButtonCstom(),
+            const BackButtonCstom(),
             SizedBoxCustom(
               height: AppHeightSize.h52,
             ),
@@ -43,6 +40,7 @@ class RestorPasswordView extends StatelessWidget {
             HeaderCustom(
               text1: LocaleKeys.restoreText.tr() + LocaleKeys.passwordText.tr(),
               subText: LocaleKeys.subRestorePasswordText.tr(),
+              textAlign: TextAlign.center,
             ),
             SizedBoxCustom(
               height: AppHeightSize.h9,
@@ -60,7 +58,7 @@ class RestorPasswordView extends StatelessWidget {
               text: Text(LocaleKeys.restoreText.tr()),
             ),
             SizedBoxCustom(
-              height: AppHeightSize.h224,
+              height: AppHeightSize.h180,
             ),
             RichTextCustom(
                 text1: LocaleKeys.rememberPasswordText.tr(),
