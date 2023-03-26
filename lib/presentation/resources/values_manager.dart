@@ -34,8 +34,8 @@ class AppSize {
 class AppWidthSize {
   static double w900 = 900.w;
   static double w333 = 333.w;
-  static double w280 = 270.w;
   static double w331 = 331.12.w;
+  static double w180 = 180.w;
   static double w122 = 122.w;
   static double w65 = 65.0.w;
   static double w30 = 30.0.w;
@@ -45,20 +45,27 @@ class AppWidthSize {
 }
 
 class AppHeightSize {
-  static double h24 = 24.0.h;
+  static double h900 = 900.h;
+  static double h300 = 300.h;
   static double h261 = 261.37.h;
+  static double h224 = 224.h;
+  static double h180 = 180.h;
+  static double h135 = 135.h;
   static double h116 = 116.h;
   static double h89 = 89.0.h;
   static double h73 = 73.0.h;
   static double h71 = 71.0.h;
   static double h66 = 66.0.h;
+  static double h52 = 52.0.h;
   static double h40 = 40.0.h;
+  static double h35_45 = 35.45.h;
   static double h35 = 35.0.h;
+  static double h24 = 24.0.h;
+  static double h18 = 18.0.h;
   static double h16 = 16.0.h;
   static double h12 = 12.0.h;
+  static double h9 = 9.0.h;
   static double h8 = 8.0.h;
-  static double h35_45 = 35.45.h;
-  static double h900 = 900.h;
 }
 
 class AppRadiusSize {

@@ -1,5 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
+import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/presentation/resources/color_manager.dart';
+import 'package:handy_home_app/presentation/view/authentication/signup_view.dart';
 
 import '../../../app/l10n/locale_keys.g.dart';
 import '../../../customwidget/button_custom.dart';
@@ -8,7 +12,6 @@ import '../../../customwidget/sizedbox_custom.dart';
 import '../../resources/assets_manager.dart';
 
 import '../../resources/values_manager.dart';
-import '../signup_view.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -24,7 +27,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF1FCFB),
+      backgroundColor: ColorManager.onBoardingColor,
       body: PageView.builder(
         controller: nextPage,
         onPageChanged: (value) {
@@ -33,8 +36,31 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           });
         },
         itemBuilder: (context, index) {
-          return BuildPageView(
-              index: index, currentPage: currentPage, nextPage: nextPage);
+          if (index == 0) {
+            return BuildPageView(
+              index: index,
+              currentPage: currentPage,
+              nextPage: nextPage,
+              featureText: LocaleKeys.firstFeatureText.tr(),
+              subFeatureText: LocaleKeys.subFeature1Text.tr(),
+            );
+          } else if (index == 1) {
+            return BuildPageView(
+              index: index,
+              currentPage: currentPage,
+              nextPage: nextPage,
+              featureText: LocaleKeys.secondFeatureText.tr(),
+              subFeatureText: LocaleKeys.subFeature2Text.tr(),
+            );
+          } else {
+            return BuildPageView(
+              index: index,
+              currentPage: currentPage,
+              nextPage: nextPage,
+              featureText: LocaleKeys.thirdFeatureText.tr(),
+              subFeatureText: LocaleKeys.subFeature2Text.tr(),
+            );
+          }
         },
         itemCount: 3,
       ),
@@ -46,9 +72,16 @@ class BuildPageView extends StatelessWidget {
   final int index;
   final int currentPage;
   final PageController nextPage;
+  final String featureText;
+  final String subFeatureText;
 
-  const BuildPageView(
-      {required this.index, required this.currentPage, required this.nextPage});
+  const BuildPageView({
+    required this.index,
+    required this.currentPage,
+    required this.nextPage,
+    required this.featureText,
+    required this.subFeatureText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +100,13 @@ class BuildPageView extends StatelessWidget {
           SizedBoxCustom(
             height: AppHeightSize.h71,
           ),
-          Text("${LocaleKeys.featureText.tr()} ${LocaleKeys.firstText.tr()}",
+          Text(featureText,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.displayLarge),
           SizedBoxCustom(
             height: AppHeightSize.h24,
           ),
-          Text(LocaleKeys.subFeature1Text.tr(),
-              style: Theme.of(context).textTheme.titleLarge),
+          Text(subFeatureText, style: Theme.of(context).textTheme.titleLarge),
           SizedBoxCustom(
             height: AppHeightSize.h24,
           ),
@@ -86,10 +118,8 @@ class BuildPageView extends StatelessWidget {
             text: Text(LocaleKeys.nextText.tr()),
             onPressed: () {
               if (index == 2) {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SigUpScreen()),
-                );
+                NavigationManager.navigationConfiguration
+                    .pushNamed(RouteConstants.signupRoute);
               } else {
                 nextPage.nextPage(
                     duration: const Duration(milliseconds: 300),
