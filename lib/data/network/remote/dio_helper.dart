@@ -38,6 +38,7 @@ class DioHelper {
       printResponse('base:    ${dio.options.baseUrl}');
       printResponse('header:    ${dio.options.headers}');
       printResponse('url:    $endPoint');
+       printResponse('url:    $endPoint');
       var response = await dio.post(
         endPoint,
         data: data,
