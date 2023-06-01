@@ -1,5 +1,6 @@
 // ignore: constant_identifier_names
 const String IMAGE_PATH = "assets/images";
+const String baseIconUrl = 'assets/icons/';
 
 class ImagePath {
   static const String splashBackground = "$IMAGE_PATH/splash.png";
@@ -12,4 +13,21 @@ class ImagePath {
   static const String undrawVerified = "$IMAGE_PATH/undraw_verified.png";
   static const String cleaningIcon = "$IMAGE_PATH/cleaningIcon.svg";
   static const String newPasswordImage = "$IMAGE_PATH/newPassword.png";
+  static const String cleaningImage = "$IMAGE_PATH/cleaning.png";
+  static const String computerImage = "$IMAGE_PATH/computer.png";
+  static const String electricianImage = "$IMAGE_PATH/electrician.png";
+  static const String furnitureImage = "$IMAGE_PATH/furniture.png";
+  static const String plumbingImage = "$IMAGE_PATH/plumbing.png";
+  static const String wiFiAndNetwork = "$IMAGE_PATH/wiFiAndNetwork.png";
+  static const String onboarding1 = "$IMAGE_PATH/onboarding1.png";
+  static const String onboarding2 = "$IMAGE_PATH/onboarding2.png";
+  static const String onboarding3 = "$IMAGE_PATH/onboarding3.png";
+}
+
+class IconPath {
+  static const String bookingIcon = '${baseIconUrl}booking_icon.svg';
+  static const String homeIcon = '${baseIconUrl}home_icon.svg';
+  static const String notificationIcon = '${baseIconUrl}notification_icon.svg';
+  static const String profileIcon = '${baseIconUrl}profile_icon.svg';
+  static const String searchIcon = '${baseIconUrl}search_icon.svg';
 }

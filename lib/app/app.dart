@@ -23,12 +23,12 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           theme: getApplicationTheme(),
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteConstants.splashRoute,
+          initialRoute: RouteConstants.onBoardingRoute,
           onGenerateRoute: RouteGenerator.generateRoutes,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          navigatorKey: NavigationManager.navigationConfiguration.navigatorKey,
+          navigatorKey: NavigationManager.navigatorKey,
         ),
       ),
     );

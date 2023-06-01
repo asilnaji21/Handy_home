@@ -11,7 +11,7 @@ class BackButtonCstom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      onPressed: () => NavigationManager.navigationConfiguration.pop(),
+      onPressed: () => NavigationManager.pop(),
       icon: const Icon(
         Icons.arrow_back,
         color: ColorManager.brownColor,

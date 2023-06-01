@@ -56,8 +56,8 @@ class LoginView extends StatelessWidget {
             height: AppHeightSize.h8,
           ),
           TextButton(
-            onPressed: () => NavigationManager.navigationConfiguration
-                .pushNamed(RouteConstants.restorePasswordRoute),
+            onPressed: () => NavigationManager.pushNamed(
+                RouteConstants.restorePasswordRoute),
             child: Text(
               LocaleKeys.forgetPasswordText.tr(),
               style: Theme.of(context)
@@ -70,8 +70,10 @@ class LoginView extends StatelessWidget {
           SizedBoxCustom(
             height: AppHeightSize.h24,
           ),
-          CustomButton(
-            onPressed: () {},
+          CustomButtonPrimary(
+            onPressed: () {
+              NavigationManager.pushNamedReplacement(RouteConstants.homeRoute);
+            },
             text: Text(LocaleKeys.loginText.tr()),
           ),
           SizedBoxCustom(
@@ -81,8 +83,8 @@ class LoginView extends StatelessWidget {
               text1: LocaleKeys.loginFooter1Text.tr(),
               text2: LocaleKeys.loginFooter2Text.tr(),
               color: ColorManager.primaryMainEnableColor,
-              onPressed: () => NavigationManager.navigationConfiguration
-                  .pushNamed(RouteConstants.signupRoute)),
+              onPressed: () =>
+                  NavigationManager.pushNamed(RouteConstants.signupRoute)),
           SizedBoxCustom(
             height: AppHeightSize.h35,
           )

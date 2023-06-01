@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
 class NavigationManager {
-  NavigationManager._();
-  static NavigationManager navigationConfiguration = NavigationManager._();
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  pushNamed(String nameScreen) => navigatorKey.currentState!.pushNamed(nameScreen);
+static  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  pushNamedReplacement(String routeName) {
+ static pushNamed(String nameScreen) => navigatorKey.currentState!.pushNamed(nameScreen);
+
+ static pushNamedReplacement(String routeName) {
     navigatorKey.currentState!.pushReplacementNamed(routeName);
   }
 
-  pop() {
+ static pop() {
     navigatorKey.currentState!.pop();
   }
 }

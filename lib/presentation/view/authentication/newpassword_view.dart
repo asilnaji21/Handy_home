@@ -69,7 +69,7 @@ class NewPasswordView extends StatelessWidget {
             SizedBoxCustom(
               height: AppHeightSize.h24,
             ),
-            CustomButton(
+            CustomButtonPrimary(
               onPressed: () {},
               text: Text(LocaleKeys.saveText.tr()),
             ),

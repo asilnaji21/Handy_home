@@ -14,8 +14,8 @@ import '../../../customwidget/textformfield_custom.dart';
 import '../../resources/color_manager.dart';
 import '../../resources/values_manager.dart';
 
-class RestorPasswordView extends StatelessWidget {
-  RestorPasswordView({Key? key}) : super(key: key);
+class RestorePasswordView extends StatelessWidget {
+  RestorePasswordView({Key? key}) : super(key: key);
   final _emailController = TextEditingController();
 
   @override
@@ -52,9 +52,9 @@ class RestorPasswordView extends StatelessWidget {
             SizedBoxCustom(
               height: AppHeightSize.h18,
             ),
-            CustomButton(
-              onPressed: () => NavigationManager.navigationConfiguration
-                  .pushNamed(RouteConstants.emailVerificationRoute),
+            CustomButtonPrimary(
+              onPressed: () => NavigationManager.pushNamed(
+                  RouteConstants.emailVerificationRoute),
               text: Text(LocaleKeys.restoreText.tr()),
             ),
             SizedBoxCustom(
@@ -64,8 +64,8 @@ class RestorPasswordView extends StatelessWidget {
                 text1: LocaleKeys.rememberPasswordText.tr(),
                 text2: LocaleKeys.backToLoginText.tr(),
                 color: ColorManager.primaryMainEnableColor,
-                onPressed: () => NavigationManager.navigationConfiguration
-                    .pushNamed(RouteConstants.loginRoute)),
+                onPressed: () =>
+                    NavigationManager.pushNamed(RouteConstants.loginRoute)),
             SizedBoxCustom(
               height: AppHeightSize.h35,
             )

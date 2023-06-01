@@ -7,6 +7,7 @@ import 'values_manager.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(
+      fontFamily: 'AvenirArabic',
       // ---------main colors ------------
       primaryColor: ColorManager.whiteColor,
       primaryColorDark: ColorManager.darkTextPrimaryColor,
@@ -14,7 +15,6 @@ ThemeData getApplicationTheme() {
       disabledColor: ColorManager.primaryMainDisableColor,
       errorColor: ColorManager.statusErrorColor,
       // splashColor: ColorManager.lightPrimary,
-
       //** appar theme  **
       appBarTheme: AppBarTheme(
           centerTitle: false,

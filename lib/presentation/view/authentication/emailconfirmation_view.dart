@@ -40,7 +40,7 @@ class EmailConfirmationView extends StatelessWidget {
               SizedBoxCustom(
                 height: AppHeightSize.h24,
               ),
-              CustomButton(
+              CustomButtonPrimary(
                 onPressed: () {},
                 text: Text(LocaleKeys.openEmailText.tr()),
               ),
@@ -52,8 +52,8 @@ class EmailConfirmationView extends StatelessWidget {
                   text2: LocaleKeys.pressHereText.tr(),
                   color: ColorManager.brownColor,
                   textDecoration: TextDecoration.none,
-                  onPressed: () => NavigationManager.navigationConfiguration
-                      .pushNamed(RouteConstants.newPasswordRoute)),
+                  onPressed: () => NavigationManager.pushNamed(
+                      RouteConstants.newPasswordRoute)),
               SizedBoxCustom(
                 height: AppHeightSize.h35,
               ),

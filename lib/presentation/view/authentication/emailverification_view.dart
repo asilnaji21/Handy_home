@@ -41,7 +41,7 @@ class EmailVerificationView extends StatelessWidget {
               SizedBoxCustom(
                 height: AppHeightSize.h24,
               ),
-              CustomButton(
+              CustomButtonPrimary(
                 onPressed: () {},
                 text: Text(LocaleKeys.openEmailText.tr()),
               ),
@@ -53,8 +53,8 @@ class EmailVerificationView extends StatelessWidget {
                   text2: LocaleKeys.pressHereText.tr(),
                   color: ColorManager.brownColor,
                   textDecoration: TextDecoration.none,
-                  onPressed: () => NavigationManager.navigationConfiguration
-                      .pushNamed(RouteConstants.newPasswordRoute)),
+                  onPressed: () => NavigationManager.pushNamed(
+                      RouteConstants.newPasswordRoute)),
               SizedBoxCustom(
                 height: AppHeightSize.h180,
               ),
@@ -62,8 +62,8 @@ class EmailVerificationView extends StatelessWidget {
                 text1: LocaleKeys.rememberPasswordText.tr(),
                 text2: LocaleKeys.backToLoginText.tr(),
                 color: ColorManager.primaryMainEnableColor,
-                onPressed: () => NavigationManager.navigationConfiguration
-                    .pushNamed(RouteConstants.loginRoute),
+                onPressed: () =>
+                    NavigationManager.pushNamed(RouteConstants.loginRoute),
                 textDecoration: TextDecoration.none,
               ),
               SizedBoxCustom(

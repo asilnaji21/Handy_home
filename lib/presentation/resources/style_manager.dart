@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
 import 'font_manager.dart';
 
+class StyleManger {
+  static TextStyle headline1({
+    Color? color,
+    double? fontSize,
+  }) =>
+       TextStyle(
+          fontWeight: FontWeight.bold, fontSize:fontSize?? 22, color: color ?? Colors.black);
+
+  static TextStyle headline2({
+    Color? color,
+    double? fontSize,
+  }) =>
+      TextStyle(
+          fontSize:fontSize?? 14,
+          fontWeight: FontWeight.w300,
+          color: color ?? Colors.black);
+}
+
 TextStyle _getTextStyle(double fontsize, FontWeight fontweight, Color color) {
   return TextStyle(
     fontSize: fontsize,

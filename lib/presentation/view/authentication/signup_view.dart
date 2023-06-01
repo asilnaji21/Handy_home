@@ -61,14 +61,14 @@ class SigUpView extends StatelessWidget {
               CustomTextFormField(
                 fullNameController: _fullNameController,
                 text: LocaleKeys.confirmPasswordText.tr(),
-                suffixIcon:const Icon(Icons.visibility_outlined),
+                suffixIcon: const Icon(Icons.visibility_outlined),
               ),
               SizedBoxCustom(
                 height: AppHeightSize.h24,
               ),
-              CustomButton(
-                onPressed: () => NavigationManager.navigationConfiguration
-                    .pushNamed(RouteConstants.emailConfirmationRoute),
+              CustomButtonPrimary(
+                onPressed: () => NavigationManager.pushNamed(
+                    RouteConstants.emailConfirmationRoute),
                 text: Text(LocaleKeys.signupButtonText.tr()),
               ),
               SizedBoxCustom(
@@ -79,8 +79,8 @@ class SigUpView extends StatelessWidget {
                   text2: LocaleKeys.privacyTerms2Text.tr(),
                   color: ColorManager.brownColor,
                   textDecoration: TextDecoration.none,
-                  onPressed: () => NavigationManager.navigationConfiguration
-                      .pushNamed(RouteConstants.loginRoute)),
+                  onPressed: () =>
+                      NavigationManager.pushNamed(RouteConstants.loginRoute)),
               SizedBoxCustom(
                 height: AppHeightSize.h116,
               ),
@@ -88,8 +88,8 @@ class SigUpView extends StatelessWidget {
                 text1: LocaleKeys.signupFooter1Text.tr(),
                 text2: LocaleKeys.signupFooter2Text.tr(),
                 color: ColorManager.primaryMainEnableColor,
-                onPressed: () => NavigationManager.navigationConfiguration
-                    .pushNamed(RouteConstants.loginRoute),
+                onPressed: () =>
+                    NavigationManager.pushNamed(RouteConstants.loginRoute),
               ),
               SizedBoxCustom(
                 height: AppHeightSize.h35,
