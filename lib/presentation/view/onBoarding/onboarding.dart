@@ -77,7 +77,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   CustomButtonPrimary(
                     onPressed: () {
                       state.currentIndex == 2
-                          ? NavigationManager.pushNamedReplacement(
+                          ? NavigationManager.goToAndRemove(
                               RouteConstants.loginRoute)
                           : controller.nextPage(
                               duration: const Duration(milliseconds: 700),
@@ -87,15 +87,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         state.currentIndex == 2 ? 'تسجيل الدخول' : 'التالي'),
                   ),
                   TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 50)),
-                      child: Text(
-                        'الدخول كزائر',
-                        style: StyleManger.headline2(
-                          color: ColorManager.primaryMainEnableColor,
-                        ),
-                      ))
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50)),
+                    child: Text(
+                      'الدخول كزائر',
+                      style: StyleManger.headline2(
+                        color: ColorManager.primaryMainEnableColor,
+                      ),
+                    ),
+                  )
                 ],
               );
             },

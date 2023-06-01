@@ -11,17 +11,13 @@ import '../../presentation/view/authentication/newpassword_view.dart';
 import '../../presentation/view/authentication/restorepassword_view.dart';
 import '../../presentation/view/authentication/signup_view.dart';
 import '../../presentation/view/onBoarding/onboarding.dart';
-import '../../presentation/view/splash/splash_view.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
-      case RouteConstants.splashRoute:
-        return MaterialPageRoute(builder: (_) => const SplashView());
-
       case RouteConstants.onBoardingRoute:
         return MaterialPageRoute(
-            builder: (_) =>  BlocProvider(
+            builder: (_) => BlocProvider(
                   create: (context) => OnBoardingCubit(),
                   child: const OnBoardingScreen(),
                 ));

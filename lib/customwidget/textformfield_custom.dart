@@ -45,7 +45,7 @@ class CustomTextFormField extends StatelessWidget {
                 color: ColorManager.whiteColor,
                 width: AppWidthSize.w1,
               ),
-              borderRadius: BorderRadius.circular(AppRadiusSize.r66),
+              borderRadius: BorderRadius.circular(8),
             ),
           )),
     );
