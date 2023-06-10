@@ -79,7 +79,6 @@ class DioHelper {
     Map<String, dynamic>? queryParameters,
     String? token,
   }) async {
-    print("Aselllllllllllllllllllllllllll");
     dio.options.headers = {
       "Content-Type": "application/json",
     };

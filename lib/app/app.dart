@@ -8,9 +8,9 @@ import 'package:handy_home_app/app/routes/routes_generator.dart';
 import '../presentation/resources/theme_manager.dart';
 
 class MyApp extends StatelessWidget {
-  MyApp._internal();
+  const MyApp._internal();
 
-  static final _instance = MyApp._internal();
+  static const _instance = MyApp._internal();
 
   factory MyApp() => _instance;
   @override
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           theme: getApplicationTheme(),
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteConstants.onBoardingRoute,
+          initialRoute: RouteConstants.homeRoute,
           onGenerateRoute: RouteGenerator.generateRoutes,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,

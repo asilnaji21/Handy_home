@@ -13,7 +13,7 @@ ThemeData getApplicationTheme() {
       primaryColorDark: ColorManager.darkTextPrimaryColor,
       primaryColorLight: ColorManager.whiteColor,
       disabledColor: ColorManager.primaryMainDisableColor,
-      errorColor: ColorManager.statusErrorColor,
+      colorScheme: ColorScheme.light(error: ColorManager.statusErrorColor),
       // splashColor: ColorManager.lightPrimary,
       //** appar theme  **
       appBarTheme: AppBarTheme(
@@ -36,7 +36,7 @@ ThemeData getApplicationTheme() {
               textStyle: getHeading1Style(
                   color: ColorManager.darkTextPrimaryColor,
                   fontsize: AppFontSize.s12),
-              primary: ColorManager.primaryMainEnableColor,
+              backgroundColor: ColorManager.primaryMainEnableColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ))),

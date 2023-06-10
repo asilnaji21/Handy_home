@@ -21,75 +21,75 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: AppHeightSize.h12, horizontal: AppWidthSize.w20),
-      child: ListView(
-        children: [
-          SvgPicture.asset(
-            ImagePath.iconHome,
-            width: AppWidthSize.w65,
-            height: AppHeightSize.h73,
-            alignment: AlignmentDirectional.topStart,
-          ),
-          HeaderCustom(
-            text1: LocaleKeys.loginText.tr(),
-            subText: LocaleKeys.subLoginText.tr(),
-            crossAxisAlignment: CrossAxisAlignment.start,
-          ),
-          SizedBoxCustom(
-            height: AppHeightSize.h40,
-          ),
-          CustomTextFormField(
-            fullNameController: _emailController,
-            text: LocaleKeys.emailText.tr(),
-          ),
-          SizedBoxCustom(
-            height: AppHeightSize.h16,
-          ),
-          CustomTextFormField(
-            fullNameController: _emailController,
-            text: LocaleKeys.passwordText.tr(),
-            suffixIcon: const Icon(Icons.visibility_outlined),
-          ),
-          SizedBoxCustom(
-            height: AppHeightSize.h8,
-          ),
-          TextButton(
-            onPressed: () => NavigationManager.pushNamed(
-                RouteConstants.restorePasswordRoute),
-            child: Text(
-              LocaleKeys.forgetPasswordText.tr(),
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineLarge!
-                  .copyWith(decoration: TextDecoration.underline),
-            ),
-            style: const ButtonStyle(alignment: AlignmentDirectional.topStart),
-          ),
-          SizedBoxCustom(
-            height: AppHeightSize.h24,
-          ),
-          CustomButtonPrimary(
-            onPressed: () {
-              NavigationManager.pushNamedReplacement(RouteConstants.homeRoute);
-            },
-            text: Text(LocaleKeys.loginText.tr()),
-          ),
-          SizedBoxCustom(
-            height: AppHeightSize.h261,
-          ),
-          RichTextCustom(
-              text1: LocaleKeys.loginFooter1Text.tr(),
-              text2: LocaleKeys.loginFooter2Text.tr(),
-              color: ColorManager.primaryMainEnableColor,
-              onPressed: () =>
-                  NavigationManager.pushNamed(RouteConstants.signupRoute)),
-          SizedBoxCustom(
-            height: AppHeightSize.h35,
-          )
-        ],
+        body: ListView(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 30,
+        vertical: 20,
       ),
+      children: [
+        SvgPicture.asset(
+          ImagePath.iconHome,
+          width: AppWidthSize.w65,
+          height: AppHeightSize.h73,
+          alignment: AlignmentDirectional.topStart,
+        ),
+        HeaderCustom(
+          text1: LocaleKeys.loginText.tr(),
+          subText: LocaleKeys.subLoginText.tr(),
+          crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+        SizedBoxCustom(
+          height: AppHeightSize.h40,
+        ),
+        CustomTextFormField(
+          fullNameController: _emailController,
+          text: LocaleKeys.emailText.tr(),
+        ),
+        SizedBoxCustom(
+          height: AppHeightSize.h16,
+        ),
+        CustomTextFormField(
+          fullNameController: _emailController,
+          text: LocaleKeys.passwordText.tr(),
+          suffixIcon: const Icon(Icons.visibility_outlined),
+        ),
+        SizedBoxCustom(
+          height: AppHeightSize.h8,
+        ),
+        TextButton(
+          onPressed: () =>
+              NavigationManager.pushNamed(RouteConstants.restorePasswordRoute),
+          child: Text(
+            LocaleKeys.forgetPasswordText.tr(),
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge!
+                .copyWith(decoration: TextDecoration.underline),
+          ),
+          style: const ButtonStyle(alignment: AlignmentDirectional.topStart),
+        ),
+        SizedBoxCustom(
+          height: AppHeightSize.h24,
+        ),
+        CustomButtonPrimary(
+          onPressed: () {
+            NavigationManager.pushNamedReplacement(RouteConstants.homeRoute);
+          },
+          text: Text(LocaleKeys.loginText.tr()),
+        ),
+        SizedBoxCustom(
+          height: AppHeightSize.h261,
+        ),
+        RichTextCustom(
+            text1: LocaleKeys.loginFooter1Text.tr(),
+            text2: LocaleKeys.loginFooter2Text.tr(),
+            color: ColorManager.primaryMainEnableColor,
+            onPressed: () =>
+                NavigationManager.pushNamed(RouteConstants.signupRoute)),
+        SizedBoxCustom(
+          height: AppHeightSize.h35,
+        )
+      ],
     ));
   }
 }
