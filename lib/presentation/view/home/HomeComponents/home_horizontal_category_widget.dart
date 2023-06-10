@@ -28,20 +28,18 @@ class HomeHorizontalCategoryWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                        flex: 8, child: Image.asset(ImagePath.serviceImage)),
-                    Expanded(
-                      child: Text(
-                        'تنضيف داخلي: كنب وسجاد',
-                        textAlign: TextAlign.right,
-                        style: StyleManger.headline1(fontSize: 14),
-                      ),
+                    Image.asset(
+                      ImagePath.serviceImage,
+                      height: 180,
                     ),
-                    const Expanded(
-                      child: Text(
-                        '30 - 50 ش',
-                        textAlign: TextAlign.right,
-                      ),
+                    Text(
+                      'تنضيف داخلي: كنب وسجاد',
+                      textAlign: TextAlign.right,
+                      style: StyleManger.headline1(fontSize: 14),
+                    ),
+                    Text(
+                      '30 - 50 ش',
+                      textAlign: TextAlign.right,
                     )
                   ],
                 ),

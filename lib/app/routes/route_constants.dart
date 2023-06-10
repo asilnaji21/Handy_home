@@ -8,5 +8,7 @@ class RouteConstants {
   static const String emailVerificationRoute = "/emailVerificationRoute";
   static const String emailConfirmationRoute = "emailConfirmationRoute";
   static const String homeRoute = "homeRoute";
+  static const String categoryRoute = "categoryRoute";
+
 
 }

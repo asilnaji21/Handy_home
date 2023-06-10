@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
+import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 
@@ -7,7 +9,6 @@ import 'HomeComponents/home_horizontal_category_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class HomeScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) => InkWell(
                 onTap: () {
-                  print(index);
+                  NavigationManager.pushNamed(RouteConstants.categoryRoute);
                 },
                 child: Card(
                   elevation: 0,
@@ -81,4 +82,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
