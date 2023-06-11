@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           theme: getApplicationTheme(),
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteConstants.homeRoute,
+          initialRoute: RouteConstants.serviceDetailsRoute,
           onGenerateRoute: RouteGenerator.generateRoutes,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,

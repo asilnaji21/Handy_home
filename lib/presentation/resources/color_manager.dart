@@ -13,5 +13,7 @@ class ColorManager {
   static Color statusErrorColor = const Color(0xffBF2828);
   static Color statusValidColor = const Color(0xff149C32);
   static const Color placeholderColor = Color(0xff868686);
+  static const Color buttonBackgroundColor = Color(0xffC6D0CF);
+
 
 }

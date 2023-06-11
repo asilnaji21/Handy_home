@@ -9,6 +9,8 @@ class RouteConstants {
   static const String emailConfirmationRoute = "emailConfirmationRoute";
   static const String homeRoute = "homeRoute";
   static const String categoryRoute = "categoryRoute";
+  static const String serviceDetailsRoute = "serviceDetailsRoute";
+
 
 
 }
