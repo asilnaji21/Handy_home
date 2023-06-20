@@ -37,21 +37,21 @@ class SigUpView extends StatelessWidget {
               ),
               SizedBoxCustom(height: AppHeightSize.h40),
               CustomTextFormField(
-                fullNameController: _fullNameController,
+                controller: _fullNameController,
                 text: LocaleKeys.fullNameText.tr(),
               ),
               SizedBoxCustom(
                 height: AppHeightSize.h16,
               ),
               CustomTextFormField(
-                fullNameController: _fullNameController,
+                controller: _fullNameController,
                 text: LocaleKeys.emailText.tr(),
               ),
               SizedBoxCustom(
                 height: AppHeightSize.h16,
               ),
               CustomTextFormField(
-                fullNameController: _fullNameController,
+                controller: _fullNameController,
                 text: LocaleKeys.passwordText.tr(),
                 suffixIcon: Icon(Icons.visibility_outlined),
               ),
@@ -59,7 +59,7 @@ class SigUpView extends StatelessWidget {
                 height: AppHeightSize.h16,
               ),
               CustomTextFormField(
-                fullNameController: _fullNameController,
+                controller: _fullNameController,
                 text: LocaleKeys.confirmPasswordText.tr(),
                 suffixIcon: const Icon(Icons.visibility_outlined),
               ),

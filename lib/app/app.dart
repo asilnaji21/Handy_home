@@ -13,23 +13,21 @@ class MyApp extends StatelessWidget {
   static const _instance = MyApp._internal();
 
   factory MyApp() => _instance;
-  @override
+  @override 
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(393, 852),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => SafeArea(
-        child: MaterialApp(
-          theme: getApplicationTheme(),
-          debugShowCheckedModeBanner: false,
-          initialRoute: RouteConstants.serviceDetailsRoute,
-          onGenerateRoute: RouteGenerator.generateRoutes,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          navigatorKey: NavigationManager.navigatorKey,
-        ),
+      builder: (context, child) => MaterialApp(
+        theme: getApplicationTheme(),
+        debugShowCheckedModeBanner: false,
+        initialRoute: RouteConstants.serviceDetailsRoute,
+        onGenerateRoute: RouteGenerator.generateRoutes,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        navigatorKey: NavigationManager.navigatorKey,
       ),
     );
   }

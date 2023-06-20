@@ -8,20 +8,27 @@ import 'values_manager.dart';
 ThemeData getApplicationTheme() {
   return ThemeData(
       fontFamily: 'AvenirArabic',
+      scaffoldBackgroundColor: ColorManager.background,
+      // useMaterial3: true,
       // ---------main colors ------------
       primaryColor: ColorManager.whiteColor,
       primaryColorDark: ColorManager.darkTextPrimaryColor,
       primaryColorLight: ColorManager.whiteColor,
       disabledColor: ColorManager.primaryMainDisableColor,
-      colorScheme: ColorScheme.light(error: ColorManager.statusErrorColor),
+      colorScheme: ColorScheme.light(
+        error: ColorManager.statusErrorColor,
+      ),
       // splashColor: ColorManager.lightPrimary,
       //** appar theme  **
       appBarTheme: AppBarTheme(
-          centerTitle: false,
-          color: ColorManager.whiteColor,
-          elevation: AppSize.s4,
-          titleTextStyle: getHeading1Style(
-              fontsize: 16, color: ColorManager.darkTextPrimaryColor)),
+        centerTitle: false,
+        color: ColorManager.whiteColor,
+        elevation: AppSize.s4,
+        titleTextStyle: getHeading1Style(
+          fontsize: 16,
+          color: ColorManager.darkTextPrimaryColor,
+        ),
+      ),
 
       //button theme
 
@@ -32,14 +39,16 @@ ThemeData getApplicationTheme() {
       ),
       //elevted button
       elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-              textStyle: getHeading1Style(
-                  color: ColorManager.darkTextPrimaryColor,
-                  fontsize: AppFontSize.s12),
-              backgroundColor: ColorManager.primaryMainEnableColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ))),
+        style: ElevatedButton.styleFrom(
+          textStyle: getHeading1Style(
+              color: ColorManager.darkTextPrimaryColor,
+              fontsize: AppFontSize.s12),
+          backgroundColor: ColorManager.primaryMainEnableColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
       //text theme
       textTheme: TextTheme(
         displayLarge: getHeading1Style(
@@ -48,7 +57,6 @@ ThemeData getApplicationTheme() {
         headlineLarge: getChipsBoldleStyle(
             color: ColorManager.darkTextPrimaryColor,
             fontsize: AppFontSize.s14),
-
         headlineMedium: getDescBoldStyle(
             color: ColorManager.darkTextPrimaryColor,
             fontsize: AppFontSize.s14),
@@ -57,9 +65,6 @@ ThemeData getApplicationTheme() {
             color: ColorManager.darkTextPrimaryColor,
             fontsize: AppFontSize.s14),
 
-        titleMedium: getHeading1Style(
-            color: ColorManager.darkTextPrimaryColor,
-            fontsize: AppFontSize.s16),
         bodyLarge: getHeading2Style(
             color: ColorManager.darkTextPrimaryColor,
             fontsize: AppFontSize.s16), //caption
@@ -70,21 +75,19 @@ ThemeData getApplicationTheme() {
 
       // input decoration theme  (Text form field )
       inputDecorationTheme: InputDecorationTheme(
-        
+        filled: true,
+        fillColor: Colors.white,
         //content padding
-        contentPadding: const EdgeInsets.all(AppPadding.p8),
+        contentPadding: EdgeInsets.symmetric(
+            horizontal: AppWidthSize.w16, vertical: AppHeightSize.h16),
         //hint Style
-        hintStyle: getHeading1Style(
-            color: ColorManager.greyColor, fontsize: AppFontSize.s14),
+        hintStyle: StyleManger.headline2(color: Colors.grey),
         //label Style Lama Al user Ekteb Bel TextFormField
-        labelStyle: getHeading2Style(
-            color: ColorManager.greyColor, fontsize: AppFontSize.s14),
-        errorStyle: getHeading1Style(color: ColorManager.statusErrorColor),
+        // labelStyle: StyleManger.headline1(),
+        errorStyle: TextStyle(height: 0.8, fontWeight: FontWeight.normal),
         //enabeld border style
         enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-                color: ColorManager.primaryMainEnableColor,
-                width: AppSize.s1_5),
+            borderSide: BorderSide.none,
             borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
 
         // fe halet Al focus
@@ -92,6 +95,7 @@ ThemeData getApplicationTheme() {
             borderSide:
                 BorderSide(color: ColorManager.greyColor, width: AppSize.s1_5),
             borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
+
         //error border style
         errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
@@ -99,8 +103,8 @@ ThemeData getApplicationTheme() {
             borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
         //focus error border style
         focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: ColorManager.statusErrorColor, width: AppSize.s1_5),
+            borderSide:
+                BorderSide(color: ColorManager.greyColor, width: AppSize.s1_5),
             borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
       ));
 }

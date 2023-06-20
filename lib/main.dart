@@ -5,7 +5,7 @@ import 'package:handy_home_app/app/locator.dart';
 
 import 'app/app.dart';
 
-void main() async { 
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setUp();
   await ScreenUtil.ensureScreenSize();

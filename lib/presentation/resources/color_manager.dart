@@ -14,6 +14,5 @@ class ColorManager {
   static Color statusValidColor = const Color(0xff149C32);
   static const Color placeholderColor = Color(0xff868686);
   static const Color buttonBackgroundColor = Color(0xffC6D0CF);
-
-
+  static const Color background = Color(0xFFF6F6F6);
 }

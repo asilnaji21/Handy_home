@@ -1,139 +1,194 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
+import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
+import 'package:handy_home_app/presentation/resources/validation_manager.dart';
 import 'package:handy_home_app/presentation/view/home/category_screen.dart';
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../resources/assets_manager.dart';
 import 'HomeComponents/customer_comment_widget.dart';
+import 'HomeComponents/order_service_bottom_sheet.dart';
+import 'HomeComponents/rating_bottom_sheet.dart';
 import 'HomeComponents/stare_rating_widget.dart';
 
-class ServiceDetailsScreen extends StatelessWidget {
+class ServiceDetailsScreen extends StatefulWidget {
   const ServiceDetailsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ServiceDetailsScreen> createState() => _ServiceDetailsScreenState();
+}
+
+class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
+  ScrollController scrollController = ScrollController();
+  TextEditingController ratingController = TextEditingController();
+  bool isScroll = false;
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(() {
+      setState(() {
+        isScroll = scrollController.offset > 0;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.only(
-          left: 30,
-          top: 18,
-          right: 30,
-        ),
+      body: Column(
         children: [
-          const CustomHeaderWidget(
-            title: 'تركيب حنفية مياه',
+          Container(
+            color: isScroll ? Colors.white : Colors.transparent,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: CustomHeaderWidget(
+                title: 'تركيب حنفية مياه',
+              ),
+            ),
           ),
-          Stack(
-            alignment: Alignment.topLeft,
-            children: [
-              Card(
-                elevation: 0,
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          Expanded(
+            child: ListView(
+              controller: scrollController,
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              children: [
+                Stack(
+                  alignment: Alignment.topLeft,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.all(12),
-                      decoration:
-                          BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                      child: Image.asset(
-                        ImagePath.serviceImage,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: 200,
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      elevation: 0,
+                      color: Colors.white,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Image.asset(
+                              ImagePath.serviceImage,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: 200,
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                          ),
+                        ],
                       ),
-                      clipBehavior: Clip.antiAlias,
                     ),
+                    const Padding(
+                      padding: EdgeInsets.only(
+                        top: 25,
+                        left: 25,
+                      ),
+                      child: StareRatingWidget(ratingNumber: '4.6'),
+                    )
                   ],
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(
-                  top: 25,
-                  left: 25,
-                ),
-                child: StareRatingWidget(ratingNumber: '4.6'),
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'تركيب حنفية مياه',
-                style: StyleManger.headline1(fontSize: 18),
-              ),
-              Text('30 - 50 شيكل'),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Text(
-            'تتضمن هذه الخدمة التالي:',
-            style: StyleManger.headline1(fontSize: 14),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          ...include.map((e) => Text('✅ $e')).toList(),
-          const SizedBox(
-            height: 16,
-          ),
-          Text(
-            'لا تتضمن هذه الخدمة التالي:',
-            style: StyleManger.headline1(fontSize: 14),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          ...exclude.map((e) => Text('❌ $e')).toList(),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'تعليقات العملاء',
-                style: StyleManger.headline1(fontSize: 16),
-              ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorManager.buttonBackgroundColor,
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    'قيم تجربتك',
-                    style: TextStyle(
-                      color: ColorManager.primaryMainEnableColor,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'تركيب حنفية مياه',
+                      style: StyleManger.headline1(fontSize: 18),
                     ),
-                  ))
-            ],
+                    Text('30 - 50 شيكل'),
+                  ],
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  'تتضمن هذه الخدمة التالي:',
+                  style: StyleManger.headline1(fontSize: 14),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                ...include.map((e) => Text('✅ $e')).toList(),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  'لا تتضمن هذه الخدمة التالي:',
+                  style: StyleManger.headline1(fontSize: 14),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                ...exclude.map((e) => Text('❌ $e')).toList(),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'تعليقات العملاء',
+                      style: StyleManger.headline1(fontSize: 16),
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorManager.buttonBackgroundColor,
+                        ),
+                        onPressed: () {
+                          ratingBottomSheet(context,
+                              controller: ratingController);
+                        },
+                        child: const Text(
+                          'قيّم تجربتك',
+                          style: TextStyle(
+                            color: ColorManager.primaryMainEnableColor,
+                          ),
+                        ))
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                const CustomerCommentWidget(),
+                const CustomerCommentWidget(),
+                const CustomerCommentWidget(),
+                const CustomerCommentWidget(),
+              ],
+            ),
           ),
-          const SizedBox(
-            height: 8,
-          ),
-          const CustomerCommentWidget(),
-          const CustomerCommentWidget(),
-          const CustomerCommentWidget(),
-          const CustomerCommentWidget(),
         ],
       ),
       bottomNavigationBar: Container(
         height: 80,
-        
         color: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         child: ElevatedButton(
-          onPressed: () {},
-          child: Text('اطلب هذه الخدمة'),
+          onPressed: () {
+            showModalBottomSheet(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              context: context,
+              backgroundColor: ColorManager.background,
+              useSafeArea: true,
+              isScrollControlled: true,
+              builder: (context) => const OrderServiceBottomSheet(),
+            );
+          },
+          child: const Text('اطلب هذه الخدمة'),
         ),
       ),
     );
   }
 }
+
+
 
 List<String> include = [
   'توصيل خطوط المياه ساخنة وباردة ',

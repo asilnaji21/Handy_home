@@ -112,19 +112,11 @@ class CustomHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Card(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+        const CardForIconWidget(
+          icon: Icon(
+            Icons.arrow_back,
+            color: ColorManager.brownColor,
           ),
-          child: IconButton(
-              onPressed: () {
-                NavigationManager.pop();
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: ColorManager.brownColor,
-              )),
         ),
         const Spacer(),
         Text(
@@ -135,6 +127,28 @@ class CustomHeaderWidget extends StatelessWidget {
           flex: 2,
         ),
       ],
+    );
+  }
+}
+
+class CardForIconWidget extends StatelessWidget {
+  const CardForIconWidget({
+    Key? key,
+    required this.icon,
+  }) : super(key: key);
+  final Widget icon;
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: IconButton(
+          onPressed: () {
+            NavigationManager.pop();
+          },
+          icon: icon),
     );
   }
 }

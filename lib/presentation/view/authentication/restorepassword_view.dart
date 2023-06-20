@@ -46,7 +46,7 @@ class RestorePasswordView extends StatelessWidget {
               height: AppHeightSize.h9,
             ),
             CustomTextFormField(
-              fullNameController: _emailController,
+              controller: _emailController,
               text: LocaleKeys.emailText.tr(),
             ),
             SizedBoxCustom(
