@@ -198,7 +198,7 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                             )),
                         const LabelTextFieldWidget(text: 'تفاصيل إضافية'),
                         TextFormField(
-                          maxLines: 5,
+                          maxLines: 54,
                           minLines: 5,
                           validator: (value) => value!.isNotEmptyField,
                           decoration: const InputDecoration(

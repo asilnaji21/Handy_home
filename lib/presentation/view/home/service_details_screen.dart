@@ -1,12 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:handy_home_app/app/routes/navigation_manager.dart';
-import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
-import 'package:handy_home_app/presentation/resources/validation_manager.dart';
 import 'package:handy_home_app/presentation/view/home/category_screen.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../resources/assets_manager.dart';
 import 'HomeComponents/customer_comment_widget.dart';
 import 'HomeComponents/order_service_bottom_sheet.dart';
@@ -187,8 +182,6 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
     );
   }
 }
-
-
 
 List<String> include = [
   'توصيل خطوط المياه ساخنة وباردة ',

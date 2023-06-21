@@ -24,6 +24,7 @@ class ImagePath {
   static const String onboarding3 = "$IMAGE_PATH/onboarding3.png";
   static const String serviceImage = "$IMAGE_PATH/service_image.png";
   static const String profileImage = "$IMAGE_PATH/profile_image.png";
+  static const String doneImage = "$IMAGE_PATH/done_image.png";
 }
 
 class IconPath {
