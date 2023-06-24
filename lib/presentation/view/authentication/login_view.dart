@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
@@ -72,21 +71,10 @@ class _LoginViewState extends State<LoginView> {
           ),
           CustomTextFormField(
             validator: (value) => value!.isValidPassword,
-            obscureText: isVisible,
+           
             controller: _passwordController,
             text: LocaleKeys.passwordText.tr(),
-            suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    isVisible = !isVisible;
-                  });
-                },
-                icon: Icon(
-                  isVisible
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-                  color: Colors.grey.shade600,
-                )),
+            obscureIconEnable:true ,
           ),
           SizedBoxCustom(
             height: AppHeightSize.h8,

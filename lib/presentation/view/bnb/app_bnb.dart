@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/bussiness%20logic/bnbManager/bnb_manager_cubit.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
+import 'package:handy_home_app/presentation/view/bookedServices/booked_services_screen.dart';
 
 import '../../resources/assets_manager.dart';
 import '../home/home_screen.dart';
@@ -48,9 +49,9 @@ List<String> iconItemsPath = [
 ];
 
 List<Widget> tabs = [
-  HomeScreen(),
+  const HomeScreen(),
   Text('1'),
-  Text('2'),
+  const BookedServiceScreen(),
   Text('3'),
   Text('4'),
   Text('5'),

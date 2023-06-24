@@ -56,7 +56,7 @@ class NewPasswordView extends StatelessWidget {
             CustomTextFormField(
               controller: _emailController,
               text: LocaleKeys.passwordText.tr(),
-              suffixIcon: const Icon(Icons.visibility_outlined),
+              obscureIconEnable: true,
             ),
             SizedBoxCustom(
               height: AppHeightSize.h16,
@@ -64,7 +64,7 @@ class NewPasswordView extends StatelessWidget {
             CustomTextFormField(
               controller: _emailController,
               text: LocaleKeys.confirmPasswordText.tr(),
-              suffixIcon: const Icon(Icons.visibility_outlined),
+              obscureIconEnable: true,
             ),
             SizedBoxCustom(
               height: AppHeightSize.h24,

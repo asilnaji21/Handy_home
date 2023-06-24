@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.handy_home_app">
+   <queries>
+       <package android:name="com.google.android.gm" />
+   </queries>
    <application
         android:label="handy_home_app"
         android:name="${applicationName}"
@@ -30,5 +33,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        
     </application>
 </manifest>

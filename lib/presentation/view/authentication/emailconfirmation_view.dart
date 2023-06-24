@@ -10,6 +10,7 @@ import '../../../app/l10n/locale_keys.g.dart';
 import '../../../app/routes/navigation_manager.dart';
 import '../../../customwidget/button_custom.dart';
 import '../../../customwidget/sizedbox_custom.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 
 class EmailConfirmationView extends StatelessWidget {
   const EmailConfirmationView({Key? key}) : super(key: key);
@@ -41,7 +42,13 @@ class EmailConfirmationView extends StatelessWidget {
                 height: AppHeightSize.h24,
               ),
               CustomButtonPrimary(
-                onPressed: () {},
+                onPressed: () async {
+                  await LaunchApp.openApp(
+                      androidPackageName: 'com.google.android.gm',
+                      // openStore: true
+                      openStore: false
+                      );
+                },
                 text: Text(LocaleKeys.openEmailText.tr()),
               ),
               SizedBoxCustom(

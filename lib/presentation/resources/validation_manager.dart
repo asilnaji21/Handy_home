@@ -41,4 +41,15 @@ extension ValidationExt on String {
     }
     return result;
   }
+
+  String? get isValidName {
+    String? result;
+    if (isEmpty) {
+      result = 'هذا الحقل مطلوب';
+    }
+    if (this.length < 3) {
+      result = 'ادخل اسم حقيقي';
+    }
+    return result;
+  }
 }

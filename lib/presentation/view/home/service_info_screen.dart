@@ -31,7 +31,13 @@ class ServiceInfoScreen extends StatelessWidget {
             const RowInfoWidget(label: 'الوقت:', info: '12:45 مساء'),
             const RowInfoWidget(label: 'العدد من هذه الخدمة:', info: '3'),
             const RowInfoWidget(label: 'التكلفة الكلية:', info: '80 شيكل'),
-            const RowInfoWidget(label: 'حالة الطلب:', info: 'تركيب حنفية مياه'),
+            const RowInfoWidget(
+              label: 'حالة الطلب:',
+              orderStatusWidget: OrderStatusWidget(
+                backgroundColor: ColorManager.orangeLightColor,
+                textColor: ColorManager.orangeDarkColor,
+              ),
+            ),
             const SizedBox(
               height: 16,
             ),
@@ -64,15 +70,49 @@ class ServiceInfoScreen extends StatelessWidget {
   }
 }
 
+class OrderStatusWidget extends StatelessWidget {
+  const OrderStatusWidget({
+    required this.backgroundColor,
+    required this.textColor,
+    this.alignment = Alignment.centerRight,
+    Key? key,
+  }) : super(key: key);
+  final Color backgroundColor;
+  final Color textColor;
+  final AlignmentGeometry alignment;
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: alignment,
+      child: Container(
+        height: 23,
+        width: 84,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30), color: backgroundColor),
+        child: Text(
+          'قيد المراجعة',
+          style: TextStyle(
+            fontSize: 14,
+            color: textColor,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
+
 class RowInfoWidget extends StatelessWidget {
   const RowInfoWidget({
     required this.label,
-    required this.info,
+    this.info,
+    this.orderStatusWidget,
     Key? key,
   }) : super(key: key);
   final String label;
-  final String info;
-
+  final String? info;
+  final Widget? orderStatusWidget;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -86,11 +126,13 @@ class RowInfoWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text(
-              info,
-              textAlign: TextAlign.start,
-              style: StyleManger.headline2(fontSize: 15),
-            ),
+            child: orderStatusWidget != null
+                ? orderStatusWidget!
+                : Text(
+                    info!,
+                    textAlign: TextAlign.start,
+                    style: StyleManger.headline2(fontSize: 15),
+                  ),
           ),
         ],
       ),

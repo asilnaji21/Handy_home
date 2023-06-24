@@ -42,7 +42,9 @@ class EmailVerificationView extends StatelessWidget {
                 height: AppHeightSize.h24,
               ),
               CustomButtonPrimary(
-                onPressed: () {},
+                onPressed: () {
+                  print('ddddd');
+                },
                 text: Text(LocaleKeys.openEmailText.tr()),
               ),
               SizedBoxCustom(

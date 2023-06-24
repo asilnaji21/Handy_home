@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   static const _instance = MyApp._internal();
 
   factory MyApp() => _instance;
-  @override 
+  @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(393, 852),
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         theme: getApplicationTheme(),
         debugShowCheckedModeBanner: false,
-        initialRoute: RouteConstants.serviceInfoRoute,
+        initialRoute: RouteConstants.homeRoute,
         onGenerateRoute: RouteGenerator.generateRoutes,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
