@@ -54,15 +54,44 @@ class HomeScreen extends StatelessWidget {
                         'النجارة',
                         style: StyleManger.headline1(fontSize: 14),
                       ),
-                      Text('6 خدمات فرعية')
+                      const Text('6 خدمات فرعية')
                     ],
                   ),
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(ImagePath.customServiceImage),
+                    Text(
+                      'لم تعثر على الخدمة المطلوبة؟',
+                      style: StyleManger.headline1(fontSize: 14),
+                    ),
+                    const Text(
+                      'يمكنك طلب خدمة مخصصة بما يتوافق مع احتياجاتك باضافة كافة التفاصيل حول الخدمة المطلوبة.',
+                      textAlign: TextAlign.center,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('طلب خدمة مخصصة'),
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: Size(double.infinity, 40)),
+                    )
+                  ],
+                ),
+              ),
+            )
           ],
         ),
         HomeCategoryLabelWidget(
