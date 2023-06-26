@@ -8,7 +8,7 @@ class ApiSuccess extends ApiResults {
 }
 
 class ApiFailure extends ApiResults {
-  String message;
-
-  ApiFailure(this.message);
+  dynamic message;
+  int? statusCode;
+  ApiFailure(this.message, {this.statusCode});
 }

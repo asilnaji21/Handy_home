@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'dart:io';
-import '../../../app/constants_manager.dart';
+import '../../../../app/constants_manager.dart';
 import 'api_result_handler.dart';
 
 class DioHelper {
@@ -8,9 +8,15 @@ class DioHelper {
 
   DioHelper() {
     BaseOptions baseOptions = BaseOptions(
-      baseUrl: 'http://demo-api.mr-dev.tech/api/',
+      validateStatus: (status) {
+        if (status != null && [400, 200, 201].contains(status)) {
+          return true;
+        }
+        return false;
+      },
+      baseUrl: Endpoints.baseUrl,
       receiveDataWhenStatusError: true,
-      connectTimeout:const    Duration(milliseconds: 70000), 
+      connectTimeout: const Duration(milliseconds: 70000),
       receiveTimeout: const Duration(milliseconds: 70000),
     );
 
@@ -32,19 +38,20 @@ class DioHelper {
     };
 
     try {
-     
-    
       printResponse('body:    $data');
       printResponse('base:    ${dio.options.baseUrl}');
       printResponse('header:    ${dio.options.headers}');
       printResponse('url:    $endPoint');
-       printResponse('url:    $endPoint');
+      printResponse('url:    $endPoint');
       var response = await dio.post(
         endPoint,
         data: data,
         queryParameters: queryParameters,
       );
-     
+      // i make it in this way because the api return difference response at this status code so i need to handel the response for all cases 
+      if (response.statusCode == 400) {
+        return ApiFailure(response.data, statusCode: 400);
+      }
       printResponse('base:    ${dio.options.baseUrl}');
       printResponse('url:    $endPoint');
       printResponse('header:    ${dio.options.headers}');
@@ -56,8 +63,10 @@ class DioHelper {
     } on FormatException {
       return ApiFailure("Data syntax error");
     } on DioError catch (e) {
+      print(
+          '************************: ${e.message} -- ${e.response?.statusCode} -- ${e.type} -- ${e.response?.data}');
       if (e.type == DioErrorType.badResponse) {
-        return ApiFailure(e.response!.data['message']);
+        return ApiFailure(e.response);
         // return ApiFailure(e.message);
       } else if (e.type == DioErrorType.connectionTimeout) {
         // print('check your connection');

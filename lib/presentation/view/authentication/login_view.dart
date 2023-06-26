@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/customwidget/loading_widget.dart';
 import 'package:handy_home_app/customwidget/richtext_custom.dart';
 import 'package:handy_home_app/customwidget/sizedbox_custom.dart';
+import 'package:handy_home_app/customwidget/snackbar.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import '../../resources/validation_manager.dart';
 import '../../../app/l10n/locale_keys.g.dart';
@@ -71,10 +73,9 @@ class _LoginViewState extends State<LoginView> {
           ),
           CustomTextFormField(
             validator: (value) => value!.isValidPassword,
-           
             controller: _passwordController,
             text: LocaleKeys.passwordText.tr(),
-            obscureIconEnable:true ,
+            obscureIconEnable: true,
           ),
           SizedBoxCustom(
             height: AppHeightSize.h8,

@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/bussiness%20logic/authCubit/auth_cubit.dart';
+import 'package:handy_home_app/bussiness%20logic/authCubit/auth_state.dart';
 import 'package:handy_home_app/customwidget/header_custom.dart';
 import 'package:handy_home_app/customwidget/richtext_custom.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
@@ -11,7 +14,9 @@ import 'package:handy_home_app/presentation/resources/values_manager.dart';
 import '../../../app/l10n/locale_keys.g.dart';
 import '../../../app/routes/navigation_manager.dart';
 import '../../../customwidget/button_custom.dart';
+import '../../../customwidget/loading_widget.dart';
 import '../../../customwidget/sizedbox_custom.dart';
+import '../../../customwidget/snackbar.dart';
 import '../../../customwidget/textformfield_custom.dart';
 
 class SigUpView extends StatefulWidget {
@@ -97,14 +102,40 @@ class _SigUpViewState extends State<SigUpView> {
             SizedBoxCustom(
               height: AppHeightSize.h24,
             ),
-            CustomButtonPrimary(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  NavigationManager.pushNamed(
-                      RouteConstants.emailConfirmationRoute);
+            BlocListener<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is RegisterSuccessState) {
+                  showSnackBar(context,
+                      text: state.message,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white);
+                  NavigationManager.goToAndRemove(RouteConstants.emailOtpRoute);
+                } else if (state is RegisterFailureState) {
+                  NavigationManager.pop();
+                  showSnackBar(context,
+                      text: state.errorMessage,
+                      backgroundColor: Colors.grey,
+                      textColor: Colors.black);
+                } else if (state is RegisterLoadingState) {
+                  showLoading(context);
                 }
               },
-              text: Text(LocaleKeys.signupButtonText.tr()),
+              child: CustomButtonPrimary(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    context.read<AuthCubit>().register(
+                          firstName: _fullNameController.text.split(" ")[0],
+                          lastName:
+                              _fullNameController.text.split(" ").length > 1
+                                  ? _fullNameController.text.split(" ")[1]
+                                  : _fullNameController.text,
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        );
+                  }
+                },
+                text: Text(LocaleKeys.signupButtonText.tr()),
+              ),
             ),
             SizedBoxCustom(
               height: AppHeightSize.h16,

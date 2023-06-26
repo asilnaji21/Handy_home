@@ -11,4 +11,5 @@ class RouteConstants {
   static const String categoryRoute = "categoryRoute";
   static const String serviceDetailsRoute = "serviceDetailsRoute";
   static const String serviceInfoRoute = "serviceInfoRoute";
+  static const String emailOtpRoute = "emailOtpRoute";
 }

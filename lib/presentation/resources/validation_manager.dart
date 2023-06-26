@@ -46,9 +46,20 @@ extension ValidationExt on String {
     String? result;
     if (isEmpty) {
       result = 'هذا الحقل مطلوب';
+    } else if (!this.contains(' ')) {
+      result = 'ادخل الاسم الاول و العائلة';
     }
-    if (this.length < 3) {
-      result = 'ادخل اسم حقيقي';
+    return result;
+  }
+
+  String? get isValidOtp {
+    String? result;
+    if (isEmpty) {
+      result = 'هذا الحقل مطلوب';
+    } else if (this.length < 4) {
+      result = 'ادخل الكود كامل';
+    } else if (!RegExp(r'^[0-9]+$').hasMatch(this)) {
+      result = 'مسموح ادخال ارقام فقط';
     }
     return result;
   }

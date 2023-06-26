@@ -4,9 +4,11 @@ class Constant {
   static const String baseUrl = 'http://demo-api.mr-dev.tech/api';
 }
 
-class EndPoints {
-  static const String registerUrl = '/students/auth/register';
-  static const String signInUrl = '/students/auth/login';
+class Endpoints {
+  static const String baseUrl =
+      'https://mohammedashrafdagga.pythonanywhere.com';
+  static const String register = '/api/auth/register/';
+  static const String verifyCode = '/api/auth/verify-code/';
 }
 
 void printTest(String text) {

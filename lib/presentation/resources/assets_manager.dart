@@ -26,6 +26,9 @@ class ImagePath {
   static const String profileImage = "$IMAGE_PATH/profile_image.png";
   static const String doneImage = "$IMAGE_PATH/done_image.png";
   static const String customServiceImage = "$IMAGE_PATH/custom_service_image.png";
+  static const String codeVerificationImage = "$IMAGE_PATH/code_verification_image.png";
+
+  
 
 }
 
