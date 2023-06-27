@@ -3,8 +3,10 @@ import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
+import 'package:handy_home_app/presentation/view/home/HomeComponents/home_horizontal_category_widget.dart';
 import 'package:handy_home_app/presentation/view/home/HomeComponents/stare_rating_widget.dart';
 
+import '../../../customwidget/search_custom_widget.dart';
 import '../../resources/assets_manager.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -21,25 +23,7 @@ class CategoryScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            TextFormField(
-              style: StyleManger.headline2(fontSize: 16),
-              cursorColor: Colors.black,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  hintText: 'ابحث باسم الخدمة المطلوبة',
-                  hintStyle: StyleManger.headline2(color: Colors.grey),
-                  prefixIcon: const Icon(
-                    Icons.search,
-                  ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 15),
-                  prefixIconColor: Colors.grey,
-                  fillColor: Colors.white,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  )),
-            ),
+            const SearchCustomWidget(),
             Expanded(
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
@@ -50,47 +34,8 @@ class CategoryScreen extends StatelessWidget {
                     NavigationManager.pushNamed(
                         RouteConstants.serviceDetailsRoute);
                   },
-                  child: Stack(
-                    alignment: Alignment.topLeft,
-                    children: [
-                      Card(
-                        elevation: 0,
-                        color: Colors.white,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: Image.asset(
-                                ImagePath.serviceImage,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: 200,
-                              ),
-                              clipBehavior: Clip.antiAlias,
-                            ),
-                            Text(
-                              'تنضيف داخلي: كنب وسجاد',
-                              textAlign: TextAlign.right,
-                              style: StyleManger.headline1(fontSize: 14),
-                            ),
-                            Text(
-                              '30 - 50 ش',
-                              textAlign: TextAlign.right,
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 25,
-                          left: 25,
-                        ),
-                        child: const StareRatingWidget(ratingNumber: '4.6'),
-                      )
-                    ],
+                  child: const SingleServiceWidget(
+                    width: double.infinity,
                   ),
                 ),
               ),

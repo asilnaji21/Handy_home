@@ -17,42 +17,73 @@ class HomeHorizontalCategoryWidget extends StatelessWidget {
         padding: const EdgeInsets.only(right: 27),
         scrollDirection: Axis.horizontal,
         itemCount: 10,
-        itemBuilder: (context, index) => Card(
-          elevation: 0,
-          color: Colors.white,
-          child: Stack(
-            alignment: Alignment.topLeft,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
+        itemBuilder: (context, index) => const SingleServiceWidget(
+          imageHeight: 180,
+        ),
+      ),
+    );
+  }
+}
+
+class SingleServiceWidget extends StatelessWidget {
+  const SingleServiceWidget({
+    this.width,
+    this.serviceFontSize = 14,
+    this.imageHeight,
+    Key? key,
+  }) : super(key: key);
+  final double? width;
+  final double serviceFontSize;
+  final double? imageHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      child: Card(
+        elevation: 0,
+        color: Colors.white,
+        child: Stack(
+          alignment: Alignment.topLeft,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    clipBehavior: Clip.antiAlias,
+                    height: imageHeight,
+                    width: width,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                    child: Image.asset(
                       ImagePath.serviceImage,
-                      height: 180,
+                      fit: BoxFit.fill,
                     ),
-                    Text(
-                      'تنضيف داخلي: كنب وسجاد',
-                      textAlign: TextAlign.right,
-                      style: StyleManger.headline1(fontSize: 14),
-                    ),
-                    Text(
-                      '30 - 50 ش',
-                      textAlign: TextAlign.right,
-                    )
-                  ],
-                ),
+                  ),
+                  Text(
+                    'تنضيف داخلي: كنب وسجاد',
+                    textAlign: TextAlign.right,
+                    style: StyleManger.headline1(fontSize: serviceFontSize),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    '30 - 50 ش',
+                    textAlign: TextAlign.right,
+                  )
+                ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(
-                  top: 16,
-                  left: 16,
-                ),
-                child: StareRatingWidget(ratingNumber: '4.6'),
-              )
-            ],
-          ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 18,
+                left: 16,
+              ),
+              child: StareRatingWidget(ratingNumber: '4.6'),
+            )
+          ],
         ),
       ),
     );
