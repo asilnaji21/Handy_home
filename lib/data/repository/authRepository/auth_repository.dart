@@ -73,7 +73,6 @@ class AuthRepository {
           ApiSuccess(response.data["detail"].toString(), response.statusCode));
     } else {
       if (response is ApiFailure && response.statusCode == 400) {
-        print(response.message);
         return right(
             ApiFailure(response.message['email']['detail'].toString()));
       }
@@ -91,6 +90,26 @@ class AuthRepository {
     } else {
       if (response is ApiFailure && response.statusCode == 400) {
         return right(ApiFailure(response.message['detail'][0].toString()));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> resetNewPassword(
+      {required String token, required String newPassword}) async {
+    ApiResults response = await dioHelper.postData(
+        endPoint: Endpoints.resetNewPassword,
+        data: {
+          "token": token,
+          "new_password1": newPassword,
+          "new_password2": newPassword
+        });
+    
+    if (response is ApiSuccess) {
+      return left(ApiSuccess(response.data['detail'].toString(), response.statusCode));
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message.toString()));
       }
       return right(response as ApiFailure);
     }

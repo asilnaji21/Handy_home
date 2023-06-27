@@ -51,7 +51,7 @@ class _EmailOtpScreenState extends State<EmailOtpScreen> {
               height: 16,
             ),
             Text(
-              'توثيق البريد الالكتروني',
+              'توثيق الحساب',
               style: StyleManger.headline1(
                 fontSize: 26,
               ),

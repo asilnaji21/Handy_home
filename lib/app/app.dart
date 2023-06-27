@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/app/routes/routes_generator.dart';
+import 'package:handy_home_app/data/network/local/local_network.dart';
 
 import '../presentation/resources/theme_manager.dart';
 
@@ -22,7 +23,9 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         theme: getApplicationTheme(),
         debugShowCheckedModeBanner: false,
-        initialRoute: RouteConstants.loginRoute,
+        initialRoute: SharedPrefController().getUser().accessToken != null
+            ? RouteConstants.homeRoute
+            : RouteConstants.loginRoute,
         onGenerateRoute: RouteGenerator.generateRoutes,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,

@@ -20,8 +20,9 @@ import '../../../customwidget/sizedbox_custom.dart';
 import '../../../customwidget/snackbar.dart';
 
 class EmailVerificationView extends StatefulWidget {
-  const EmailVerificationView({Key? key}) : super(key: key);
-
+  const EmailVerificationView({required this.email, Key? key})
+      : super(key: key);
+  final String email;
   @override
   State<EmailVerificationView> createState() => _EmailVerificationViewState();
 }
@@ -44,6 +45,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.email);
     return Scaffold(
         body: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppWidthSize.w20),
@@ -144,14 +146,43 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
               SizedBoxCustom(
                 height: AppHeightSize.h16,
               ),
-              RichTextCustom(
-                  text1: LocaleKeys.passwordRecoveryEmail.tr(),
-                  text2: LocaleKeys.pressHereText.tr(),
-                  color: ColorManager.brownColor,
-                  textDecoration: TextDecoration.none,
-                  onPressed: () {
-                    //TODO add reset code request
-                  }),
+              BlocListener<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is SendPasswordResetCodeState &&
+                      state.sendResetCodeStatus ==
+                          SendResetCodeStatus.sendCodeSuccess) {
+                    showSnackBar(context,
+                        text: state.message ?? '',
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white);
+                    NavigationManager.pop();
+                  } else if (state is SendPasswordResetCodeState &&
+                      state.sendResetCodeStatus ==
+                          SendResetCodeStatus.sendCodeFailed) {
+                    NavigationManager.pop();
+                    showSnackBar(context,
+                        text: state.message ?? '',
+                        backgroundColor: Colors.grey,
+                        textColor: Colors.black);
+                  } else if (state is SendPasswordResetCodeState &&
+                      state.sendResetCodeStatus ==
+                          SendResetCodeStatus.sendCodeLoading) {
+                    showLoading(context);
+                  }
+                },
+                child: RichTextCustom(
+                    text1: LocaleKeys.passwordRecoveryEmail.tr(),
+                    text2: LocaleKeys.pressHereText.tr(),
+                    color: ColorManager.brownColor,
+                    textDecoration: TextDecoration.none,
+                    onPressed: () {
+                      if (widget.email.isNotEmpty) {
+                        context
+                            .read<AuthCubit>()
+                            .sendResetPasswordCode(email: widget.email);
+                      }
+                    }),
+              ),
               SizedBoxCustom(
                 height: AppHeightSize.h180,
               ),

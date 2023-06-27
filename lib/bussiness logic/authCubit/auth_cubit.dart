@@ -95,4 +95,20 @@ class AuthCubit extends Cubit<AuthState> {
           verifyResetPasswordCodeStatus: VerifyResetPasswordCodeStatus.failed)),
     );
   }
+
+  resetNewPassword({required String token, required String newPassword}) async {
+    emit(ResetNewPasswordState(
+        resetNewPasswordStatus: ResetNewPasswordStatus.loading));
+
+    final data =
+        await authRepo.resetNewPassword(token: token, newPassword: newPassword);
+
+    data.fold(
+        (l) => emit(ResetNewPasswordState(
+            resetNewPasswordStatus: ResetNewPasswordStatus.success,
+            message: l.data.toString())),
+        (r) => emit(ResetNewPasswordState(
+            resetNewPasswordStatus: ResetNewPasswordStatus.loading,
+            message: r.message.toString())));
+  }
 }

@@ -86,7 +86,6 @@ class _SigUpViewState extends State<SigUpView> {
               height: AppHeightSize.h16,
             ),
             CustomTextFormField(
-              // controller: _emailController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'هذا الحقل مطلوب';
@@ -95,7 +94,6 @@ class _SigUpViewState extends State<SigUpView> {
                 }
                 return null;
               },
-
               text: LocaleKeys.confirmPasswordText.tr(),
               obscureIconEnable: true,
             ),
@@ -145,8 +143,7 @@ class _SigUpViewState extends State<SigUpView> {
                 text2: LocaleKeys.privacyTerms2Text.tr(),
                 color: ColorManager.brownColor,
                 textDecoration: TextDecoration.none,
-                onPressed: () =>
-                    NavigationManager.pushNamed(RouteConstants.loginRoute)),
+                onPressed: () {}),
             SizedBoxCustom(
               height: AppHeightSize.h116,
             ),

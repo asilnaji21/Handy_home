@@ -61,3 +61,12 @@ class VerifyResetPasswordCodeState extends AuthState {
   VerifyResetPasswordCodeState(
       {required this.verifyResetPasswordCodeStatus, this.data});
 }
+
+// this states for reset new password
+enum ResetNewPasswordStatus { success, loading, failed }
+
+class ResetNewPasswordState extends AuthState {
+  ResetNewPasswordStatus resetNewPasswordStatus;
+  String? message;
+  ResetNewPasswordState({required this.resetNewPasswordStatus, this.message});
+}

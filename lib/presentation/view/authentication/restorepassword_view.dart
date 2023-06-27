@@ -71,25 +71,29 @@ class _RestorePasswordViewState extends State<RestorePasswordView> {
             BlocListener<AuthCubit, AuthState>(
               listener: (context, state) {
                 if (state is SendPasswordResetCodeState &&
-                    state.sendResetCodeStatus == SendResetCodeStatus.sendCodeSuccess) {
+                    state.sendResetCodeStatus ==
+                        SendResetCodeStatus.sendCodeSuccess) {
+                  NavigationManager.pop();
                   showSnackBar(context,
                       text: state.message ?? '',
                       backgroundColor: Colors.green,
                       textColor: Colors.white);
                   NavigationManager.pushNamed(
-                      RouteConstants.emailVerificationRoute);
+                      RouteConstants.emailVerificationRoute,
+                      arguments: _emailController.text);
                 } else if (state is SendPasswordResetCodeState &&
-                    state.sendResetCodeStatus == SendResetCodeStatus.sendCodeFailed) {
+                    state.sendResetCodeStatus ==
+                        SendResetCodeStatus.sendCodeFailed) {
                   NavigationManager.pop();
                   showSnackBar(context,
                       text: state.message ?? '',
                       backgroundColor: Colors.grey,
                       textColor: Colors.black);
                 } else if (state is SendPasswordResetCodeState &&
-                    state.sendResetCodeStatus == SendResetCodeStatus.sendCodeLoading) {
+                    state.sendResetCodeStatus ==
+                        SendResetCodeStatus.sendCodeLoading) {
                   showLoading(context);
                 }
-                   
               },
               child: CustomButtonPrimary(
                 onPressed: () {

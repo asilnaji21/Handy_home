@@ -49,13 +49,19 @@ class RouteGenerator {
                 ));
 
       case RouteConstants.newPasswordRoute:
-        return MaterialPageRoute(builder: (_) => NewPasswordView(token:settings.arguments as String));
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => AuthCubit(),
+                  child:  NewPasswordView(
+                      token:settings.arguments as String
+                      ),
+                ));
 
       case RouteConstants.emailVerificationRoute:
         return MaterialPageRoute(
-            builder: (_) =>  BlocProvider(
+            builder: (_) => BlocProvider(
                   create: (context) => AuthCubit(),
-                  child: const EmailVerificationView(),
+                  child:  EmailVerificationView(email:settings.arguments as String),
                 ));
       case RouteConstants.emailConfirmationRoute:
         return MaterialPageRoute(builder: (_) => const EmailConfirmationView());

@@ -16,6 +16,9 @@ class Endpoints {
 
   static const String verifyResetPasswordCode =
       '/api/auth/verify-reset-password-code/';
+  static const String resetNewPassword=
+      '/api/auth/reset-new-password/';
+      
 }
 
 void printTest(String text) {
