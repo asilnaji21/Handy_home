@@ -4,8 +4,8 @@ class NavigationManager {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
-  static pushNamed(String nameScreen) =>
-      navigatorKey.currentState!.pushNamed(nameScreen);
+  static pushNamed(String nameScreen,{Object? arguments}) =>
+      navigatorKey.currentState!.pushNamed(nameScreen,arguments: arguments);
 
   static pushNamedReplacement(String routeName) {
     navigatorKey.currentState!.pushReplacementNamed(routeName);

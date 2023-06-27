@@ -5,8 +5,8 @@ import '../app/l10n/locale_keys.g.dart';
 import '../app/routes/navigation_manager.dart';
 import '../presentation/resources/color_manager.dart';
 
-class BackButtonCstom extends StatelessWidget {
-  const BackButtonCstom({Key? key}) : super(key: key);
+class BackButtonCustom extends StatelessWidget {
+  const BackButtonCustom({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

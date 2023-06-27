@@ -6,6 +6,7 @@ class CustomTextFormField extends StatefulWidget {
       {Key? key,
       TextEditingController? controller,
       required this.text,
+      this.fieldKey,
       this.validator,
       this.obscureIconEnable = false,
       this.obscureText = false})
@@ -16,7 +17,7 @@ class CustomTextFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final TextEditingController? _controller;
   final bool obscureText;
-
+  final GlobalKey<FormFieldState>? fieldKey;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -26,6 +27,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        key: widget.fieldKey,
         validator: widget.validator,
         textAlign: TextAlign.right,
         cursorColor: Colors.black,

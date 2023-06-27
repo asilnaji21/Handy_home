@@ -40,3 +40,24 @@ class VerifyCodeState extends AuthState {
   String? message;
   VerifyCodeState({required this.verifyCodeStatus, this.message});
 }
+
+//this states for send code to reset password
+
+enum SendResetCodeStatus { sendCodeSuccess, sendCodeLoading, sendCodeFailed }
+
+class SendPasswordResetCodeState extends AuthState {
+  SendResetCodeStatus sendResetCodeStatus;
+  String? message;
+  SendPasswordResetCodeState({required this.sendResetCodeStatus, this.message});
+}
+
+//this states for verify reset password code
+
+enum VerifyResetPasswordCodeStatus { success, loading, failed }
+
+class VerifyResetPasswordCodeState extends AuthState {
+  VerifyResetPasswordCodeStatus verifyResetPasswordCodeStatus;
+  dynamic data;
+  VerifyResetPasswordCodeState(
+      {required this.verifyResetPasswordCodeStatus, this.data});
+}

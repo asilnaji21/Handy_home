@@ -32,12 +32,12 @@
    
     "emailConfirmationText" : "توثيق @:emailText",
     "subEmailConfirmationText" : "لقد قمنا بارسال رابط تفعيل الى بريدك الالكتروني٬ يرجى الضغط على رابط التفعيل هناك لتفعيل حسابك",
-    "openEmailText":"فتح @:emailText",
+    "openEmailText":"تأكيد",
     "passwordRecoveryEmail": "لم تستلم بريد استعادة كلمة المرور؟ ",
     "pressHereText": "اضغط هنا",
 
     "emailVerificationText" : "التحقق من @:emailText",
-    "subEmailVerificationText" : "لقد قمنا بارسال رابط استعادة كلمة المرور الى بريدك الالكتروني٬ يرجى الضغط على الرابط هناك لتاكيد الاسترجاع",
+    "subEmailVerificationText" : "لقد قمنا بارسال كود تفعيل الى بريدك الالكتروني٬ يرجى ادخال الكود المرسل",
     "activationEmailText": "لم تستلم بريد التفعيل؟",
     "backText":"رجوع",
     

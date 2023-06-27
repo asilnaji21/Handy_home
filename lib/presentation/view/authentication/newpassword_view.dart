@@ -9,18 +9,28 @@ import '../../../customwidget/sizedbox_custom.dart';
 import '../../../customwidget/textformfield_custom.dart';
 import '../../resources/values_manager.dart';
 
-class NewPasswordView extends StatelessWidget {
-  NewPasswordView({Key? key}) : super(key: key);
+class NewPasswordView extends StatefulWidget {
+  const NewPasswordView({
+    Key? key,
+    required this.token,
+  }) : super(key: key);
+  final String token;
+  @override
+  State<NewPasswordView> createState() => _NewPasswordViewState();
+}
+
+class _NewPasswordViewState extends State<NewPasswordView> {
   final _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    print(widget.token);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppWidthSize.w20),
         child: ListView(
           children: [
-            const BackButtonCstom(),
+            const BackButtonCustom(),
             SizedBoxCustom(
               height: AppHeightSize.h52,
             ),

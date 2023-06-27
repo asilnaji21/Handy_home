@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:handy_home_app/data/models/user_model.dart';
 import 'package:handy_home_app/data/repository/authRepository/auth_repository.dart';
 import '../../app/locator.dart';
+import '../../data/models/verify_reset_password_code_model.dart';
 import '../../data/network/local/local_network.dart';
 import 'auth_state.dart';
 
@@ -16,12 +17,12 @@ class AuthCubit extends Cubit<AuthState> {
       email: email,
       password: password,
     );
-    data.fold(
-        (l){
-          getIt<SharedPrefController>().save(l.data as UserModel);
-           emit(LoginState(
-            loginCodeStatus: LoginStatus.loggedInSuccessfully,
-            message: 'Logged in successfully'));},
+    data.fold((l) {
+      getIt<SharedPrefController>().save(l.data as UserModel);
+      emit(LoginState(
+          loginCodeStatus: LoginStatus.loggedInSuccessfully,
+          message: 'Logged in successfully'));
+    },
         (r) => emit(LoginState(
               loginCodeStatus: LoginStatus.loggedInFailed,
               message: r.message.toString(),
@@ -58,6 +59,40 @@ class AuthCubit extends Cubit<AuthState> {
           message: r.message.toString(),
         ),
       ),
+    );
+  }
+
+  sendResetPasswordCode({required String email}) async {
+    emit(SendPasswordResetCodeState(
+        sendResetCodeStatus: SendResetCodeStatus.sendCodeLoading));
+
+    final data = await authRepo.sendCodeToResetPassword(email: email);
+
+    data.fold(
+      (l) => emit(SendPasswordResetCodeState(
+          sendResetCodeStatus: SendResetCodeStatus.sendCodeSuccess,
+          message: l.data.toString())),
+      (r) => emit(
+        SendPasswordResetCodeState(
+            sendResetCodeStatus: SendResetCodeStatus.sendCodeFailed,
+            message: r.message.toString()),
+      ),
+    );
+  }
+
+  verifyResetPasswordCode({required String code}) async {
+    emit(VerifyResetPasswordCodeState(
+        verifyResetPasswordCodeStatus: VerifyResetPasswordCodeStatus.loading));
+
+    final data = await authRepo.verifyResetPasswordCode(code: code);
+
+    data.fold(
+      (l) => emit(VerifyResetPasswordCodeState(
+          verifyResetPasswordCodeStatus: VerifyResetPasswordCodeStatus.success,
+          data: l.data as ResetPasswordCodeModel)),
+      (r) => emit(VerifyResetPasswordCodeState(
+          data: r.message,
+          verifyResetPasswordCodeStatus: VerifyResetPasswordCodeStatus.failed)),
     );
   }
 }

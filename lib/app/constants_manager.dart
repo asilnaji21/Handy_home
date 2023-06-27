@@ -11,6 +11,11 @@ class Endpoints {
 
   static const String register = '/api/auth/register/';
   static const String verifyCode = '/api/auth/verify-code/';
+  static const String sendCodeToResetPassword =
+      '/api/auth/reset-password-code/';
+
+  static const String verifyResetPasswordCode =
+      '/api/auth/verify-reset-password-code/';
 }
 
 void printTest(String text) {
