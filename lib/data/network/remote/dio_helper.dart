@@ -48,7 +48,8 @@ class DioHelper {
         data: data,
         queryParameters: queryParameters,
       );
-      // i make it in this way because the api return difference response at this status code so i need to handel the response for all cases 
+      print(response.statusCode);
+      // i make it in this way because the api return difference response at this status code so i need to handel the response for all cases
       if (response.statusCode == 400) {
         return ApiFailure(response.data, statusCode: 400);
       }
@@ -66,7 +67,8 @@ class DioHelper {
       print(
           '************************: ${e.message} -- ${e.response?.statusCode} -- ${e.type} -- ${e.response?.data}');
       if (e.type == DioErrorType.badResponse) {
-        return ApiFailure(e.response);
+        return ApiFailure(
+            e.response?.data["detail"] ?? 'incorrect login credentials');
         // return ApiFailure(e.message);
       } else if (e.type == DioErrorType.connectionTimeout) {
         // print('check your connection');

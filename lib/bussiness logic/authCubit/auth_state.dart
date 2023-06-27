@@ -1,6 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 abstract class AuthState {}
 
+//this states for login
+enum LoginStatus {
+  loggedInSuccessfully,
+  loggedInLoading,
+  loggedInFailed,
+}
+
+class LoginState extends AuthState {
+  LoginStatus loginCodeStatus;
+  String? message;
+  LoginState({required this.loginCodeStatus, this.message});
+}
+
 // this states for register
 class RegisterInitialState extends AuthState {}
 

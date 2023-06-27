@@ -1,13 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/bussiness%20logic/authCubit/auth_cubit.dart';
 import 'package:handy_home_app/customwidget/loading_widget.dart';
 import 'package:handy_home_app/customwidget/richtext_custom.dart';
 import 'package:handy_home_app/customwidget/sizedbox_custom.dart';
 import 'package:handy_home_app/customwidget/snackbar.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
+import '../../../bussiness logic/authCubit/auth_state.dart';
 import '../../resources/validation_manager.dart';
 import '../../../app/l10n/locale_keys.g.dart';
 import '../../../customwidget/button_custom.dart';
@@ -39,7 +42,6 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    print('objext');
     return Scaffold(
         body: Form(
       key: _formKey,
@@ -95,13 +97,36 @@ class _LoginViewState extends State<LoginView> {
           SizedBoxCustom(
             height: AppHeightSize.h24,
           ),
-          CustomButtonPrimary(
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
+          BlocListener<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state is LoginState&&state.loginCodeStatus ==LoginStatus.loggedInSuccessfully) {
+                showSnackBar(context,
+                    text: state.message ?? '',
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white);
                 NavigationManager.goToAndRemove(RouteConstants.homeRoute);
+              } else if (state is LoginState &&
+                  state.loginCodeStatus == LoginStatus.loggedInFailed) {
+                NavigationManager.pop();
+                showSnackBar(context,
+                    text: state.message ?? '',
+                    backgroundColor: Colors.grey,
+                    textColor: Colors.black);
+              } else if (state is LoginState &&
+                  state.loginCodeStatus == LoginStatus.loggedInLoading) {
+                showLoading(context);
               }
             },
-            text: Text(LocaleKeys.loginText.tr()),
+            child: CustomButtonPrimary(
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  context.read<AuthCubit>().login(
+                      email: _emailController.text,
+                      password: _passwordController.text);
+                }
+              },
+              text: Text(LocaleKeys.loginText.tr()),
+            ),
           ),
           SizedBoxCustom(
             height: AppHeightSize.h261,

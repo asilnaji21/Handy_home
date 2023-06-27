@@ -1,4 +1,5 @@
 import 'package:handy_home_app/app/constants_manager.dart';
+import 'package:handy_home_app/data/models/user_model.dart';
 import 'package:handy_home_app/data/network/remote/dio_helper.dart';
 
 import '../../network/remote/api_result_handler.dart';
@@ -6,7 +7,25 @@ import 'package:dartz/dartz.dart';
 
 class AuthRepository {
   DioHelper dioHelper = DioHelper();
-  Future<Either<ApiSuccess, ApiFailure>> userRegister(
+
+  Future<Either<ApiSuccess, ApiFailure>> login(
+      {required String email, required String password}) async {
+    ApiResults response = await dioHelper.postData(
+        endPoint: Endpoints.login,
+        data: {"username": email, "password": password});
+
+    if (response is ApiSuccess) {
+      return left(
+          ApiSuccess(UserModel.fromJson(response.data), response.statusCode));
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message['detail'].toString()));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> register(
       {required String firstName,
       required String lastName,
       required String email,

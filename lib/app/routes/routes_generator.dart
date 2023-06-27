@@ -35,7 +35,11 @@ class RouteGenerator {
                 ));
 
       case RouteConstants.loginRoute:
-        return MaterialPageRoute(builder: (_) => LoginView());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => AuthCubit(),
+                  child: const LoginView(),
+                ));
 
       case RouteConstants.restorePasswordRoute:
         return MaterialPageRoute(builder: (_) => RestorePasswordView());

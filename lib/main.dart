@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy_home_app/app/locator.dart';
 
 import 'app/app.dart';
+import 'data/network/local/local_network.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPrefController().init();
   setUp();
   await ScreenUtil.ensureScreenSize();
   await EasyLocalization.ensureInitialized();
