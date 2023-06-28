@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
+import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
 
@@ -228,7 +230,8 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          print('object');
+                          NavigationManager.goToAndRemove(
+                              RouteConstants.serviceInfoRoute);
                         }
                       },
                       style: ElevatedButton.styleFrom(

@@ -9,6 +9,7 @@ import 'package:handy_home_app/presentation/view/authentication/emailverificatio
 import 'package:handy_home_app/presentation/view/authentication/login_view.dart';
 import 'package:handy_home_app/presentation/view/bnb/app_bnb.dart';
 import 'package:handy_home_app/presentation/view/home/category_screen.dart';
+import 'package:handy_home_app/presentation/view/home/order_custom_service_screen.dart';
 import 'package:handy_home_app/presentation/view/home/service_details_screen.dart';
 import 'package:handy_home_app/presentation/view/home/service_info_screen.dart';
 import '../../bussiness logic/onboardingManager/on_boarding_cubit.dart';
@@ -52,16 +53,15 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                   create: (context) => AuthCubit(),
-                  child:  NewPasswordView(
-                      token:settings.arguments as String
-                      ),
+                  child: NewPasswordView(token: settings.arguments as String),
                 ));
 
       case RouteConstants.emailVerificationRoute:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                   create: (context) => AuthCubit(),
-                  child:  EmailVerificationView(email:settings.arguments as String),
+                  child: EmailVerificationView(
+                      email: settings.arguments as String),
                 ));
       case RouteConstants.emailConfirmationRoute:
         return MaterialPageRoute(builder: (_) => const EmailConfirmationView());
@@ -70,13 +70,16 @@ class RouteGenerator {
       case RouteConstants.serviceDetailsRoute:
         return MaterialPageRoute(builder: (_) => const ServiceDetailsScreen());
       case RouteConstants.serviceInfoRoute:
-        return MaterialPageRoute(builder: (_) => const ServiceInfoScreen());
+        return MaterialPageRoute(
+            builder: (_) => ServiceInfoScreen(
+              isCustomService: settings.arguments as bool?,
+            ));
+      case RouteConstants.orderCustomServiceRoute:
+        return MaterialPageRoute(
+            builder: (_) => const OrderCustomServiceScreen());
       case RouteConstants.homeRoute:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                  create: (context) => BnbManagerCubit(),
-                  child: const AppBNB(),
-                ));
+            builder: (_) => const AppBNB());
       case RouteConstants.emailOtpRoute:
         return MaterialPageRoute(
             builder: (_) => BlocProvider<AuthCubit>(

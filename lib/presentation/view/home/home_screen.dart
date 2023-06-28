@@ -83,7 +83,10 @@ class HomeScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        NavigationManager.pushNamed(
+                            RouteConstants.orderCustomServiceRoute);
+                      },
                       child: const Text('طلب خدمة مخصصة'),
                       style: ElevatedButton.styleFrom(
                           minimumSize: Size(double.infinity, 40)),

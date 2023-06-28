@@ -12,4 +12,6 @@ class RouteConstants {
   static const String serviceDetailsRoute = "serviceDetailsRoute";
   static const String serviceInfoRoute = "serviceInfoRoute";
   static const String emailOtpRoute = "emailOtpRoute";
+  static const String orderCustomServiceRoute = "orderCustomServiceRoute";
+
 }

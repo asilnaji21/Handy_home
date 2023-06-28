@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
+import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/bussiness%20logic/bnbManager/bnb_manager_cubit.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 
 class ServiceInfoScreen extends StatelessWidget {
-  const ServiceInfoScreen({Key? key}) : super(key: key);
-
+  const ServiceInfoScreen({this.isCustomService, Key? key}) : super(key: key);
+  final bool? isCustomService;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +33,16 @@ class ServiceInfoScreen extends StatelessWidget {
             const RowInfoWidget(label: 'اسم الخدمة:', info: 'تركيب حنفية مياه'),
             const RowInfoWidget(label: 'التاريخ:', info: '10 مايو 2023'),
             const RowInfoWidget(label: 'الوقت:', info: '12:45 مساء'),
-            const RowInfoWidget(label: 'العدد من هذه الخدمة:', info: '3'),
-            const RowInfoWidget(label: 'التكلفة الكلية:', info: '80 شيكل'),
+            Visibility(
+                visible: !(isCustomService != null),
+                child: const RowInfoWidget(
+                    label: 'العدد من هذه الخدمة:', info: '3')),
+            RowInfoWidget(
+                label:
+                    (isCustomService != null) ? 'التفاصيل:' : 'التكلفة الكلية:',
+                info: (isCustomService != null)
+                    ? 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.'
+                    : '80 شيكل'),
             const RowInfoWidget(
               label: 'حالة الطلب:',
               orderStatusWidget: OrderStatusWidget(
@@ -42,7 +54,10 @@ class ServiceInfoScreen extends StatelessWidget {
               height: 16,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<BnbManagerCubit>().onSelectItem(2);
+                NavigationManager.goToAndRemove(RouteConstants.homeRoute);
+              },
               child: const Text('الذهاب لصفحة الطلبات'),
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50)),
@@ -51,7 +66,9 @@ class ServiceInfoScreen extends StatelessWidget {
               height: 10,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                NavigationManager.goToAndRemove(RouteConstants.homeRoute);
+              },
               child: const Text(
                 'العودة لصغحة الخدمات',
                 style: TextStyle(
@@ -118,6 +135,7 @@ class RowInfoWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Text(
