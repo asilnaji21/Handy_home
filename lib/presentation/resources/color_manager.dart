@@ -10,6 +10,7 @@ class ColorManager {
   static const Color whiteColor = Color(0xffFFFFFF);
   static const onBoardingColor = Color(0xffF1FCFB);
   static const secondaryColor = Color(0xffABDCD8);
+  static const secondaryLightColor = Color(0xFFECEFEF);
   static Color statusErrorColor = const Color(0xffBF2828);
   static Color statusValidColor = const Color(0xff149C32);
   static const Color placeholderColor = Color(0xff868686);

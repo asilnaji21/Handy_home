@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:handy_home_app/customwidget/custom_button_with_background_widget.dart';
 
 import '../../../resources/color_manager.dart';
 import '../../../resources/style_manager.dart';
@@ -100,20 +101,13 @@ Future<dynamic> ratingBottomSheet(BuildContext context,
                 ],
               ),
             ),
-            Container(
-              height: 80,
-              width: double.infinity,
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              child: ElevatedButton(
+            CustomButtonWithBackgroundWidget(
                 onPressed: () {
                   if (fieldKey.currentState!.validate()) {
                     print('rating ok');
                   }
                 },
-                child: const Text('تأكيد التقييم'),
-              ),
-            )
+                text: 'تأكيد التقييم')
           ],
         ),
       ),

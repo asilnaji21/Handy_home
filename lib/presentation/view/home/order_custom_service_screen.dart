@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/customwidget/custom_button_with_background_widget.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
 
 import '../../resources/style_manager.dart';
@@ -179,21 +180,16 @@ class _OrderCustomServiceScreenState extends State<OrderCustomServiceScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 80,
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-        child: ElevatedButton(
-          onPressed: () {
-            if (formKey.currentState!.validate()) {
-              NavigationManager.goToAndRemove(
-                RouteConstants.serviceInfoRoute,
-                argument: true,
-              );
-            }
-          },
-          child: const Text('طلب الخدمة'),
-        ),
+      bottomNavigationBar: CustomButtonWithBackgroundWidget(
+        onPressed: () {
+          if (formKey.currentState!.validate()) {
+            NavigationManager.goToAndRemove(
+              RouteConstants.serviceInfoRoute,
+              argument: true,
+            );
+          }
+        },
+        text: 'طلب الخدمة',
       ),
     );
   }

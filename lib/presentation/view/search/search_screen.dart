@@ -34,7 +34,8 @@ class SearchScreen extends StatelessWidget {
           ),
           Expanded(
               child: ListView(
-            padding: EdgeInsets.only(right: 30),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.only(right: 30),
             children: [
               Text(
                 'عمليات البحث الاخيرة',
@@ -43,6 +44,7 @@ class SearchScreen extends StatelessWidget {
               SizedBox(
                 height: 205,
                 child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) => const SingleServiceWidget(
                     width: 160,
                   ),
@@ -60,6 +62,7 @@ class SearchScreen extends StatelessWidget {
               SizedBox(
                 height: 205,
                 child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) => const SingleServiceWidget(
                     width: 160,
                   ),
@@ -77,6 +80,7 @@ class SearchScreen extends StatelessWidget {
               SizedBox(
                 height: 205,
                 child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) => const SingleServiceWidget(
                     width: 160,
                   ),

@@ -20,17 +20,19 @@ class MyApp extends StatelessWidget {
       designSize: const Size(393, 852),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => MaterialApp(
-        theme: getApplicationTheme(),
-        debugShowCheckedModeBanner: false,
-        initialRoute: SharedPrefController().getUser().accessToken != null
-            ? RouteConstants.homeRoute
-            : RouteConstants.loginRoute,
-        onGenerateRoute: RouteGenerator.generateRoutes,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        navigatorKey: NavigationManager.navigatorKey,
+      builder: (context, child) => SafeArea(
+        child: MaterialApp(
+          theme: getApplicationTheme(),
+          debugShowCheckedModeBanner: false,
+          initialRoute: SharedPrefController().getUser().accessToken != null
+              ? RouteConstants.homeRoute
+              : RouteConstants.loginRoute,
+          onGenerateRoute: RouteGenerator.generateRoutes,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          navigatorKey: NavigationManager.navigatorKey,
+        ),
       ),
     );
   }

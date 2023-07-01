@@ -7,6 +7,8 @@ class CustomTextFormField extends StatefulWidget {
       TextEditingController? controller,
       required this.text,
       this.fieldKey,
+      this.minLines = 1,
+      this.maxLines = 1,
       this.validator,
       this.obscureIconEnable = false,
       this.obscureText = false})
@@ -18,6 +20,8 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController? _controller;
   final bool obscureText;
   final GlobalKey<FormFieldState>? fieldKey;
+  final int? minLines;
+  final int? maxLines;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -33,6 +37,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         cursorColor: Colors.black,
         obscureText: widget.obscureIconEnable ? isVisible : false,
         controller: widget._controller,
+        minLines: widget.minLines,
+        maxLines: widget.maxLines,
         decoration: InputDecoration(
           suffixIcon: widget.obscureIconEnable
               ? IconButton(

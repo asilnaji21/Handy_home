@@ -12,6 +12,8 @@ import 'package:handy_home_app/presentation/view/home/category_screen.dart';
 import 'package:handy_home_app/presentation/view/home/order_custom_service_screen.dart';
 import 'package:handy_home_app/presentation/view/home/service_details_screen.dart';
 import 'package:handy_home_app/presentation/view/home/service_info_screen.dart';
+import 'package:handy_home_app/presentation/view/profile/become_service_provider_application_screen.dart';
+import 'package:handy_home_app/presentation/view/profile/become_service_provider_info_screen.dart';
 import '../../bussiness logic/onboardingManager/on_boarding_cubit.dart';
 import '../../presentation/view/authentication/newpassword_view.dart';
 import '../../presentation/view/authentication/restorepassword_view.dart';
@@ -72,20 +74,26 @@ class RouteGenerator {
       case RouteConstants.serviceInfoRoute:
         return MaterialPageRoute(
             builder: (_) => ServiceInfoScreen(
-              isCustomService: settings.arguments as bool?,
-            ));
+                  isCustomService: settings.arguments as bool?,
+                ));
       case RouteConstants.orderCustomServiceRoute:
         return MaterialPageRoute(
             builder: (_) => const OrderCustomServiceScreen());
       case RouteConstants.homeRoute:
-        return MaterialPageRoute(
-            builder: (_) => const AppBNB());
+        return MaterialPageRoute(builder: (_) => const AppBNB());
       case RouteConstants.emailOtpRoute:
         return MaterialPageRoute(
             builder: (_) => BlocProvider<AuthCubit>(
                   create: (context) => AuthCubit(),
                   child: const EmailOtpScreen(),
                 ));
+
+      case RouteConstants.becomeServiceProviderInfoScreen:
+        return MaterialPageRoute(
+            builder: (_) => const BecomeServiceProviderInfoScreen());
+      case RouteConstants.becomeServiceProviderApplicationScreen:
+        return MaterialPageRoute(
+            builder: (_) => const BecomeServiceProviderApplicationScreen());
       default:
         return unDefineRoute();
     }

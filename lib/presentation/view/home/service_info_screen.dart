@@ -70,6 +70,7 @@ class ServiceInfoScreen extends StatelessWidget {
                 NavigationManager.goToAndRemove(RouteConstants.homeRoute);
               },
               child: const Text(
+                
                 'العودة لصغحة الخدمات',
                 style: TextStyle(
                   color: ColorManager.primaryMainEnableColor,

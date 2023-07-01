@@ -11,6 +11,7 @@ class ActiveOrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) => Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           margin: const EdgeInsets.symmetric(

@@ -14,6 +14,7 @@ class HomeHorizontalCategoryWidget extends StatelessWidget {
     return SizedBox(
       height: 250,
       child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.only(right: 27),
         scrollDirection: Axis.horizontal,
         itemCount: 10,

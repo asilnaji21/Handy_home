@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/bussiness%20logic/bnbManager/bnb_manager_cubit.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/view/bookedServices/booked_services_screen.dart';
+import 'package:handy_home_app/presentation/view/profile/profile_screen.dart';
 import 'package:handy_home_app/presentation/view/search/search_screen.dart';
 
 import '../../resources/assets_manager.dart';
@@ -54,6 +55,5 @@ List<Widget> tabs = [
   Text('1'),
   const BookedServiceScreen(),
   const SearchScreen(),
-  Text('4'),
-  Text('5'),
+  const ProfileScreen()
 ];

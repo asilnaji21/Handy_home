@@ -38,4 +38,10 @@ class IconPath {
   static const String notificationIcon = '${baseIconUrl}notification_icon.svg';
   static const String profileIcon = '${baseIconUrl}profile_icon.svg';
   static const String searchIcon = '${baseIconUrl}search_icon.svg';
+  static const String dollarIcon = '${baseIconUrl}dollar_icon.svg';
+  static const String logoutIcon = '${baseIconUrl}logout_icon.svg';
+
+  
+
+  
 }
