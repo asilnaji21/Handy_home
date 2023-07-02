@@ -33,7 +33,7 @@ extension ValidationExt on String {
 
   String? get isValidPhone {
     String? result;
-    final phoneRegExp = RegExp(r"^\+?[0-9]{7}$");
+    final phoneRegExp = RegExp(r"^\+?[0-9]{8}$");
     if (isEmpty) {
       result = 'هذا الحقل مطلوب';
     } else if (!(phoneRegExp.hasMatch(this))) {
