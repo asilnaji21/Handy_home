@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/customwidget/custom_button_with_background_widget.dart';
 import 'package:handy_home_app/customwidget/textformfield_custom.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
 
+import '../../resources/assets_manager.dart';
 import '../home/category_screen.dart';
 import '../home/order_custom_service_screen.dart';
 
@@ -103,11 +105,17 @@ class _BecomeServiceProviderApplicationScreenState
                     const SizedBox(
                       height: 16,
                     ),
-                    CustomTextFormField(
-                      validator: (value) => value!.isValidPhone,
+                    TextFormField(
                       controller: phoneController,
-                      text: 'رقم الاتصال',
+                      validator: (value) => value!.isValidPhone,
                       keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: 'رقم الاتصال',
+                        suffixIcon: SvgPicture.asset(
+                          IconPath.mobilePrefixIcon,
+                          fit: BoxFit.none,
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 16,

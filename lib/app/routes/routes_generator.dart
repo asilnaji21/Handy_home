@@ -12,6 +12,7 @@ import 'package:handy_home_app/presentation/view/home/category_screen.dart';
 import 'package:handy_home_app/presentation/view/home/order_custom_service_screen.dart';
 import 'package:handy_home_app/presentation/view/home/service_details_screen.dart';
 import 'package:handy_home_app/presentation/view/home/service_info_screen.dart';
+import 'package:handy_home_app/presentation/view/profile/addresses_management.dart';
 import 'package:handy_home_app/presentation/view/profile/become_service_provider_application_screen.dart';
 import 'package:handy_home_app/presentation/view/profile/become_service_provider_info_screen.dart';
 import '../../bussiness logic/onboardingManager/on_boarding_cubit.dart';
@@ -94,6 +95,10 @@ class RouteGenerator {
       case RouteConstants.becomeServiceProviderApplicationScreen:
         return MaterialPageRoute(
             builder: (_) => const BecomeServiceProviderApplicationScreen());
+
+      case RouteConstants.addressesManagementScreen:
+        return MaterialPageRoute(
+            builder: (_) => const AddressesManagementScreen());
       default:
         return unDefineRoute();
     }

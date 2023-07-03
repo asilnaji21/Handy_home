@@ -58,6 +58,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   ))
               : null,
           fillColor: ColorManager.whiteColor,
+
+         
           filled: true,
           border: InputBorder.none,
           hintText: widget.text,

@@ -130,7 +130,10 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   ProfileCustomListTile(
                     text: 'إدارة العناوين',
-                    onTap: () {},
+                    onTap: () {
+                      NavigationManager.pushNamed(
+                          RouteConstants.addressesManagementScreen);
+                    },
                   ),
                 ],
               ),

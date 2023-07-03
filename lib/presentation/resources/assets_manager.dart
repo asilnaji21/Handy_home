@@ -25,11 +25,10 @@ class ImagePath {
   static const String serviceImage = "$IMAGE_PATH/service_image.png";
   static const String profileImage = "$IMAGE_PATH/profile_image.png";
   static const String doneImage = "$IMAGE_PATH/done_image.png";
-  static const String customServiceImage = "$IMAGE_PATH/custom_service_image.png";
-  static const String codeVerificationImage = "$IMAGE_PATH/code_verification_image.png";
-
-  
-
+  static const String customServiceImage =
+      "$IMAGE_PATH/custom_service_image.png";
+  static const String codeVerificationImage =
+      "$IMAGE_PATH/code_verification_image.png";
 }
 
 class IconPath {
@@ -40,8 +39,5 @@ class IconPath {
   static const String searchIcon = '${baseIconUrl}search_icon.svg';
   static const String dollarIcon = '${baseIconUrl}dollar_icon.svg';
   static const String logoutIcon = '${baseIconUrl}logout_icon.svg';
-
-  
-
-  
+  static const String mobilePrefixIcon = '${baseIconUrl}mobile_prefix_icon.svg';
 }

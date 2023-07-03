@@ -13,8 +13,9 @@ class RouteConstants {
   static const String serviceInfoRoute = "serviceInfoRoute";
   static const String emailOtpRoute = "emailOtpRoute";
   static const String orderCustomServiceRoute = "orderCustomServiceRoute";
-  static const String becomeServiceProviderApplicationScreen = "becomeServiceProviderApplicationScreen";
-  static const String becomeServiceProviderInfoScreen = "becomeServiceProviderInfoScreen";
-
-
+  static const String becomeServiceProviderApplicationScreen =
+      "becomeServiceProviderApplicationScreen";
+  static const String becomeServiceProviderInfoScreen =
+      "becomeServiceProviderInfoScreen";
+  static const String addressesManagementScreen = "addressesManagementScreen";
 }
