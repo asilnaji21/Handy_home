@@ -53,6 +53,7 @@ class ActiveOrderScreen extends StatelessWidget {
                     )),
                 const Expanded(
                     child: OrderStatusWidget(
+                      text: 'قيد التنفيذ',
                   alignment: Alignment.bottomCenter,
                   backgroundColor: ColorManager.blueLightColor,
                   textColor: ColorManager.blueDarkColor,

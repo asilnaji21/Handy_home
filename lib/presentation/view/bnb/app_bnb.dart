@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/bussiness%20logic/bnbManager/bnb_manager_cubit.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/view/bookedServices/booked_services_screen.dart';
+import 'package:handy_home_app/presentation/view/notification/nofification_screen.dart';
 import 'package:handy_home_app/presentation/view/profile/profile_screen.dart';
 import 'package:handy_home_app/presentation/view/search/search_screen.dart';
 
@@ -52,7 +53,7 @@ List<String> iconItemsPath = [
 
 List<Widget> tabs = [
   const HomeScreen(),
-  Text('1'),
+  const NotificationScreen(),
   const BookedServiceScreen(),
   const SearchScreen(),
   const ProfileScreen()

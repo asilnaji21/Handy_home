@@ -53,6 +53,7 @@ class AllOrderScreen extends StatelessWidget {
                     )),
                 const Expanded(
                     child: OrderStatusWidget(
+                  text: 'مرفوض',
                   alignment: Alignment.bottomCenter,
                   backgroundColor: ColorManager.redLightColor,
                   textColor: ColorManager.redDarkColor,

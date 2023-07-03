@@ -46,6 +46,7 @@ class ServiceInfoScreen extends StatelessWidget {
             const RowInfoWidget(
               label: 'حالة الطلب:',
               orderStatusWidget: OrderStatusWidget(
+                text: 'قيد المراجعة',
                 backgroundColor: ColorManager.orangeLightColor,
                 textColor: ColorManager.orangeDarkColor,
               ),
@@ -92,12 +93,14 @@ class OrderStatusWidget extends StatelessWidget {
   const OrderStatusWidget({
     required this.backgroundColor,
     required this.textColor,
+    required this.text,
     this.alignment = Alignment.centerRight,
     Key? key,
   }) : super(key: key);
   final Color backgroundColor;
   final Color textColor;
   final AlignmentGeometry alignment;
+  final String text;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -109,7 +112,7 @@ class OrderStatusWidget extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30), color: backgroundColor),
         child: Text(
-          'قيد المراجعة',
+          text,
           style: TextStyle(
             fontSize: 14,
             color: textColor,
