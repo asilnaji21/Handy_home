@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/bussiness%20logic/authCubit/auth_cubit.dart';
+import 'package:handy_home_app/customwidget/custom_dialog_widget.dart';
+import 'package:handy_home_app/data/network/local/local_network.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 
+import '../../../app/locator.dart';
+import '../../../bussiness logic/authCubit/auth_state.dart';
+import '../../../customwidget/loading_widget.dart';
+import '../../../customwidget/snackbar.dart';
 import '../../resources/style_manager.dart';
 import 'ProfileComponents/profile_custom_list_tile.dart';
 
@@ -192,27 +200,59 @@ class ProfileScreen extends StatelessWidget {
           Card(
               color: Colors.white,
               elevation: 0,
-              margin: EdgeInsets.only(top: 16),
+              margin: const EdgeInsets.only(top: 16),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
-              child: ListTile(
-                onTap: () => print('log out'),
-                title: Text('تسجيل الخروح',
-                    style: StyleManger.headline1(
-                      fontSize: 14,
-                      color: ColorManager.redDarkColor,
-                    )),
-                trailing: Container(
-                  height: 22,
-                  width: 22,
-                  margin: EdgeInsets.zero,
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    color: ColorManager.redLightColor,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: SvgPicture.asset(
-                    IconPath.logoutIcon,
+              child: BlocListener<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is LogoutState &&
+                      state.logoutStatus == LogoutStatus.success) {
+                    showSnackBar(context,
+                        text: state.message ?? '',
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white);
+                    NavigationManager.goToAndRemove(RouteConstants.loginRoute);
+                  } else if (state is LogoutState &&
+                      state.logoutStatus == LogoutStatus.failed) {
+                    NavigationManager.pop();
+                    showSnackBar(context,
+                        text: state.message ?? '',
+                        backgroundColor: Colors.grey,
+                        textColor: Colors.black);
+                  } else if (state is LogoutState &&
+                      state.logoutStatus == LogoutStatus.loading) {
+                    showLoading(context);
+                  }
+                },
+                child: ListTile(
+                  onTap: () async {
+                    bool? value = await customDialogWidget(context,
+                        message: 'هل انت متأكد من تسجيل الخروج؟');
+                    if (value != null && value == true) {
+                      context.read<AuthCubit>().logout(
+                          refresh: getIt<SharedPrefController>()
+                              .getUser()
+                              .refreshToken);
+                      getIt<SharedPrefController>().isLoggedIn(value: false);
+                    }
+                  },
+                  title: Text('تسجيل الخروح',
+                      style: StyleManger.headline1(
+                        fontSize: 14,
+                        color: ColorManager.redDarkColor,
+                      )),
+                  trailing: Container(
+                    height: 22,
+                    width: 22,
+                    margin: EdgeInsets.zero,
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: ColorManager.redLightColor,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: SvgPicture.asset(
+                      IconPath.logoutIcon,
+                    ),
                   ),
                 ),
               ))

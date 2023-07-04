@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/customwidget/richtext_custom.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
@@ -16,8 +15,8 @@ import '../../../customwidget/loading_widget.dart';
 import '../../../customwidget/snackbar.dart';
 
 class EmailOtpScreen extends StatefulWidget {
-  const EmailOtpScreen({Key? key}) : super(key: key);
-
+  const EmailOtpScreen({required this.email, Key? key}) : super(key: key);
+  final String email;
   @override
   State<EmailOtpScreen> createState() => _EmailOtpScreenState();
 }
@@ -39,6 +38,7 @@ class _EmailOtpScreenState extends State<EmailOtpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.email);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -144,11 +144,35 @@ class _EmailOtpScreenState extends State<EmailOtpScreen> {
             const SizedBox(
               height: 16,
             ),
-            RichTextCustom(
-                text1: 'لم تستلم بريد التفعيل؟ ',
-                text2: 'اضغط هنا',
-                color: ColorManager.brownColor,
-                onPressed: () {}),
+            BlocListener<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is ResendCodeState &&
+                    state.resendCodeStatus == ResendCodeStatus.success) {
+                  NavigationManager.pop();
+                  showSnackBar(context,
+                      text: state.message ?? '',
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white);
+                } else if (state is ResendCodeState &&
+                    state.resendCodeStatus == ResendCodeStatus.failed) {
+                  NavigationManager.pop();
+                  showSnackBar(context,
+                      text: state.message ?? '',
+                      backgroundColor: Colors.grey,
+                      textColor: Colors.black);
+                } else if (state is ResendCodeState &&
+                    state.resendCodeStatus == ResendCodeStatus.loading) {
+                  showLoading(context);
+                }
+              },
+              child: RichTextCustom(
+                  text1: 'لم تستلم بريد التفعيل؟ ',
+                  text2: 'اضغط هنا',
+                  color: ColorManager.brownColor,
+                  onPressed: () {
+                    context.read<AuthCubit>().resendCode(email: widget.email);
+                  }),
+            ),
           ],
         ),
       ),

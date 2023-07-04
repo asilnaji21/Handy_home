@@ -5,12 +5,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/bussiness%20logic/authCubit/auth_cubit.dart';
+import 'package:handy_home_app/bussiness%20logic/bnbManager/bnb_manager_cubit.dart';
 import 'package:handy_home_app/customwidget/loading_widget.dart';
 import 'package:handy_home_app/customwidget/richtext_custom.dart';
 import 'package:handy_home_app/customwidget/sizedbox_custom.dart';
 import 'package:handy_home_app/customwidget/snackbar.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import '../../../bussiness logic/authCubit/auth_state.dart';
+import '../../../data/network/local/local_network.dart';
 import '../../resources/validation_manager.dart';
 import '../../../app/l10n/locale_keys.g.dart';
 import '../../../customwidget/button_custom.dart';
@@ -99,11 +101,13 @@ class _LoginViewState extends State<LoginView> {
           ),
           BlocListener<AuthCubit, AuthState>(
             listener: (context, state) {
-              if (state is LoginState&&state.loginCodeStatus ==LoginStatus.loggedInSuccessfully) {
+              if (state is LoginState &&
+                  state.loginCodeStatus == LoginStatus.loggedInSuccessfully) {
                 showSnackBar(context,
                     text: state.message ?? '',
                     backgroundColor: Colors.green,
                     textColor: Colors.white);
+                context.read<BnbManagerCubit>().onSelectItem(0);
                 NavigationManager.goToAndRemove(RouteConstants.homeRoute);
               } else if (state is LoginState &&
                   state.loginCodeStatus == LoginStatus.loggedInFailed) {

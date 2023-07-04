@@ -8,7 +8,7 @@ import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthRepository authRepo = AuthRepository();
-  AuthCubit() : super(RegisterInitialState());
+  AuthCubit() : super(AuthInitialState());
 
   login({required String email, required String password}) async {
     emit(LoginState(loginCodeStatus: LoginStatus.loggedInLoading));
@@ -19,6 +19,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
     data.fold((l) {
       getIt<SharedPrefController>().save(l.data as UserModel);
+      getIt<SharedPrefController>().isLoggedIn(value: true);
       emit(LoginState(
           loginCodeStatus: LoginStatus.loggedInSuccessfully,
           message: 'Logged in successfully'));
@@ -110,5 +111,34 @@ class AuthCubit extends Cubit<AuthState> {
         (r) => emit(ResetNewPasswordState(
             resetNewPasswordStatus: ResetNewPasswordStatus.loading,
             message: r.message.toString())));
+  }
+
+  resendCode({required String email}) async {
+    emit(ResendCodeState(resendCodeStatus: ResendCodeStatus.loading));
+
+    final data = await authRepo.resendCode(email: email);
+
+    data.fold(
+        (l) => emit(ResendCodeState(
+            resendCodeStatus: ResendCodeStatus.success, message: l.data)),
+        (r) => emit(ResendCodeState(
+            resendCodeStatus: ResendCodeStatus.failed, message: r.message)));
+  }
+
+  logout({required String refresh}) async {
+    emit(LogoutState(logoutStatus: LogoutStatus.loading));
+
+    final data = await authRepo.logout(refresh: refresh);
+
+    data.fold(
+      (l) => emit(
+          LogoutState(logoutStatus: LogoutStatus.success, message: l.data)),
+      (r) => emit(
+        LogoutState(
+          logoutStatus: LogoutStatus.failed,
+          message: r.message,
+        ),
+      ),
+    );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/bussiness%20logic/authCubit/auth_cubit.dart';
-import 'package:handy_home_app/bussiness%20logic/bnbManager/bnb_manager_cubit.dart';
 import 'package:handy_home_app/presentation/view/authentication/email_opt_screen.dart';
 import 'package:handy_home_app/presentation/view/authentication/emailconfirmation_view.dart';
 import 'package:handy_home_app/presentation/view/authentication/emailverification_view.dart';
@@ -86,7 +85,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => BlocProvider<AuthCubit>(
                   create: (context) => AuthCubit(),
-                  child: const EmailOtpScreen(),
+                  child:  EmailOtpScreen(email: settings.arguments as String,),
                 ));
 
       case RouteConstants.becomeServiceProviderInfoScreen:

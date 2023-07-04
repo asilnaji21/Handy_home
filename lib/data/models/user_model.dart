@@ -16,4 +16,7 @@ class UserModel {
 
   Map<String, dynamic> toJson() =>
       {"refresh": refreshToken, "access": accessToken};
+
+  @override
+  String toString() => 'UserModel(refreshToken: $refreshToken, accessToken: $accessToken)';
 }

@@ -104,9 +104,45 @@ class AuthRepository {
           "new_password1": newPassword,
           "new_password2": newPassword
         });
-    
+
     if (response is ApiSuccess) {
-      return left(ApiSuccess(response.data['detail'].toString(), response.statusCode));
+      return left(
+          ApiSuccess(response.data['detail'].toString(), response.statusCode));
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message.toString()));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> resendCode(
+      {required String email}) async {
+    ApiResults response =
+        await dioHelper.postData(endPoint: Endpoints.resendCode, data: {
+      "email": email,
+    });
+
+    if (response is ApiSuccess) {
+      return left(
+          ApiSuccess(response.data['detail'].toString(), response.statusCode));
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message["detail"][0].toString()));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> logout(
+      {required String refresh}) async {
+    ApiResults response =
+        await dioHelper.postData(endPoint: Endpoints.logout, data: {
+      "refresh": refresh,
+    });
+
+    if (response is ApiSuccess) {
+      return left(ApiSuccess('نم تسجيل الخروج بنجاح', response.statusCode));
     } else {
       if (response is ApiFailure && response.statusCode == 400) {
         return right(ApiFailure(response.message.toString()));

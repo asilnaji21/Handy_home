@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 abstract class AuthState {}
 
+class AuthInitialState extends AuthState {}
+
 //this states for login
 enum LoginStatus {
   loggedInSuccessfully,
@@ -69,4 +71,22 @@ class ResetNewPasswordState extends AuthState {
   ResetNewPasswordStatus resetNewPasswordStatus;
   String? message;
   ResetNewPasswordState({required this.resetNewPasswordStatus, this.message});
+}
+
+// this states for resend code
+enum ResendCodeStatus { success, loading, failed }
+
+class ResendCodeState extends AuthState {
+  ResendCodeStatus resendCodeStatus;
+  String? message;
+  ResendCodeState({required this.resendCodeStatus, this.message});
+}
+
+// this states for logout
+enum LogoutStatus { success, loading, failed }
+
+class LogoutState extends AuthState {
+  LogoutStatus logoutStatus;
+  String? message;
+  LogoutState({required this.logoutStatus, this.message});
 }

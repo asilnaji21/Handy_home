@@ -6,7 +6,7 @@ import '../../models/user_model.dart';
 
 enum PrefKeys {
   user,
-  token,
+  isLoggedIn,
 }
 
 class SharedPrefController {
@@ -35,6 +35,14 @@ class SharedPrefController {
     String userJson = preferences.getString(PrefKeys.user.toString()) ?? '';
     final userObject = jsonDecode(userJson);
     return UserModel.fromJson(userObject);
+  }
+
+  isLoggedIn({required bool value}) {
+    preferences.setBool(PrefKeys.isLoggedIn.toString(), value);
+  }
+
+  bool getLoggedIn() {
+    return preferences.getBool(PrefKeys.isLoggedIn.toString()) ?? false;
   }
 
   clear() {

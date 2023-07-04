@@ -7,6 +7,7 @@ import 'package:handy_home_app/app/routes/routes_generator.dart';
 import 'package:handy_home_app/data/network/local/local_network.dart';
 
 import '../presentation/resources/theme_manager.dart';
+import 'locator.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp._internal();
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           theme: getApplicationTheme(),
           debugShowCheckedModeBanner: false,
-          initialRoute: SharedPrefController().getUser().accessToken != null
+          // initialRoute: RouteConstants.loginRoute,
+          initialRoute: getIt<SharedPrefController>().getLoggedIn()
               ? RouteConstants.homeRoute
               : RouteConstants.loginRoute,
           onGenerateRoute: RouteGenerator.generateRoutes,

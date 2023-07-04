@@ -107,7 +107,8 @@ class _SigUpViewState extends State<SigUpView> {
                       text: state.message,
                       backgroundColor: Colors.green,
                       textColor: Colors.white);
-                  NavigationManager.goToAndRemove(RouteConstants.emailOtpRoute);
+                  NavigationManager.goToAndRemove(RouteConstants.emailOtpRoute,
+                      argument: _emailController.text);
                 } else if (state is RegisterFailureState) {
                   NavigationManager.pop();
                   showSnackBar(context,

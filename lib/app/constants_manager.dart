@@ -7,6 +7,8 @@ class Constant {
 class Endpoints {
   static const String baseUrl =
       'https://mohammedashrafdagga.pythonanywhere.com';
+
+  // auth endpoint
   static const String login = '/api/auth/login/';
 
   static const String register = '/api/auth/register/';
@@ -16,9 +18,12 @@ class Endpoints {
 
   static const String verifyResetPasswordCode =
       '/api/auth/verify-reset-password-code/';
-  static const String resetNewPassword=
-      '/api/auth/reset-new-password/';
-      
+  static const String resetNewPassword = '/api/auth/reset-new-password/';
+  static const String resendCode = '/api/auth/resend-code/';
+  static const String logout = '/api/auth/logout/';
+
+  //home service screen
+  static const String categories = '/api/services/categories/';
 }
 
 void printTest(String text) {
