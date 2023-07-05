@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
+import 'package:handy_home_app/presentation/view/home/category_screen.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../../../bussiness logic/homeCubit/home_cubit.dart';
@@ -21,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     context.read<HomeCubit>().categories();
+    context.read<HomeCubit>().latestAddedService();
     super.initState();
   }
 
@@ -44,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
+                print(state);
                 return GridView.builder(
                     padding: const EdgeInsets.only(top: 21),
                     shrinkWrap: true,
@@ -68,7 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         return InkWell(
                           onTap: () {
                             NavigationManager.pushNamed(
-                                RouteConstants.categoryRoute);
+                                RouteConstants.categoryRoute,
+                                arguments: index + 1);
                           },
                           child: Card(
                             elevation: 0,
@@ -78,7 +83,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.network(state.categories[index].icon),
+                                CachedNetworkImage(
+                                  imageUrl: state.categories[index].icon,
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
                                 Text(
                                   state.categories[index].name,
                                   style: StyleManger.headline1(fontSize: 14),
@@ -90,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       }
-                      return Image.asset(ImagePath.cleaningImage);
+                      return const CircularLoadingWidget();
                     });
               },
             ),
@@ -128,11 +139,47 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
+
+        //TODO: solve the latest service added and most ordered api "there is confilict at the state"
         HomeCategoryLabelWidget(
           title: 'الأكثر طلباً',
           onPressed: () {},
         ),
-        const HomeHorizontalCategoryWidget(),
+        BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            print(state);
+            if (state is LatestServiceAddedLoadingState) {
+              return SkeletonItem(
+                  child: Container(
+                height: 250,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                color: Colors.white,
+              ));
+            } else if (state is LatestServiceAddedSuccessState) {
+              return SizedBox(
+                height: 250,
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.only(right: 27),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.services.length,
+                  itemBuilder: (context, index) => SingleServiceWidget(
+                    imageHeight: 180,
+                    image: state.services[index].image,
+                    price:
+                        '${state.services[index].priceFrom}-${state.services[index].priceTo}',
+                    serviceName: state.services[index].name,
+                  ),
+                ),
+              );
+            }
+            return const Icon(
+              Icons.error,
+              size: 30,
+            );
+          },
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -140,7 +187,41 @@ class _HomeScreenState extends State<HomeScreen> {
           title: 'المضافة حديثاً',
           onPressed: () {},
         ),
-        const HomeHorizontalCategoryWidget(),
+        BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            print(state);
+            if (state is LatestServiceAddedLoadingState) {
+              return SkeletonItem(
+                  child: Container(
+                height: 250,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                color: Colors.white,
+              ));
+            } else if (state is LatestServiceAddedSuccessState) {
+              return SizedBox(
+                height: 250,
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.only(right: 27),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.services.length,
+                  itemBuilder: (context, index) => SingleServiceWidget(
+                    imageHeight: 180,
+                    image: state.services[index].image,
+                    price:
+                        '${state.services[index].priceFrom}-${state.services[index].priceTo}',
+                    serviceName: state.services[index].name,
+                  ),
+                ),
+              );
+            }
+            return const Icon(
+              Icons.error,
+              size: 30,
+            );
+          },
+        )
       ],
     );
   }

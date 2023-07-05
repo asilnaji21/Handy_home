@@ -24,6 +24,15 @@ class Endpoints {
 
   //home service screen
   static const String categories = '/api/services/categories/';
+  static String servicesForCategory({required int id}) {
+    return '/api/services/category/$id/services/';
+  }
+
+  static String serviceDetails({required int id}) {
+    return '/api/services/$id/detail/';
+  }
+
+  static const String latestAdded = '/api/services/latest-add/';
 }
 
 void printTest(String text) {
