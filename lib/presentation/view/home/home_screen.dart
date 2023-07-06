@@ -22,9 +22,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    context.read<HomeCubit>().categories();
-    context.read<HomeCubit>().latestAddedService();
     super.initState();
+    context.read<HomeCubit>().categories();
+    context.read<LatestServiceCubit>().latestAddedService();
   }
 
   @override
@@ -67,8 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(8)),
                           margin: const EdgeInsets.all(5),
                         ));
-                      }
-                      if (state is CategorySuccessState) {
+                      } else if (state is CategorySuccessState) {
                         return InkWell(
                           onTap: () {
                             NavigationManager.pushNamed(
@@ -139,46 +138,12 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
-
-        //TODO: solve the latest service added and most ordered api "there is confilict at the state"
         HomeCategoryLabelWidget(
           title: 'الأكثر طلباً',
           onPressed: () {},
         ),
-        BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            print(state);
-            if (state is LatestServiceAddedLoadingState) {
-              return SkeletonItem(
-                  child: Container(
-                height: 250,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                color: Colors.white,
-              ));
-            } else if (state is LatestServiceAddedSuccessState) {
-              return SizedBox(
-                height: 250,
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.only(right: 27),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: state.services.length,
-                  itemBuilder: (context, index) => SingleServiceWidget(
-                    imageHeight: 180,
-                    image: state.services[index].image,
-                    price:
-                        '${state.services[index].priceFrom}-${state.services[index].priceTo}',
-                    serviceName: state.services[index].name,
-                  ),
-                ),
-              );
-            }
-            return const Icon(
-              Icons.error,
-              size: 30,
-            );
-          },
+        const HomeHorizontalCategoryWidget(
+          changeTheOrder: true,
         ),
         const SizedBox(
           height: 10,
@@ -187,40 +152,8 @@ class _HomeScreenState extends State<HomeScreen> {
           title: 'المضافة حديثاً',
           onPressed: () {},
         ),
-        BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            print(state);
-            if (state is LatestServiceAddedLoadingState) {
-              return SkeletonItem(
-                  child: Container(
-                height: 250,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                color: Colors.white,
-              ));
-            } else if (state is LatestServiceAddedSuccessState) {
-              return SizedBox(
-                height: 250,
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.only(right: 27),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: state.services.length,
-                  itemBuilder: (context, index) => SingleServiceWidget(
-                    imageHeight: 180,
-                    image: state.services[index].image,
-                    price:
-                        '${state.services[index].priceFrom}-${state.services[index].priceTo}',
-                    serviceName: state.services[index].name,
-                  ),
-                ),
-              );
-            }
-            return const Icon(
-              Icons.error,
-              size: 30,
-            );
-          },
+        const HomeHorizontalCategoryWidget(
+          changeTheOrder: false,
         )
       ],
     );

@@ -40,7 +40,12 @@ class HomeCubit extends Cubit<HomeState> {
       emit(ServiceDetailsSuccessState(serviceDetails: l.data as ServiceModel));
     }, (r) => emit(ServiceDetailsFailedState(message: r.message)));
   }
+}
 
+class LatestServiceCubit extends Cubit<LatestServiceAddedInitialState> {
+  HomeRepository homeRepository = HomeRepository();
+
+  LatestServiceCubit() : super(LatestServiceAddedInitialState());
   latestAddedService() async {
     emit(LatestServiceAddedLoadingState());
 

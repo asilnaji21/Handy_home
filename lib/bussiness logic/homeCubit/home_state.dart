@@ -49,14 +49,16 @@ class ServiceDetailsFailedState extends HomeState {
 
 //this states for "latest service added"
 
-class LatestServiceAddedLoadingState extends HomeState {}
 
-class LatestServiceAddedSuccessState extends HomeState {
+class LatestServiceAddedInitialState {}
+class LatestServiceAddedLoadingState extends LatestServiceAddedInitialState {}
+
+class LatestServiceAddedSuccessState extends LatestServiceAddedInitialState {
   final List<ServiceModel> services;
   LatestServiceAddedSuccessState({required this.services});
 }
 
-class LatestServiceAddedFailedState extends HomeState {
+class LatestServiceAddedFailedState extends LatestServiceAddedInitialState {
   final String message;
   LatestServiceAddedFailedState({required this.message});
 }

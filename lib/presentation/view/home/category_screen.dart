@@ -4,10 +4,10 @@ import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
-import 'package:handy_home_app/presentation/view/home/HomeComponents/home_horizontal_category_widget.dart';
 
 import '../../../bussiness logic/homeCubit/home_cubit.dart';
 import '../../../customwidget/search_custom_widget.dart';
+import 'HomeComponents/single_service_widget.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({required this.categoryId, Key? key}) : super(key: key);

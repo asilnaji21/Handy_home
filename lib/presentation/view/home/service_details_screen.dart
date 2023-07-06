@@ -46,10 +46,10 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
     return Scaffold(
         body: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
+            print(state);
             if (state is ServiceDetailsLoadingState) {
               return const CircularLoadingWidget();
             } else if (state is ServiceDetailsSuccessState) {
-              print(state.serviceDetails.reviews?.length);
               return Column(
                 children: [
                   Container(

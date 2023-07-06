@@ -3,6 +3,7 @@ import 'package:handy_home_app/presentation/view/home/HomeComponents/home_horizo
 
 import '../../../customwidget/search_custom_widget.dart';
 import '../../resources/style_manager.dart';
+import '../home/HomeComponents/single_service_widget.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
