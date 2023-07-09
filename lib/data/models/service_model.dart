@@ -9,7 +9,7 @@ class ServiceModel {
   final int? id;
   final List<ReviewModel>? reviews;
 
-  ServiceModel({
+  const ServiceModel({
     required this.name,
     required this.image,
     required this.priceFrom,
@@ -57,6 +57,11 @@ class ServiceModel {
     data['price_to'] = priceTo;
     data['detail'] = detail;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'ServiceModel(name: $name, image: $image, priceFrom: $priceFrom, priceTo: $priceTo, detail: $detail, serviceInclude: $serviceInclude, serviceExclude: $serviceExclude, id: $id, reviews: $reviews)';
   }
 }
 

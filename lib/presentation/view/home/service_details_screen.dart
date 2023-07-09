@@ -2,20 +2,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/bussiness%20logic/homeCubit/home_cubit.dart';
+import 'package:handy_home_app/data/models/service_model.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 import 'package:handy_home_app/presentation/view/home/category_screen.dart';
 import '../../../customwidget/custom_button_with_background_widget.dart';
-import '../../resources/assets_manager.dart';
 import 'HomeComponents/customer_comment_widget.dart';
 import 'HomeComponents/order_service_bottom_sheet.dart';
 import 'HomeComponents/rating_bottom_sheet.dart';
 import 'HomeComponents/stare_rating_widget.dart';
 
 class ServiceDetailsScreen extends StatefulWidget {
-  const ServiceDetailsScreen({required this.serviceId, Key? key})
-      : super(key: key);
-  final int serviceId;
+  const ServiceDetailsScreen({
+    required this.id,
+    Key? key,
+  }) : super(key: key);
+  final int id;
   @override
   State<ServiceDetailsScreen> createState() => _ServiceDetailsScreenState();
 }
@@ -24,10 +26,11 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   ScrollController scrollController = ScrollController();
   TextEditingController ratingController = TextEditingController();
   bool isScroll = false;
+  ServiceModel? service;
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().serviceDetails(id: widget.serviceId);
+    context.read<HomeCubit>().serviceDetails(id: widget.id);
     scrollController.addListener(() {
       setState(() {
         isScroll = scrollController.offset > 0;
@@ -44,9 +47,15 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocBuilder<HomeCubit, HomeState>(
+        body: BlocConsumer<HomeCubit, HomeState>(
+          listener: (context, state) {
+            if (state is ServiceDetailsSuccessState) {
+              setState(() {
+                service = state.serviceDetails;
+              });
+            }
+          },
           builder: (context, state) {
-            print(state);
             if (state is ServiceDetailsLoadingState) {
               return const CircularLoadingWidget();
             } else if (state is ServiceDetailsSuccessState) {
@@ -188,9 +197,6 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                               ),
                             )
                             .toList(),
-                        // const CustomerCommentWidget(),
-                        // const CustomerCommentWidget(),
-                        // const CustomerCommentWidget(),
                       ],
                     ),
                   ),
@@ -212,23 +218,25 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 backgroundColor: ColorManager.background,
                 useSafeArea: true,
                 isScrollControlled: true,
-                builder: (context) => const OrderServiceBottomSheet(),
+                builder: (context) => OrderServiceBottomSheet(
+                  service: service,
+                ),
               );
             },
             text: 'اطلب هذه الخدمة'));
   }
 }
 
-List<String> include = [
-  'توصيل خطوط المياه ساخنة وباردة ',
-  'اصلاح "ضعف المياه, التسريب, خلاط المياه"',
-  'ضمانة تطبيقنا على الخدمة وضمانة على الاعطال بعد الصيانة التركيب',
-  'ضمانة على جميع القطع المركبة',
-];
+// List<String> include = [
+//   'توصيل خطوط المياه ساخنة وباردة ',
+//   'اصلاح "ضعف المياه, التسريب, خلاط المياه"',
+//   'ضمانة تطبيقنا على الخدمة وضمانة على الاعطال بعد الصيانة التركيب',
+//   'ضمانة على جميع القطع المركبة',
+// ];
 
-List<String> exclude = [
-  'توصيل خطوط المياه ساخنة وباردة ',
-  'اصلاح "ضعف المياه, التسريب, خلاط المياه"',
-  'ضمانة تطبيقنا على الخدمة وضمانة على الاعطال بعد الصيانة التركيب',
-  'ضمانة على جميع القطع المركبة',
-];
+// List<String> exclude = [
+//   'توصيل خطوط المياه ساخنة وباردة ',
+//   'اصلاح "ضعف المياه, التسريب, خلاط المياه"',
+//   'ضمانة تطبيقنا على الخدمة وضمانة على الاعطال بعد الصيانة التركيب',
+//   'ضمانة على جميع القطع المركبة',
+// ];

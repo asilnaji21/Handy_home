@@ -52,14 +52,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   },
                   icon: Icon(
                     isVisible
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
                     color: Colors.grey.shade600,
                   ))
               : null,
           fillColor: ColorManager.whiteColor,
-
-         
           filled: true,
           border: InputBorder.none,
           hintText: widget.text,
