@@ -74,34 +74,9 @@ class DioHelper {
       print(
           '************************: ${e.message} -- ${e.response?.statusCode} -- ${e.type} -- ${e.response?.data}');
       if (e.type == DioErrorType.badResponse) {
-        if (e.response?.data["detail"] ==
-            'Given token not valid for any token type') {
-          try {
-            Response response = await dio.post(Endpoints.refreshToken, data: {
-              "refresh": getIt<SharedPrefController>().getUser().refreshToken
-            });
-
-            final String refreshToken =
-                getIt<SharedPrefController>().getUser().refreshToken;
-            getIt<SharedPrefController>().save(UserModel(
-                accessToken: response.data["access"],
-                refreshToken: refreshToken));
-            AwesomeDialog(
-              context: NavigationManager.navigatorKey.currentContext!,
-              dialogType: DialogType.info,
-              animType: AnimType.rightSlide,
-              title: 'تمديد الحلسة',
-              desc: 'تم نمديد جلستك في التطبيق ',
-              btnOkOnPress: () {
-                NavigationManager.pop();
-              },
-            ).show();
-          } on DioError catch (e) {
-            print(e.error);
-          }
-        }
+        await refreshToken(e);
         return ApiFailure(
-            e.response?.data["detail"] ?? 'incorrect login credentials');
+            e.response?.data["detail"] ?? 'some thing went wrong , try again');
         // return ApiFailure(e.message);
       } else if (e.type == DioErrorType.connectionTimeout) {
         // print('check your connection');
@@ -114,6 +89,34 @@ class DioHelper {
       }
     } catch (e) {
       return ApiFailure("$e An error occurred, try again");
+    }
+  }
+
+  Future<void> refreshToken(DioError e) async {
+    if (e.response?.data["detail"] ==
+        'Given token not valid for any token type') {
+      AwesomeDialog(
+        context: NavigationManager.navigatorKey.currentContext!,
+        dialogType: DialogType.info,
+        animType: AnimType.rightSlide,
+        title: 'نمديد جلستك في التطبيق',
+        btnOkOnPress: () async {
+          try {
+            Response response = await dio.post(Endpoints.refreshToken, data: {
+              "refresh": getIt<SharedPrefController>().getUser().refreshToken
+            });
+
+            final String refreshToken =
+                getIt<SharedPrefController>().getUser().refreshToken;
+            getIt<SharedPrefController>().save(UserModel(
+                accessToken: response.data["access"],
+                refreshToken: refreshToken));
+          } on DioError catch (e) {
+            NavigationManager.pop();
+            print(e.error);
+          }
+        },
+      ).show();
     }
   }
 
@@ -145,8 +148,9 @@ class DioHelper {
       return ApiFailure("Data syntax error");
     } on DioError catch (e) {
       if (e.type == DioErrorType.badResponse) {
-        // return ApiFailure(e.response!.data['message']);
-        return ApiFailure(e.message.toString());
+        await refreshToken(e);
+        return ApiFailure(
+            e.response?.data["detail"] ?? 'some thing went wrong , try again');
       } else if (e.type == DioErrorType.connectionTimeout) {
         // print('check your connection');
         return ApiFailure("Make sure you are connected to the internet");
