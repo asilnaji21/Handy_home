@@ -254,6 +254,7 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                             textColor: Colors.white);
                       } else if (state is OrderFixedServiceFailedState) {
                         NavigationManager.pop();
+                        NavigationManager.pop();
                         showSnackBar(context,
                             text: state.message,
                             backgroundColor: Colors.grey,

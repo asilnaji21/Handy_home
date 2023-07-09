@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class UserModel {
-  final String refreshToken;
-  final String accessToken;
+  final  String refreshToken;
+  final  String accessToken;
   UserModel({
     required this.refreshToken,
     required this.accessToken,
@@ -19,4 +19,14 @@ class UserModel {
 
   @override
   String toString() => 'UserModel(refreshToken: $refreshToken, accessToken: $accessToken)';
+
+  UserModel copyWith({
+    String? refreshToken,
+    String? accessToken,
+  }) {
+    return UserModel(
+      refreshToken: refreshToken ?? this.refreshToken,
+      accessToken: accessToken ?? this.accessToken,
+    );
+  }
 }

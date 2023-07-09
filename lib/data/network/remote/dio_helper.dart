@@ -1,4 +1,11 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:handy_home_app/app/locator.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
+import 'package:handy_home_app/customwidget/snackbar.dart';
+import 'package:handy_home_app/data/models/user_model.dart';
+import 'package:handy_home_app/data/network/local/local_network.dart';
 import 'dart:io';
 import '../../../../app/constants_manager.dart';
 import 'api_result_handler.dart';
@@ -67,6 +74,32 @@ class DioHelper {
       print(
           '************************: ${e.message} -- ${e.response?.statusCode} -- ${e.type} -- ${e.response?.data}');
       if (e.type == DioErrorType.badResponse) {
+        if (e.response?.data["detail"] ==
+            'Given token not valid for any token type') {
+          try {
+            Response response = await dio.post(Endpoints.refreshToken, data: {
+              "refresh": getIt<SharedPrefController>().getUser().refreshToken
+            });
+
+            final String refreshToken =
+                getIt<SharedPrefController>().getUser().refreshToken;
+            getIt<SharedPrefController>().save(UserModel(
+                accessToken: response.data["access"],
+                refreshToken: refreshToken));
+            AwesomeDialog(
+              context: NavigationManager.navigatorKey.currentContext!,
+              dialogType: DialogType.info,
+              animType: AnimType.rightSlide,
+              title: 'تمديد الحلسة',
+              desc: 'تم نمديد جلستك في التطبيق ',
+              btnOkOnPress: () {
+                NavigationManager.pop();
+              },
+            ).show();
+          } on DioError catch (e) {
+            print(e.error);
+          }
+        }
         return ApiFailure(
             e.response?.data["detail"] ?? 'incorrect login credentials');
         // return ApiFailure(e.message);

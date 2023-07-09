@@ -21,6 +21,8 @@ class Endpoints {
   static const String resetNewPassword = '/api/auth/reset-new-password/';
   static const String resendCode = '/api/auth/resend-code/';
   static const String logout = '/api/auth/logout/';
+  static const String refreshToken = '/api/auth/login-refresh/';
+
 
   //home service screen
   static const String categories = '/api/services/categories/';
