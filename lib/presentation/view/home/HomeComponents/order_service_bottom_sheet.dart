@@ -1,17 +1,25 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/data/models/service_info_model.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
 
+import '../../../../bussiness logic/homeCubit/home_cubit.dart';
+import '../../../../customwidget/loading_widget.dart';
+import '../../../../customwidget/snackbar.dart';
+import '../../../../data/models/service_model.dart';
 import '../../../resources/style_manager.dart';
 import '../category_screen.dart';
 
 class OrderServiceBottomSheet extends StatefulWidget {
   const OrderServiceBottomSheet({
+    required this.service,
     Key? key,
   }) : super(key: key);
+  final ServiceModel? service;
 
   @override
   State<OrderServiceBottomSheet> createState() =>
@@ -26,6 +34,7 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.service);
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Form(
@@ -225,22 +234,59 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
               child: Row(
                 children: [
-                  Expanded(
-                    flex: 2,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          NavigationManager.goToAndRemove(
-                              RouteConstants.serviceInfoRoute);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          fixedSize: Size(double.infinity, 56)),
-                      child: const Text('تأكيد الطلب'),
+                  BlocListener<HomeCubit, HomeState>(
+                    listener: (context, state) {
+                      if (state is OrderFixedServiceSuccessState) {
+                        NavigationManager.goToAndRemove(
+                          RouteConstants.serviceInfoRoute,
+                          argument: ServiceInfoModel(
+                            serviceName: widget.service?.name ?? '',
+                            date: DateFormat.yMd('en-IN').format(selectedDate!),
+                            time: selectedTime!.format(context),
+                            count: serviceCount.toString(),
+                            totalPrice: (widget.service!.priceTo * serviceCount)
+                                .toString(),
+                          ),
+                        );
+                        showSnackBar(context,
+                            text: 'تم طلب الخدمة بنجاح',
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white);
+                      } else if (state is OrderFixedServiceFailedState) {
+                        NavigationManager.pop();
+                        NavigationManager.pop();
+                        showSnackBar(context,
+                            text: state.message,
+                            backgroundColor: Colors.grey,
+                            textColor: Colors.black);
+                      } else if (state is OrderFixedServiceLoadingState) {
+                        showLoading(context);
+                      }
+                    },
+                    child: Expanded(
+                      flex: 2,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            context.read<HomeCubit>().orderFixedService(
+                                quantity: serviceCount,
+                                totalPrice:
+                                    widget.service?.priceTo ?? 0 * serviceCount,
+                                date: DateFormat('yyyy-MM-dd')
+                                    .format(selectedDate!),
+                                time:
+                                    selectedTime!.format(context).split(" ")[0],
+                                service: widget.service!.id!);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            fixedSize: const Size(double.infinity, 56)),
+                        child: const Text('تأكيد الطلب'),
+                      ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Expanded(
@@ -250,7 +296,8 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                       style: StyleManger.headline1(
                           color: ColorManager.primaryMainEnableColor,
                           fontSize: 16),
-                      decoration: InputDecoration(fillColor: Color(0xFFEBF1F0)),
+                      decoration:
+                          const InputDecoration(fillColor: Color(0xFFEBF1F0)),
                     ),
                   ),
                 ],

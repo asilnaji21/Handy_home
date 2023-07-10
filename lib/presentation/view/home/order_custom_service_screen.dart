@@ -185,7 +185,6 @@ class _OrderCustomServiceScreenState extends State<OrderCustomServiceScreen> {
           if (formKey.currentState!.validate()) {
             NavigationManager.goToAndRemove(
               RouteConstants.serviceInfoRoute,
-              argument: true,
             );
           }
         },

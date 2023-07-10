@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/bussiness%20logic/authCubit/auth_cubit.dart';
 import 'package:handy_home_app/bussiness%20logic/homeCubit/home_cubit.dart';
+import 'package:handy_home_app/data/models/service_info_model.dart';
 import 'package:handy_home_app/presentation/view/authentication/email_opt_screen.dart';
 import 'package:handy_home_app/presentation/view/authentication/emailconfirmation_view.dart';
 import 'package:handy_home_app/presentation/view/authentication/emailverification_view.dart';
@@ -79,13 +80,13 @@ class RouteGenerator {
             builder: (_) => BlocProvider(
                   create: (context) => HomeCubit(),
                   child: ServiceDetailsScreen(
-                    serviceId: settings.arguments as int,
+                    id: settings.arguments as int,
                   ),
                 ));
       case RouteConstants.serviceInfoRoute:
         return MaterialPageRoute(
             builder: (_) => ServiceInfoScreen(
-                  isCustomService: settings.arguments as bool?,
+                  serviceInfo: settings.arguments as ServiceInfoModel?,
                 ));
       case RouteConstants.orderCustomServiceRoute:
         return MaterialPageRoute(

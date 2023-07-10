@@ -1,4 +1,11 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:handy_home_app/app/locator.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
+import 'package:handy_home_app/customwidget/snackbar.dart';
+import 'package:handy_home_app/data/models/user_model.dart';
+import 'package:handy_home_app/data/network/local/local_network.dart';
 import 'dart:io';
 import '../../../../app/constants_manager.dart';
 import 'api_result_handler.dart';
@@ -26,13 +33,14 @@ class DioHelper {
 
   // -----------------------------Post  Data ---------------------------- //
 
-  Future<ApiResults> postData({
-    required String endPoint,
-    Map<String, dynamic>? data,
-    Map<String, dynamic>? queryParameters,
-    bool formData = true,
-    // String? token, required String url,
-  }) async {
+  Future<ApiResults> postData(
+      {required String endPoint,
+      Map<String, dynamic>? data,
+      Map<String, dynamic>? queryParameters,
+      bool formData = true,
+      Map<String, dynamic>? headers
+      // String? token, required String url,
+      }) async {
     dio.options.headers = {
       "Accept": "application/json",
     };
@@ -43,11 +51,10 @@ class DioHelper {
       printResponse('header:    ${dio.options.headers}');
       printResponse('url:    $endPoint');
       printResponse('url:    $endPoint');
-      var response = await dio.post(
-        endPoint,
-        data: data,
-        queryParameters: queryParameters,
-      );
+      var response = await dio.post(endPoint,
+          data: data,
+          queryParameters: queryParameters,
+          options: Options(headers: headers));
       print(response.statusCode);
       // i make it in this way because the api return difference response at this status code so i need to handel the response for all cases
       if (response.statusCode == 400) {
@@ -67,8 +74,9 @@ class DioHelper {
       print(
           '************************: ${e.message} -- ${e.response?.statusCode} -- ${e.type} -- ${e.response?.data}');
       if (e.type == DioErrorType.badResponse) {
+        await refreshToken(e);
         return ApiFailure(
-            e.response?.data["detail"] ?? 'incorrect login credentials');
+            e.response?.data["detail"] ?? 'some thing went wrong , try again');
         // return ApiFailure(e.message);
       } else if (e.type == DioErrorType.connectionTimeout) {
         // print('check your connection');
@@ -81,6 +89,34 @@ class DioHelper {
       }
     } catch (e) {
       return ApiFailure("$e An error occurred, try again");
+    }
+  }
+
+  Future<void> refreshToken(DioError e) async {
+    if (e.response?.data["detail"] ==
+        'Given token not valid for any token type') {
+      AwesomeDialog(
+        context: NavigationManager.navigatorKey.currentContext!,
+        dialogType: DialogType.info,
+        animType: AnimType.rightSlide,
+        title: 'نمديد جلستك في التطبيق',
+        btnOkOnPress: () async {
+          try {
+            Response response = await dio.post(Endpoints.refreshToken, data: {
+              "refresh": getIt<SharedPrefController>().getUser().refreshToken
+            });
+
+            final String refreshToken =
+                getIt<SharedPrefController>().getUser().refreshToken;
+            getIt<SharedPrefController>().save(UserModel(
+                accessToken: response.data["access"],
+                refreshToken: refreshToken));
+          } on DioError catch (e) {
+            NavigationManager.pop();
+            print(e.error);
+          }
+        },
+      ).show();
     }
   }
 
@@ -112,8 +148,9 @@ class DioHelper {
       return ApiFailure("Data syntax error");
     } on DioError catch (e) {
       if (e.type == DioErrorType.badResponse) {
-        // return ApiFailure(e.response!.data['message']);
-        return ApiFailure(e.message.toString());
+        await refreshToken(e);
+        return ApiFailure(
+            e.response?.data["detail"] ?? 'some thing went wrong , try again');
       } else if (e.type == DioErrorType.connectionTimeout) {
         // print('check your connection');
         return ApiFailure("Make sure you are connected to the internet");

@@ -22,4 +22,8 @@ class NavigationManager {
   static pop() {
     navigatorKey.currentState!.pop();
   }
+
+   static maybePop() {
+    navigatorKey.currentState!.maybePop();
+  }
 }

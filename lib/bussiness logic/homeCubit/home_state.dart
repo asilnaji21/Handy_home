@@ -49,8 +49,8 @@ class ServiceDetailsFailedState extends HomeState {
 
 //this states for "latest service added"
 
-
 class LatestServiceAddedInitialState {}
+
 class LatestServiceAddedLoadingState extends LatestServiceAddedInitialState {}
 
 class LatestServiceAddedSuccessState extends LatestServiceAddedInitialState {
@@ -61,4 +61,18 @@ class LatestServiceAddedSuccessState extends LatestServiceAddedInitialState {
 class LatestServiceAddedFailedState extends LatestServiceAddedInitialState {
   final String message;
   LatestServiceAddedFailedState({required this.message});
+}
+
+// this states for "order fixed service"
+
+class OrderFixedServiceLoadingState extends HomeState {}
+
+class OrderFixedServiceSuccessState extends HomeState {
+  final OrderedServiceModel orderedService;
+  OrderFixedServiceSuccessState({required this.orderedService});
+}
+
+class OrderFixedServiceFailedState extends HomeState {
+  final String message;
+  OrderFixedServiceFailedState({required this.message});
 }
