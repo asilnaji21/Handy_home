@@ -62,6 +62,7 @@ class HomeRepository {
     }
   }
 
+
     Future<Either<ApiSuccess, ApiFailure>> getLatestAddedServices() async {
     ApiResults response = await dioHelper.getData(
       endPoint: Endpoints.latestAdded,
