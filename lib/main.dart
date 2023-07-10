@@ -10,6 +10,8 @@ import 'data/network/local/local_network.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  
   await SharedPrefController().init();
   setUp();
   await ScreenUtil.ensureScreenSize();
