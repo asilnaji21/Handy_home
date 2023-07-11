@@ -1,4 +1,5 @@
 class OrderedServiceModel {
+  final String? name;
   final int id;
   final String orderStatus;
   final int quantity;
@@ -12,6 +13,7 @@ class OrderedServiceModel {
 
   OrderedServiceModel(
       {required this.id,
+      this.name,
       required this.orderStatus,
       required this.quantity,
       required this.totalPrice,
@@ -34,6 +36,7 @@ class OrderedServiceModel {
       updateAt: json['update_at'],
       createBy: json['create_by'],
       service: json['service'],
+      name: json['service_name']
     );
   }
 

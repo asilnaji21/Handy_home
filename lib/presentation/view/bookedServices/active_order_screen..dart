@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/bussiness%20logic/bookedServiceCubit/booked_service_cubit.dart';
 import 'package:skeletons/skeletons.dart';
 
-import '../../../app/constants_manager.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/color_manager.dart';
 import '../home/service_info_screen.dart';
@@ -27,17 +26,17 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
     return Expanded(
       child: BlocBuilder<BookedServiceCubit, BookedServiceState>(
         builder: (context, state) {
+          if (state is ActiveOrderSuccessState && state.orders.isEmpty) {
+            return const Center(
+              child: Text('لا يوجد طلبات'),
+            );
+          }
           return ListView.builder(
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               if (state is ActiveOrderLoadingState) {
                 return const BookedServiceLoading();
               } else if (state is ActiveOrderSuccessState) {
-                if (state.orders.isEmpty) {
-                  return const Center(
-                    child: Text('لا يوجد طلبات'),
-                  );
-                }
                 return Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
@@ -71,7 +70,7 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    state.orders[index].quantity.toString(),
+                                    state.orders[index].name?? 'خدمة مخصصة',
                                   ),
                                   Text(
                                       'التاريخ: ${state.orders[index].dateOrder}'),
@@ -109,7 +108,23 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
     );
   }
 
-
+  Color checkColor({required String status, required bool isForText}) {
+    if (status == 'مرفوض') {
+      return isForText ? ColorManager.redDarkColor : ColorManager.redLightColor;
+    } else if (status == 'مكتمل') {
+      return isForText
+          ? ColorManager.greenDarkColor
+          : ColorManager.greenLightColor;
+    } else if (status == 'قيد المراجعة') {
+      return isForText
+          ? ColorManager.orangeDarkColor
+          : ColorManager.orangeLightColor;
+    } else {
+      return isForText
+          ? ColorManager.blueDarkColor
+          : ColorManager.blueLightColor;
+    }
+  }
 }
 
 class BookedServiceLoading extends StatelessWidget {

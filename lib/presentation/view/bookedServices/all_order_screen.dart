@@ -27,6 +27,11 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
     return Expanded(
       child: BlocBuilder<BookedServiceCubit, BookedServiceState>(
         builder: (context, state) {
+          if (state is AllOrderSuccessState && state.orders.isEmpty) {
+            return const Center(
+              child: Text('لا يوجد طلبات'),
+            );
+          }
           return ListView.builder(
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
@@ -71,7 +76,7 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    state.orders[index].totalPrice.toString(),
+                                    state.orders[index].name ?? 'خدمة مخصصة',
                                   ),
                                   Text(
                                       'التاريخ: ${state.orders[index].dateOrder}'),
