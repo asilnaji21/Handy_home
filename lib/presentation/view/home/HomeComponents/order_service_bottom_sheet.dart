@@ -240,6 +240,7 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                           RouteConstants.serviceInfoRoute,
                           argument: ServiceInfoModel(
                             isCustom: false,
+                            description: '',
                             serviceName: widget.service?.name ?? '',
                             date: DateFormat.yMd('en-IN').format(selectedDate!),
                             time: selectedTime!.format(context),

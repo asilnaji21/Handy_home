@@ -1,10 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/bussiness%20logic/homeCubit/home_cubit.dart';
 import 'package:handy_home_app/customwidget/custom_button_with_background_widget.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
 
+import '../../../customwidget/loading_widget.dart';
+import '../../../customwidget/snackbar.dart';
+import '../../../data/models/service_info_model.dart';
 import '../../resources/style_manager.dart';
 import 'HomeComponents/order_service_bottom_sheet.dart';
 import 'category_screen.dart';
@@ -22,7 +27,9 @@ class _OrderCustomServiceScreenState extends State<OrderCustomServiceScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+  int? selectedCategory;
   bool isScroll = false;
+  TextEditingController detailsController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -74,7 +81,12 @@ class _OrderCustomServiceScreenState extends State<OrderCustomServiceScreen> {
                           )
                           .toList(),
                       onChanged: (value) {
-                        print(value);
+                        setState(() {
+                          if (value != null) {
+                            selectedCategory = servicesType.indexOf(value) + 1;
+                          }
+                          print(selectedCategory);
+                        });
                       },
                       validator: (value) => value == null || value.isEmpty
                           ? 'هذا الحقل مطلوب'
@@ -142,6 +154,7 @@ class _OrderCustomServiceScreenState extends State<OrderCustomServiceScreen> {
                     ),
                     const LabelTextFieldWidget(text: 'تفاصيل دقيقة عن الخدمة'),
                     TextFormField(
+                      controller: detailsController,
                       maxLines: 54,
                       minLines: 5,
                       validator: (value) => value!.isNotEmptyField,
@@ -180,16 +193,50 @@ class _OrderCustomServiceScreenState extends State<OrderCustomServiceScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomButtonWithBackgroundWidget(
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
+      bottomNavigationBar: BlocListener<HomeCubit, HomeState>(
+        listener: (context, state) {
+          if (state is OrderCustomServiceLoadingState) {
+            showLoading(context);
+          } else if (state is OrderCustomServiceSuccessState) {
+            showSnackBar(context,
+                text: 'تم طلب الخدمة بنجاح',
+                backgroundColor: Colors.green,
+                textColor: Colors.white);
             NavigationManager.goToAndRemove(
               RouteConstants.serviceInfoRoute,
-              argument: true,
+              argument: ServiceInfoModel(
+                isCustom: true,
+                description: state.customServiceModel.description,
+                serviceName: 'خدمة مخصصة',
+                date: DateFormat.yMd('en-IN').format(selectedDate!),
+                time: selectedTime!.format(context),
+                count: '1',
+                totalPrice: '',
+              ),
             );
           }
+          if (state is OrderCustomServiceFailedState) {
+            showSnackBar(context,
+                text: state.message,
+                backgroundColor: Colors.grey,
+                textColor: Colors.black);
+          }
         },
-        text: 'طلب الخدمة',
+        child: CustomButtonWithBackgroundWidget(
+          onPressed: () {
+            if (formKey.currentState!.validate()) {
+              context.read<HomeCubit>().orderCustomService(
+                    name: 'خدمة مخصصة',
+                    description: detailsController.text,
+                    date: DateFormat('yyyy-MM-dd').format(selectedDate!),
+                    time: selectedTime!.format(context).split(" ")[0],
+                    category: selectedCategory!,
+                    location: 13,
+                  );
+            }
+          },
+          text: 'طلب الخدمة',
+        ),
       ),
     );
   }

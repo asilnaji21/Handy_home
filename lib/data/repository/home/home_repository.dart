@@ -50,9 +50,9 @@ class HomeRepository {
   }
 
   Future<Either<ApiSuccess, ApiFailure>> getServiceDetails(
-      {required int id}) async {
+      {required String serviceEndPoint}) async {
     ApiResults response = await dioHelper.getData(
-      endPoint: Endpoints.serviceDetails(id: id),
+      endPoint: serviceEndPoint,
     );
 
     if (response is ApiSuccess) {

@@ -34,10 +34,10 @@ class HomeCubit extends Cubit<HomeState> {
     }, (r) => emit(CategoryServicesFailedState(message: r.message)));
   }
 
-  serviceDetails({required int id}) async {
+  serviceDetails({required String endPoint}) async {
     emit(ServiceDetailsLoadingState());
 
-    final data = await homeRepository.getServiceDetails(id: id);
+    final data = await homeRepository.getServiceDetails(serviceEndPoint: endPoint);
     data.fold((l) {
       emit(ServiceDetailsSuccessState(serviceDetails: l.data as ServiceModel));
     }, (r) => emit(ServiceDetailsFailedState(message: r.message)));

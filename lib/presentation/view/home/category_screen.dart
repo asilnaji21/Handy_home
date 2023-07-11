@@ -52,7 +52,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           onTap: () {
                             NavigationManager.pushNamed(
                                 RouteConstants.serviceDetailsRoute,
-                                arguments: index + 1);
+                                arguments: state
+                                    .categoryServices.services[index].detail);
                           },
                           child: SingleServiceWidget(
                             width: double.infinity,
@@ -106,19 +107,25 @@ class CustomHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const CardForIconWidget(
-          icon: Icon(
-            Icons.arrow_back,
-            color: ColorManager.brownColor,
+        const Expanded(
+          flex: 1,
+          child: CardForIconWidget(
+            icon: Icon(
+              Icons.arrow_back,
+              color: ColorManager.brownColor,
+            ),
           ),
         ),
-        const Spacer(),
-        Text(
-          title,
-          style: StyleManger.headline1(),
+        const SizedBox(
+          width: 20,
         ),
-        const Spacer(
-          flex: 2,
+        Expanded(
+          flex: 5,
+          child: Text(
+            title,
+            style: StyleManger.headline1(),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );

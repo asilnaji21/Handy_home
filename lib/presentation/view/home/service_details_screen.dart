@@ -13,9 +13,9 @@ import 'HomeComponents/rating_bottom_sheet.dart';
 import 'HomeComponents/stare_rating_widget.dart';
 
 class ServiceDetailsScreen extends StatefulWidget {
-  const ServiceDetailsScreen({required this.serviceId, Key? key})
+  const ServiceDetailsScreen({required this.serviceEndPoint, Key? key})
       : super(key: key);
-  final int serviceId;
+  final String serviceEndPoint;
   @override
   State<ServiceDetailsScreen> createState() => _ServiceDetailsScreenState();
 }
@@ -28,7 +28,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().serviceDetails(id: widget.serviceId);
+    context.read<HomeCubit>().serviceDetails(endPoint: widget.serviceEndPoint);
     scrollController.addListener(() {
       setState(() {
         isScroll = scrollController.offset > 0;
@@ -220,7 +220,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 backgroundColor: ColorManager.background,
                 useSafeArea: true,
                 isScrollControlled: true,
-                builder: (context) =>  OrderServiceBottomSheet(
+                builder: (context) => OrderServiceBottomSheet(
                   service: service,
                 ),
               );

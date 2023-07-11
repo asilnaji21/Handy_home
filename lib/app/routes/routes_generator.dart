@@ -80,7 +80,7 @@ class RouteGenerator {
             builder: (_) => BlocProvider(
                   create: (context) => HomeCubit(),
                   child: ServiceDetailsScreen(
-                    serviceId: settings.arguments as int,
+                    serviceEndPoint: settings.arguments as String,
                   ),
                 ));
       case RouteConstants.serviceInfoRoute:
