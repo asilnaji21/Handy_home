@@ -6,7 +6,7 @@ import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 import 'package:handy_home_app/presentation/view/home/category_screen.dart';
 import '../../../customwidget/custom_button_with_background_widget.dart';
-import '../../resources/assets_manager.dart';
+import '../../../data/models/service_model.dart';
 import 'HomeComponents/customer_comment_widget.dart';
 import 'HomeComponents/order_service_bottom_sheet.dart';
 import 'HomeComponents/rating_bottom_sheet.dart';
@@ -24,6 +24,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   ScrollController scrollController = ScrollController();
   TextEditingController ratingController = TextEditingController();
   bool isScroll = false;
+  ServiceModel? service;
   @override
   void initState() {
     super.initState();
@@ -44,7 +45,14 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocBuilder<HomeCubit, HomeState>(
+        body: BlocConsumer<HomeCubit, HomeState>(
+          listener: (context, state) {
+            if (state is ServiceDetailsSuccessState) {
+              setState(() {
+                service = state.serviceDetails;
+              });
+            }
+          },
           builder: (context, state) {
             print(state);
             if (state is ServiceDetailsLoadingState) {
@@ -212,7 +220,9 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 backgroundColor: ColorManager.background,
                 useSafeArea: true,
                 isScrollControlled: true,
-                builder: (context) => const OrderServiceBottomSheet(),
+                builder: (context) =>  OrderServiceBottomSheet(
+                  service: service,
+                ),
               );
             },
             text: 'اطلب هذه الخدمة'));

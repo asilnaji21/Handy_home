@@ -3,6 +3,9 @@ import 'package:handy_home_app/data/models/category_model.dart';
 import 'package:handy_home_app/data/models/service_model.dart';
 
 import '../../../app/constants_manager.dart';
+import '../../../app/locator.dart';
+import '../../models/order_service_model.dart';
+import '../../network/local/local_network.dart';
 import '../../network/remote/api_result_handler.dart';
 import '../../network/remote/dio_helper.dart';
 
@@ -78,6 +81,41 @@ class HomeRepository {
     } else {
       if (response is ApiFailure && response.statusCode == 400) {
         return right(ApiFailure('an error occur'));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> orderFixedService(
+      {required int quantity,
+      required int totalPrice,
+      required String date,
+      required String time,
+      required int service}) async {
+    ApiResults response =
+        await dioHelper.postData(endPoint: Endpoints.orderFixedService, data: {
+      "order_status": "قيد المراجعة",
+      "quantity": quantity,
+      "total_price": totalPrice,
+      "date_order": date,
+      "time_order": time,
+      "service": service
+    }, headers: {
+      "Authorization":
+          "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+    });
+
+    if (response is ApiSuccess) {
+      return left(
+        ApiSuccess(
+          OrderedServiceModel.fromJson(response.data),
+          response.statusCode,
+        ),
+      );
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        print(response.message);
+        return right(ApiFailure(response.message.toString()));
       }
       return right(response as ApiFailure);
     }

@@ -33,6 +33,8 @@ class Endpoints {
   }
 
   static const String latestAdded = '/api/services/latest-add/';
+  static const String orderFixedService = '/api/orders/';
+
 }
 
 void printTest(String text) {

@@ -16,6 +16,7 @@ import 'package:handy_home_app/presentation/view/profile/addresses_management.da
 import 'package:handy_home_app/presentation/view/profile/become_service_provider_application_screen.dart';
 import 'package:handy_home_app/presentation/view/profile/become_service_provider_info_screen.dart';
 import '../../bussiness logic/onboardingManager/on_boarding_cubit.dart';
+import '../../data/models/service_info_model.dart';
 import '../../presentation/view/authentication/newpassword_view.dart';
 import '../../presentation/view/authentication/restorepassword_view.dart';
 import '../../presentation/view/authentication/signup_view.dart';
@@ -85,7 +86,7 @@ class RouteGenerator {
       case RouteConstants.serviceInfoRoute:
         return MaterialPageRoute(
             builder: (_) => ServiceInfoScreen(
-                  isCustomService: settings.arguments as bool?,
+                   serviceInfo: settings.arguments as ServiceInfoModel?,
                 ));
       case RouteConstants.orderCustomServiceRoute:
         return MaterialPageRoute(

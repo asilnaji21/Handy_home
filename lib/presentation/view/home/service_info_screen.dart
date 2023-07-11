@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/bussiness%20logic/bnbManager/bnb_manager_cubit.dart';
+import 'package:handy_home_app/data/models/service_info_model.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 
 class ServiceInfoScreen extends StatelessWidget {
-  const ServiceInfoScreen({this.isCustomService, Key? key}) : super(key: key);
-  final bool? isCustomService;
+  const ServiceInfoScreen({this.serviceInfo, Key? key}) : super(key: key);
+  final ServiceInfoModel? serviceInfo;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,19 +31,20 @@ class ServiceInfoScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const RowInfoWidget(label: 'اسم الخدمة:', info: 'تركيب حنفية مياه'),
-            const RowInfoWidget(label: 'التاريخ:', info: '10 مايو 2023'),
-            const RowInfoWidget(label: 'الوقت:', info: '12:45 مساء'),
-            Visibility(
-                visible: !(isCustomService != null),
-                child: const RowInfoWidget(
-                    label: 'العدد من هذه الخدمة:', info: '3')),
             RowInfoWidget(
-                label:
-                    (isCustomService != null) ? 'التفاصيل:' : 'التكلفة الكلية:',
-                info: (isCustomService != null)
+                label: 'اسم الخدمة:', info: serviceInfo?.serviceName ?? ''),
+            RowInfoWidget(label: 'التاريخ:', info: serviceInfo?.date ?? ''),
+            RowInfoWidget(label: 'الوقت:', info: serviceInfo?.time ?? ''),
+            Visibility(
+                visible: (serviceInfo != null),
+                child: RowInfoWidget(
+                    label: 'العدد من هذه الخدمة:',
+                    info: serviceInfo?.count ?? '')),
+            RowInfoWidget(
+                label: !(serviceInfo != null) ? 'التفاصيل:' : 'التكلفة الكلية:',
+                info: !(serviceInfo != null)
                     ? 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.'
-                    : '80 شيكل'),
+                    : serviceInfo?.totalPrice ?? ''),
             const RowInfoWidget(
               label: 'حالة الطلب:',
               orderStatusWidget: OrderStatusWidget(
@@ -71,7 +73,6 @@ class ServiceInfoScreen extends StatelessWidget {
                 NavigationManager.goToAndRemove(RouteConstants.homeRoute);
               },
               child: const Text(
-                
                 'العودة لصغحة الخدمات',
                 style: TextStyle(
                   color: ColorManager.primaryMainEnableColor,

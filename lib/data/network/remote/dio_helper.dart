@@ -26,13 +26,14 @@ class DioHelper {
 
   // -----------------------------Post  Data ---------------------------- //
 
-  Future<ApiResults> postData({
-    required String endPoint,
-    Map<String, dynamic>? data,
-    Map<String, dynamic>? queryParameters,
-    bool formData = true,
-    // String? token, required String url,
-  }) async {
+  Future<ApiResults> postData(
+      {required String endPoint,
+      Map<String, dynamic>? data,
+      Map<String, dynamic>? queryParameters,
+      bool formData = true,
+      Map<String, dynamic>? headers
+      // String? token, required String url,
+      }) async {
     dio.options.headers = {
       "Accept": "application/json",
     };
@@ -43,11 +44,12 @@ class DioHelper {
       printResponse('header:    ${dio.options.headers}');
       printResponse('url:    $endPoint');
       printResponse('url:    $endPoint');
-      var response = await dio.post(
-        endPoint,
-        data: data,
-        queryParameters: queryParameters,
-      );
+      var response = await dio.post(endPoint,
+          data: data,
+          queryParameters: queryParameters,
+          options: Options(
+            headers: headers,
+          ));
       print(response.statusCode);
       // i make it in this way because the api return difference response at this status code so i need to handel the response for all cases
       if (response.statusCode == 400) {

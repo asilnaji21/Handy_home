@@ -62,3 +62,17 @@ class LatestServiceAddedFailedState extends LatestServiceAddedInitialState {
   final String message;
   LatestServiceAddedFailedState({required this.message});
 }
+
+// this states for "order fixed service"
+
+class OrderFixedServiceLoadingState extends HomeState {}
+
+class OrderFixedServiceSuccessState extends HomeState {
+  final OrderedServiceModel orderedService;
+  OrderFixedServiceSuccessState({required this.orderedService});
+}
+
+class OrderFixedServiceFailedState extends HomeState {
+  final String message;
+  OrderFixedServiceFailedState({required this.message});
+}
