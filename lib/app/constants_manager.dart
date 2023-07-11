@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
+
+import '../presentation/resources/color_manager.dart';
 
 class Constant {
   static const String baseUrl = 'http://demo-api.mr-dev.tech/api';
@@ -36,7 +40,9 @@ class Endpoints {
   static const String orderFixedService = '/api/orders/';
   static const String orderCustomService = '/api/users/create-custom-service/';
 
-
+// booked service endpoint
+  static const String allOrder = '/api/orders/all-order/';
+  static const String activeOrder = '/api/orders/active-order/';
 }
 
 void printTest(String text) {
@@ -48,5 +54,21 @@ void printTest(String text) {
 void printResponse(String text) {
   if (kDebugMode) {
     print('\x1B[33m$text\x1B[0m');
+  }
+}
+
+Color checkColor({required String status, required bool isForText}) {
+  if (status == 'مرفوض') {
+    return isForText ? ColorManager.redDarkColor : ColorManager.redLightColor;
+  } else if (status == 'مكتمل') {
+    return isForText
+        ? ColorManager.greenDarkColor
+        : ColorManager.greenLightColor;
+  } else if (status == 'قيد المراجعة') {
+    return isForText
+        ? ColorManager.orangeDarkColor
+        : ColorManager.orangeLightColor;
+  } else {
+    return isForText ? ColorManager.blueDarkColor : ColorManager.blueLightColor;
   }
 }

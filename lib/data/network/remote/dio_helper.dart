@@ -87,16 +87,16 @@ class DioHelper {
   }
 
   // -----------------------------Get Data ---------------------------- //
-  Future<ApiResults> getData({
-    required String endPoint,
-    Map<String, dynamic>? queryParameters,
-    String? token,
-  }) async {
+  Future<ApiResults> getData(
+      {required String endPoint,
+      Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? headers}) async {
     dio.options.headers = {
       "Content-Type": "application/json",
     };
     try {
-      var response = await dio.get(endPoint, queryParameters: queryParameters);
+      var response = await dio.get(endPoint,
+          queryParameters: queryParameters, options: Options(headers: headers));
       print(response.data);
       if (response.statusCode == 400) {
         return ApiFailure(response.data, statusCode: 400);
@@ -113,6 +113,7 @@ class DioHelper {
     } on FormatException {
       return ApiFailure("Data syntax error");
     } on DioError catch (e) {
+      print(e.response);
       if (e.type == DioErrorType.badResponse) {
         // return ApiFailure(e.response!.data['message']);
         return ApiFailure(e.message.toString());

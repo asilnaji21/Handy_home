@@ -27,7 +27,7 @@ class OrderedServiceModel {
       id: json['id'],
       orderStatus: json['order_status'],
       quantity: json['quantity'],
-      totalPrice: json['total_price'],
+      totalPrice: json['total_price'] ?? 0,
       dateOrder: json['date_order'],
       timeOrder: json['time_order'],
       createAt: json['create_at'],
