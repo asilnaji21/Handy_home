@@ -9,8 +9,9 @@ import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 
 class ServiceInfoScreen extends StatelessWidget {
-  const ServiceInfoScreen({this.serviceInfo, Key? key}) : super(key: key);
-  final ServiceInfoModel? serviceInfo;
+  const ServiceInfoScreen({required this.serviceInfo, Key? key})
+      : super(key: key);
+  final ServiceInfoModel serviceInfo;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,20 +32,18 @@ class ServiceInfoScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            RowInfoWidget(
-                label: 'اسم الخدمة:', info: serviceInfo?.serviceName ?? ''),
-            RowInfoWidget(label: 'التاريخ:', info: serviceInfo?.date ?? ''),
-            RowInfoWidget(label: 'الوقت:', info: serviceInfo?.time ?? ''),
+            RowInfoWidget(label: 'اسم الخدمة:', info: serviceInfo.serviceName),
+            RowInfoWidget(label: 'التاريخ:', info: serviceInfo.date),
+            RowInfoWidget(label: 'الوقت:', info: serviceInfo.time),
             Visibility(
-                visible: (serviceInfo != null),
+                visible: !(serviceInfo.isCustom),
                 child: RowInfoWidget(
-                    label: 'العدد من هذه الخدمة:',
-                    info: serviceInfo?.count ?? '')),
+                    label: 'العدد من هذه الخدمة:', info: serviceInfo.count)),
             RowInfoWidget(
-                label: !(serviceInfo != null) ? 'التفاصيل:' : 'التكلفة الكلية:',
-                info: !(serviceInfo != null)
+                label: (serviceInfo.isCustom) ? 'التفاصيل:' : 'التكلفة الكلية:',
+                info: (serviceInfo.isCustom)
                     ? 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.'
-                    : serviceInfo?.totalPrice ?? ''),
+                    : serviceInfo.totalPrice),
             const RowInfoWidget(
               label: 'حالة الطلب:',
               orderStatusWidget: OrderStatusWidget(

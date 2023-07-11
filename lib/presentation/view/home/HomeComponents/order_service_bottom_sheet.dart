@@ -239,6 +239,7 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                         NavigationManager.goToAndRemove(
                           RouteConstants.serviceInfoRoute,
                           argument: ServiceInfoModel(
+                            isCustom: false,
                             serviceName: widget.service?.name ?? '',
                             date: DateFormat.yMd('en-IN').format(selectedDate!),
                             time: selectedTime!.format(context),
@@ -285,7 +286,7 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Expanded(
@@ -295,7 +296,7 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                       style: StyleManger.headline1(
                           color: ColorManager.primaryMainEnableColor,
                           fontSize: 16),
-                      decoration: InputDecoration(fillColor: Color(0xFFEBF1F0)),
+                      decoration: const InputDecoration(fillColor: Color(0xFFEBF1F0)),
                     ),
                   ),
                 ],

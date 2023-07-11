@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:handy_home_app/data/models/category_model.dart';
+import 'package:handy_home_app/data/models/create_custom_service_model.dart';
 import 'package:handy_home_app/data/models/service_model.dart';
 
 import '../../../app/constants_manager.dart';
@@ -65,8 +66,7 @@ class HomeRepository {
     }
   }
 
-
-    Future<Either<ApiSuccess, ApiFailure>> getLatestAddedServices() async {
+  Future<Either<ApiSuccess, ApiFailure>> getLatestAddedServices() async {
     ApiResults response = await dioHelper.getData(
       endPoint: Endpoints.latestAdded,
     );
@@ -114,7 +114,42 @@ class HomeRepository {
       );
     } else {
       if (response is ApiFailure && response.statusCode == 400) {
-        print(response.message);
+        return right(ApiFailure(response.message.toString()));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> orderCustomService({
+    required String name,
+    required String description,
+    required String date,
+    required String time,
+    required int category,
+    required int location,
+  }) async {
+    ApiResults response =
+        await dioHelper.postData(endPoint: Endpoints.orderCustomService, data: {
+      "name": name,
+      "descriptions": description,
+      "request_date": date,
+      "request_time": time,
+      "category": category,
+      "location": location
+    }, headers: {
+      "Authorization":
+          "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+    });
+
+    if (response is ApiSuccess) {
+      return left(
+        ApiSuccess(
+          CustomServiceModel.fromJson(response.data),
+          response.statusCode,
+        ),
+      );
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
         return right(ApiFailure(response.message.toString()));
       }
       return right(response as ApiFailure);

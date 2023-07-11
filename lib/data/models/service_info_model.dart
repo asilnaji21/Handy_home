@@ -4,6 +4,7 @@ class ServiceInfoModel {
   final String time;
   final String count;
   final String totalPrice;
+  final bool isCustom;
 
   ServiceInfoModel({
     required this.serviceName,
@@ -11,6 +12,7 @@ class ServiceInfoModel {
     required this.time,
     required this.count,
     required this.totalPrice,
+    required this.isCustom,
   });
 
   @override

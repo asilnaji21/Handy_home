@@ -34,6 +34,8 @@ class Endpoints {
 
   static const String latestAdded = '/api/services/latest-add/';
   static const String orderFixedService = '/api/orders/';
+  static const String orderCustomService = '/api/users/create-custom-service/';
+
 
 }
 

@@ -86,7 +86,7 @@ class RouteGenerator {
       case RouteConstants.serviceInfoRoute:
         return MaterialPageRoute(
             builder: (_) => ServiceInfoScreen(
-                   serviceInfo: settings.arguments as ServiceInfoModel?,
+                   serviceInfo: settings.arguments as ServiceInfoModel,
                 ));
       case RouteConstants.orderCustomServiceRoute:
         return MaterialPageRoute(

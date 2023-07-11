@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:handy_home_app/data/models/create_custom_service_model.dart';
 import 'package:handy_home_app/data/repository/home/home_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -42,7 +43,7 @@ class HomeCubit extends Cubit<HomeState> {
     }, (r) => emit(ServiceDetailsFailedState(message: r.message)));
   }
 
-    orderFixedService(
+  orderFixedService(
       {required int quantity,
       required int totalPrice,
       required String date,
@@ -60,6 +61,29 @@ class HomeCubit extends Cubit<HomeState> {
       emit(OrderFixedServiceSuccessState(
           orderedService: l.data as OrderedServiceModel));
     }, (r) => emit(OrderFixedServiceFailedState(message: r.message)));
+  }
+
+  orderCustomService({
+    required String name,
+    required String description,
+    required String date,
+    required String time,
+    required int category,
+    required int location,
+  }) async {
+    emit(OrderCustomServiceLoadingState());
+
+    final data = await homeRepository.orderCustomService(
+        name: name,
+        description: description,
+        date: date,
+        time: time,
+        category: category,
+        location: location);
+    data.fold((l) {
+      emit(OrderCustomServiceSuccessState(
+          customServiceModel: l.data as CustomServiceModel));
+    }, (r) => emit(OrderCustomServiceFailedState(message: r.message)));
   }
 }
 
