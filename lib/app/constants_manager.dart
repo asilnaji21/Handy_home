@@ -43,6 +43,9 @@ class Endpoints {
 // booked service endpoint
   static const String allOrder = '/api/orders/all-order/';
   static const String activeOrder = '/api/orders/active-order/';
+
+//profile endpoint
+  static const String becomeServiceProvider='/api/users/create-service-provider/';
 }
 
 void printTest(String text) {

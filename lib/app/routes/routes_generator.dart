@@ -16,6 +16,7 @@ import 'package:handy_home_app/presentation/view/profile/addresses_management.da
 import 'package:handy_home_app/presentation/view/profile/become_service_provider_application_screen.dart';
 import 'package:handy_home_app/presentation/view/profile/become_service_provider_info_screen.dart';
 import '../../bussiness logic/onboardingManager/on_boarding_cubit.dart';
+import '../../bussiness logic/profileCubit/profile_cubit.dart';
 import '../../data/models/service_info_model.dart';
 import '../../presentation/view/authentication/newpassword_view.dart';
 import '../../presentation/view/authentication/restorepassword_view.dart';
@@ -71,10 +72,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const EmailConfirmationView());
       case RouteConstants.categoryRoute:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                  create: (context) => HomeCubit(),
-                  child: CategoryScreen(categoryId: settings.arguments as int),
-                ));
+          builder: (_) => BlocProvider(
+            create: (context) => HomeCubit(),
+            child: CategoryScreen(categoryId: settings.arguments as int),
+          ),
+        );
       case RouteConstants.serviceDetailsRoute:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
@@ -86,13 +88,15 @@ class RouteGenerator {
       case RouteConstants.serviceInfoRoute:
         return MaterialPageRoute(
             builder: (_) => ServiceInfoScreen(
-                   serviceInfo: settings.arguments as ServiceInfoModel,
+                  serviceInfo: settings.arguments as ServiceInfoModel,
                 ));
       case RouteConstants.orderCustomServiceRoute:
         return MaterialPageRoute(
             builder: (_) => const OrderCustomServiceScreen());
       case RouteConstants.homeRoute:
-        return MaterialPageRoute(builder: (_) => const AppBNB());
+        return MaterialPageRoute(
+            builder: (_) => const AppBNB(),
+            settings: const RouteSettings(name: RouteConstants.homeRoute));
       case RouteConstants.emailOtpRoute:
         return MaterialPageRoute(
             builder: (_) => BlocProvider<AuthCubit>(
@@ -107,7 +111,10 @@ class RouteGenerator {
             builder: (_) => const BecomeServiceProviderInfoScreen());
       case RouteConstants.becomeServiceProviderApplicationScreen:
         return MaterialPageRoute(
-            builder: (_) => const BecomeServiceProviderApplicationScreen());
+            builder: (_) => BlocProvider(
+                  create: (context) => ProfileCubit(),
+                  child: const BecomeServiceProviderApplicationScreen(),
+                ));
 
       case RouteConstants.addressesManagementScreen:
         return MaterialPageRoute(

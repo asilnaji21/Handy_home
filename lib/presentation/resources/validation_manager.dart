@@ -12,7 +12,7 @@ extension ValidationExt on String {
 
   String? get isNotEmptyField {
     String? result;
-    if (this==null|| isEmpty) {
+    if (this == null || isEmpty) {
       result = 'هذا الحقل مطلوب';
     }
     return result;
@@ -37,7 +37,18 @@ extension ValidationExt on String {
     if (isEmpty) {
       result = 'هذا الحقل مطلوب';
     } else if (!(phoneRegExp.hasMatch(this))) {
-      result = 'enter valid phone number';
+      result = 'ادخل رقم هاتف صالح بدون رموز';
+    }
+    return result;
+  }
+
+  String? get isValidNumber {
+    String? result;
+    final phoneRegExp = RegExp(r'^\d+$');
+    if (isEmpty) {
+      result = 'هذا الحقل مطلوب';
+    } else if (!(phoneRegExp.hasMatch(this))) {
+      result = 'ادخل رقم صحيح';
     }
     return result;
   }

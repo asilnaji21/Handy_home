@@ -11,15 +11,18 @@ class NavigationManager {
     navigatorKey.currentState!.pushReplacementNamed(routeName);
   }
 
-  static goToAndRemove(String routeName,{Object? argument}) {
+  static goToAndRemove(String routeName, {Object? argument}) {
     navigatorKey.currentState!.pushNamedAndRemoveUntil(
-      routeName,
-      (route) => false,
-      arguments: argument
-    );
+        routeName, (route) => false,
+        arguments: argument);
   }
 
   static pop() {
     navigatorKey.currentState!.pop();
+  }
+
+  static popUntil(String screenName) {
+    navigatorKey.currentState!
+        .popUntil(ModalRoute.withName(screenName));
   }
 }

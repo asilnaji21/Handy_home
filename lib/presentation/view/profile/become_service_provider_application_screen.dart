@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
+import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/bussiness%20logic/bnbManager/bnb_manager_cubit.dart';
+import 'package:handy_home_app/bussiness%20logic/profileCubit/profile_cubit.dart';
 import 'package:handy_home_app/customwidget/custom_button_with_background_widget.dart';
 import 'package:handy_home_app/customwidget/textformfield_custom.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
 
+import '../../../customwidget/loading_widget.dart';
+import '../../../customwidget/snackbar.dart';
 import '../../resources/assets_manager.dart';
 import '../home/category_screen.dart';
 import '../home/order_custom_service_screen.dart';
@@ -32,7 +39,7 @@ class _BecomeServiceProviderApplicationScreenState
   TextEditingController experienceDescriptionController =
       TextEditingController();
   TextEditingController anotherDetailsController = TextEditingController();
-  String? selectedCategory;
+  int? selectedCategory;
 
   @override
   void initState() {
@@ -109,7 +116,9 @@ class _BecomeServiceProviderApplicationScreenState
                       controller: phoneController,
                       validator: (value) => value!.isValidPhone,
                       keyboardType: TextInputType.number,
+                      maxLength: 8,
                       decoration: InputDecoration(
+                        counter: SizedBox(),
                         hintText: 'رقم الاتصال',
                         suffixIcon: SvgPicture.asset(
                           IconPath.mobilePrefixIcon,
@@ -148,7 +157,10 @@ class _BecomeServiceProviderApplicationScreenState
                           .toList(),
                       onChanged: (value) {
                         setState(() {
-                          selectedCategory = value;
+                          if (value != null) {
+                            selectedCategory = servicesType.indexOf(value) + 1;
+                          }
+                          print(selectedCategory);
                         });
                       },
                       validator: (value) => value == null || value.isEmpty
@@ -168,7 +180,8 @@ class _BecomeServiceProviderApplicationScreenState
                     ),
                     CustomTextFormField(
                       controller: experienceYearsController,
-                      validator: (value) => value!.isNotEmptyField,
+                      validator: (value) => value!.isValidNumber,
+                      keyboardType: TextInputType.number,
                       text: 'سنوات الخبرة',
                     ),
                     const SizedBox(
@@ -185,6 +198,7 @@ class _BecomeServiceProviderApplicationScreenState
                       height: 16,
                     ),
                     CustomTextFormField(
+                      validator: (value) => value!.isNotEmptyField,
                       controller: anotherDetailsController,
                       text: 'تفاصيل اضافية',
                       minLines: 3,
@@ -197,20 +211,47 @@ class _BecomeServiceProviderApplicationScreenState
           ),
         ),
       ),
-      bottomNavigationBar: CustomButtonWithBackgroundWidget(
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, -3),
-            blurRadius: 10,
-            color: Colors.grey.shade400,
-          )
-        ],
-        text: 'تقديم الطلب!',
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
-            print('object');
+      bottomNavigationBar: BlocListener<ProfileCubit, ProfileState>(
+        listener: (context, state) {
+          if (state is BecomeServiceProviderLoadingState) {
+            showLoading(context);
+          } else if (state is BecomeServiceProviderSuccessState) {
+            showSnackBar(context,
+                text: 'تم طلب ارسال الطلب بنجاح',
+                backgroundColor: Colors.green,
+                textColor: Colors.white);
+            NavigationManager.popUntil(RouteConstants.homeRoute);
+            context.read<BnbManagerCubit>().onSelectItem(4);
+          } else if (state is BecomeServiceProviderFailedState) {
+            showSnackBar(context,
+                text: state.message,
+                backgroundColor: Colors.grey,
+                textColor: Colors.black);
           }
         },
+        child: CustomButtonWithBackgroundWidget(
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, -3),
+              blurRadius: 10,
+              color: Colors.grey.shade400,
+            )
+          ],
+          text: 'تقديم الطلب!',
+          onPressed: () {
+            if (formKey.currentState!.validate()) {
+              context.read<ProfileCubit>().becomeServiceProvider(
+                    name: fullNameController.text,
+                    phone: phoneController.text,
+                    location: addressController.text,
+                    yearExperience: int.parse(experienceYearsController.text),
+                    summaryExperience: experienceDescriptionController.text,
+                    additional: anotherDetailsController.text,
+                    category: selectedCategory!,
+                  );
+            }
+          },
+        ),
       ),
     );
   }

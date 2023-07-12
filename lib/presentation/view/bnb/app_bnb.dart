@@ -5,6 +5,7 @@ import 'package:handy_home_app/bussiness%20logic/authCubit/auth_cubit.dart';
 import 'package:handy_home_app/bussiness%20logic/bnbManager/bnb_manager_cubit.dart';
 import 'package:handy_home_app/bussiness%20logic/bookedServiceCubit/booked_service_cubit.dart';
 import 'package:handy_home_app/bussiness%20logic/homeCubit/home_cubit.dart';
+import 'package:handy_home_app/bussiness%20logic/profileCubit/profile_cubit.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/view/bookedServices/booked_services_screen.dart';
 import 'package:handy_home_app/presentation/view/notification/notification_screen.dart';
@@ -67,7 +68,7 @@ List<Widget> tabs = [
     child: const HomeScreen(),
   ),
   const NotificationScreen(),
-   BlocProvider(
+  BlocProvider(
     create: (context) => BookedServiceCubit(),
     child: const BookedServiceScreen(),
   ),
@@ -78,6 +79,9 @@ List<Widget> tabs = [
         create: (context) => AuthCubit(),
       )
     ],
-    child: const ProfileScreen(),
+    child:  BlocProvider(
+      create: (context) => ProfileCubit(),
+      child: const ProfileScreen(),
+    ),
   )
 ];
