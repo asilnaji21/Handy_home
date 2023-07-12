@@ -12,9 +12,11 @@ import 'package:handy_home_app/presentation/view/home/category_screen.dart';
 import 'package:handy_home_app/presentation/view/home/order_custom_service_screen.dart';
 import 'package:handy_home_app/presentation/view/home/service_details_screen.dart';
 import 'package:handy_home_app/presentation/view/home/service_info_screen.dart';
+import 'package:handy_home_app/presentation/view/profile/add_new_email_screen.dart';
 import 'package:handy_home_app/presentation/view/profile/addresses_management.dart';
 import 'package:handy_home_app/presentation/view/profile/become_service_provider_application_screen.dart';
 import 'package:handy_home_app/presentation/view/profile/become_service_provider_info_screen.dart';
+import 'package:handy_home_app/presentation/view/profile/otp_code_screen.dart';
 import '../../bussiness logic/onboardingManager/on_boarding_cubit.dart';
 import '../../bussiness logic/profileCubit/profile_cubit.dart';
 import '../../data/models/service_info_model.dart';
@@ -116,6 +118,10 @@ class RouteGenerator {
       case RouteConstants.addressesManagementScreen:
         return MaterialPageRoute(
             builder: (_) => const AddressesManagementScreen());
+      case RouteConstants.newEmailScreen:
+        return MaterialPageRoute(builder: (_) => const NewEmailScreen());
+         case RouteConstants.otpScreen:
+        return MaterialPageRoute(builder: (_) => const OtpScreen());
       default:
         return unDefineRoute();
     }

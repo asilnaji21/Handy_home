@@ -18,4 +18,8 @@ class RouteConstants {
   static const String becomeServiceProviderInfoScreen =
       "becomeServiceProviderInfoScreen";
   static const String addressesManagementScreen = "addressesManagementScreen";
+  static const String newEmailScreen = "newEmailScreen";
+  static const String otpScreen = "otpScreen";
+
+
 }

@@ -9,6 +9,7 @@ import 'package:handy_home_app/customwidget/custom_dialog_widget.dart';
 import 'package:handy_home_app/data/network/local/local_network.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
+import 'package:handy_home_app/presentation/view/profile/ProfileComponents/cureent_password_bottom_sheet.dart';
 import 'package:handy_home_app/presentation/view/profile/ProfileComponents/edit_personal_info_bottom_sheet.dart';
 
 import '../../../app/locator.dart';
@@ -95,7 +96,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   ProfileCustomListTile(
                     text: 'تغيير البريد الالكتروني',
-                    onTap: () {},
+                    onTap: () {
+                      changeEmailBottomSheet(context);
+                    },
                   ),
                   const Divider(
                     thickness: 1,

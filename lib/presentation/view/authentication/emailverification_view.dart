@@ -45,7 +45,6 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.email);
     return Scaffold(
         body: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppWidthSize.w20),
