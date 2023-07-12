@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:handy_home_app/data/models/service_provider_model.dart';
+import 'package:handy_home_app/data/models/user_info_model.dart';
 import 'package:handy_home_app/data/network/remote/dio_helper.dart';
 
 import '../../../app/constants_manager.dart';
@@ -36,6 +37,59 @@ class ProfileRepository {
       return left(
         ApiSuccess(
           ServiceProviderModel.fromJson(response.data),
+          response.statusCode,
+        ),
+      );
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message.toString()));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> editUserInfo({
+    required String firstName,
+    required String lastName,
+  }) async {
+    ApiResults response = await dioHelper.putData(
+        endPoint: Endpoints.editUserInfo,
+        data: {
+          "first_name": firstName,
+          "last_name": lastName
+        },
+        headers: {
+          "Authorization":
+              "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+        });
+
+    if (response is ApiSuccess) {
+      return left(
+        ApiSuccess(
+          response.data["detail"],
+          response.statusCode,
+        ),
+      );
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message.toString()));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> getUserInfo() async {
+    ApiResults response = await dioHelper.getData(
+        endPoint: Endpoints.getUserInfo,
+        headers: {
+          "Authorization":
+              "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+        });
+
+    if (response is ApiSuccess) {
+      return left(
+        ApiSuccess(
+          UserInfoModel.fromJson(response.data),
           response.statusCode,
         ),
       );

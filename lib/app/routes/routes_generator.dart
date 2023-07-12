@@ -111,10 +111,7 @@ class RouteGenerator {
             builder: (_) => const BecomeServiceProviderInfoScreen());
       case RouteConstants.becomeServiceProviderApplicationScreen:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                  create: (context) => ProfileCubit(),
-                  child: const BecomeServiceProviderApplicationScreen(),
-                ));
+            builder: (_) => const BecomeServiceProviderApplicationScreen());
 
       case RouteConstants.addressesManagementScreen:
         return MaterialPageRoute(

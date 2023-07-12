@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy_home_app/app/locator.dart';
 import 'package:handy_home_app/bussiness%20logic/bnbManager/bnb_manager_cubit.dart';
 import 'package:handy_home_app/bussiness%20logic/homeCubit/home_cubit.dart';
+import 'package:handy_home_app/bussiness%20logic/profileCubit/profile_cubit.dart';
 
 import 'app/app.dart';
 import 'data/network/local/local_network.dart';
@@ -31,6 +32,9 @@ void main() async {
           ),
           BlocProvider(
             create: (context) => HomeCubit(),
+          ),
+           BlocProvider(
+            create: (context) => ProfileCubit(),
           ),
         ],
         child: MyApp(),

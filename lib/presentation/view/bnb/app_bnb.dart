@@ -79,9 +79,6 @@ List<Widget> tabs = [
         create: (context) => AuthCubit(),
       )
     ],
-    child:  BlocProvider(
-      create: (context) => ProfileCubit(),
-      child: const ProfileScreen(),
-    ),
+    child:  const ProfileScreen(),
   )
 ];

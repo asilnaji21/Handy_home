@@ -46,6 +46,12 @@ class Endpoints {
 
 //profile endpoint
   static const String becomeServiceProvider='/api/users/create-service-provider/';
+  static const String editUserInfo =
+      '/api/users/edit-user/';
+  static const String getUserInfo =
+      '/api/users/user-data/';
+  
+
 }
 
 void printTest(String text) {

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:handy_home_app/data/models/service_provider_model.dart';
+import 'package:handy_home_app/data/models/user_info_model.dart';
 import 'package:handy_home_app/data/repository/profileRepository/profile_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -33,5 +34,29 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(BecomeServiceProviderSuccessState(
           serviceProvider: l.data as ServiceProviderModel));
     }, (r) => emit(BecomeServiceProviderFailedState(message: r.message)));
+  }
+
+  getUserInfo() async {
+    emit(UserInfoLoadingState());
+
+    final data = await profileRepository.getUserInfo();
+    data.fold((l) {
+      emit(UserInfoSuccessState(userInfoModel: l.data as UserInfoModel));
+    }, (r) => emit(UserInfoFailedState(message: r.message)));
+  }
+
+  editPersonalInfo({
+    required String firstName,
+    required String lastName,
+  }) async {
+    emit(EditPersonalInfoLoadingState());
+
+    final data = await profileRepository.editUserInfo(
+      firstName: firstName,
+      lastName: lastName,
+    );
+    data.fold((l) {
+      emit(EditPersonalInfoSuccessState(message: l.data as String));
+    }, (r) => emit(EditPersonalInfoFailedState(message: r.message)));
   }
 }

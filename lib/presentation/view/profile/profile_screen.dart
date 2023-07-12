@@ -4,16 +4,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/bussiness%20logic/authCubit/auth_cubit.dart';
+import 'package:handy_home_app/bussiness%20logic/profileCubit/profile_cubit.dart';
 import 'package:handy_home_app/customwidget/custom_dialog_widget.dart';
 import 'package:handy_home_app/data/network/local/local_network.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
+import 'package:handy_home_app/presentation/view/profile/ProfileComponents/edit_personal_info_bottom_sheet.dart';
 
 import '../../../app/locator.dart';
 import '../../../bussiness logic/authCubit/auth_state.dart';
 import '../../../customwidget/loading_widget.dart';
 import '../../../customwidget/snackbar.dart';
 import '../../resources/style_manager.dart';
+import 'ProfileComponents/personal_card_info.dart';
 import 'ProfileComponents/profile_custom_list_tile.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -33,47 +36,7 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Card(
-            color: Colors.white,
-            elevation: 0,
-            margin: EdgeInsets.zero,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(8),
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Image.asset(
-                    ImagePath.profileImage,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'أحمد العزايزة',
-                      style: StyleManger.headline1(fontSize: 18),
-                    ),
-                    Text(
-                      'example@gmail.com',
-                      style: StyleManger.headline2(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
+          PersonalCardInfo(),
           const SizedBox(
             height: 16,
           ),
@@ -122,7 +85,9 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   ProfileCustomListTile(
                     text: 'تغيير المعلومات الشخصية',
-                    onTap: () {},
+                    onTap: () {
+                      personalInfoBottomSheet(context);
+                    },
                   ),
                   const Divider(
                     thickness: 1,
