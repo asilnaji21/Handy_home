@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:handy_home_app/data/models/location_model.dart';
 import 'package:handy_home_app/data/models/service_provider_model.dart';
 import 'package:handy_home_app/data/models/user_info_model.dart';
 import 'package:handy_home_app/data/repository/profileRepository/profile_repository.dart';
@@ -81,9 +82,39 @@ class ProfileCubit extends Cubit<ProfileState> {
   verifyNewEmail({required String code}) async {
     emit(VerifyNewEmailLoadingState());
 
-    final data = await profileRepository.verifyNewEmailAdded(code: code);
+    final data = await profileRepository.verifyNewEmail(code: code);
     data.fold((l) {
       emit(VerifyNewEmailSuccessState(message: l.data as String));
     }, (r) => emit(VerifyNewEmailFailedState(message: r.message)));
+  }
+
+  getLocation() async {
+    emit(LocationLoadingState());
+
+    final data = await profileRepository.getLocation();
+    data.fold((l) {
+      emit(LocationSuccessState(locations: l.data as List<LocationModel>));
+    }, (r) => emit(LocationFailedState(message: r.message)));
+  }
+
+  addNewLocation({
+    required String country,
+    required String city,
+    required String building,
+    required String apartmentNumber,
+    required String phoneNumber,
+  }) async {
+    emit(AddLocationLoadingState());
+
+    final data = await profileRepository.addNewLocation(
+      country: country,
+      city: city,
+      building: building,
+      apartmentNumber: apartmentNumber,
+      phoneNumber: phoneNumber,
+    );
+    data.fold((l) {
+      emit(AddLocationSuccessState(message: l.data as String));
+    }, (r) => emit(AddLocationFailedState(message: r.message)));
   }
 }

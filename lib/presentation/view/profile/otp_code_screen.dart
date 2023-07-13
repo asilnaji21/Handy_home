@@ -124,6 +124,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         if (state is VerifyNewEmailLoadingState) {
                           showLoading(context);
                         } else if (state is VerifyNewEmailSuccessState) {
+                          context.read<ProfileCubit>().getUserInfo();
                           NavigationManager.popUntil(RouteConstants.homeRoute);
                           context.read<BnbManagerCubit>().onSelectItem(4);
                           showSnackBar(context,
@@ -141,7 +142,6 @@ class _OtpScreenState extends State<OtpScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print(pinController.text);
                             context
                                 .read<ProfileCubit>()
                                 .verifyNewEmail(code: pinController.text);

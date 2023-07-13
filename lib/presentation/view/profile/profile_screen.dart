@@ -20,9 +20,14 @@ import '../../resources/style_manager.dart';
 import 'ProfileComponents/personal_card_info.dart';
 import 'ProfileComponents/profile_custom_list_tile.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,9 +111,12 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   ProfileCustomListTile(
                     text: 'إدارة العناوين',
-                    onTap: () {
-                      NavigationManager.pushNamed(
+                    onTap: () async {
+                      bool value = await NavigationManager.pushNamed(
                           RouteConstants.addressesManagementScreen);
+                      if (value) {
+                        context.read<ProfileCubit>().getUserInfo();
+                      }
                     },
                   ),
                 ],

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:handy_home_app/bussiness%20logic/profileCubit/profile_cubit.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
 
+import '../../../../app/routes/navigation_manager.dart';
 import '../../../../customwidget/custom_button_with_background_widget.dart';
+import '../../../../customwidget/loading_widget.dart';
+import '../../../../customwidget/snackbar.dart';
 import '../../../../customwidget/textformfield_custom.dart';
 import '../../../resources/color_manager.dart';
 import '../../../resources/style_manager.dart';
@@ -127,20 +132,50 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
                   ],
                 ),
               ),
-              CustomButtonWithBackgroundWidget(
-                text: 'حفظ',
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    print('object');
+              BlocListener<ProfileCubit, ProfileState>(
+                listener: (context, state) {
+                  if (state is AddLocationLoadingState) {
+                    showLoading(context);
+                  } else if (state is AddLocationSuccessState) {
+                    context.read<ProfileCubit>().getLocation();
+                    showSnackBar(context,
+                        text: state.message,
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white);
+                    NavigationManager.pop();
+                    NavigationManager.pop();
+                  } else if (state is AddLocationFailedState) {
+                    NavigationManager.pop();
+                    NavigationManager.pop();
+                    showSnackBar(context,
+                        text: state.message,
+                        backgroundColor: Colors.grey,
+                        textColor: Colors.black);
                   }
                 },
-                boxShadow: [
-                  BoxShadow(
-                    offset: const Offset(0, -3),
-                    blurRadius: 10,
-                    color: Colors.grey.shade400,
-                  )
-                ],
+                child: CustomButtonWithBackgroundWidget(
+                  text: 'حفظ',
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+
+                      context.read<ProfileCubit>().addNewLocation(
+                            country: countryController.text,
+                            city: cityController.text,
+                            building: buildingNameController.text,
+                            apartmentNumber: apartmentNumberController.text,
+                            phoneNumber: '05' + mobileNumberController.text,
+                          );
+                    }
+                  },
+                  boxShadow: [
+                    BoxShadow(
+                      offset: const Offset(0, -3),
+                      blurRadius: 10,
+                      color: Colors.grey.shade400,
+                    )
+                  ],
+                ),
               ),
             ],
           ),

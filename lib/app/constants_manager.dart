@@ -52,6 +52,8 @@ class Endpoints {
   static const String verifyPassword = '/api/users/verify-password/';
   static const String changeEmail = '/api/users/change-email/';
   static const String verifyNewEmail = '/api/users/verify-new-email/';
+  static const String getLocation = '/api/users/location/';
+  static const String addLocation = '/api/users/location/';
 }
 
 void printTest(String text) {

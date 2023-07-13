@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:handy_home_app/data/models/location_model.dart';
 import 'package:handy_home_app/data/models/service_provider_model.dart';
 import 'package:handy_home_app/data/models/user_info_model.dart';
 import 'package:handy_home_app/data/network/remote/dio_helper.dart';
@@ -155,10 +156,10 @@ class ProfileRepository {
     }
   }
 
-  Future<Either<ApiSuccess, ApiFailure>> verifyNewEmailAdded(
+  Future<Either<ApiSuccess, ApiFailure>> verifyNewEmail(
       {required String code}) async {
     ApiResults response = await dioHelper.postData(
-        endPoint: '/api/users/verify-new-email/',
+        endPoint: Endpoints.verifyNewEmail,
         data: {
           "code": code
         },
@@ -178,31 +179,57 @@ class ProfileRepository {
     }
   }
 
-  // Future<Either<ApiSuccess, ApiFailure>> verifyNewEmailCode({
-  //   required String code,
-  // }) async {
-  //   ApiResults response = await dioHelper.postData(
-  //       endPoint: Endpoints.verifyNewEmail,
-  //       data: {
-  //         "code": code
-  //       },
-  //       headers: {
-  //         "Authorization":
-  //             "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
-  //       });
-  //   if (response is ApiSuccess) {
-  //     return left(
-  //       ApiSuccess(
-  //         response.data["detail"],
-  //         response.statusCode,
-  //       ),
-  //     );
-  //   } else {
-  //     if (response is ApiFailure && response.statusCode == 400) {
-  //       return right(
-  //           ApiFailure(response.message["detail"] ?? 'an error happened'));
-  //     }
-  //     return right(response as ApiFailure);
-  //   }
-  // }
+  Future<Either<ApiSuccess, ApiFailure>> getLocation() async {
+    ApiResults response = await dioHelper.getData(
+        endPoint: Endpoints.getLocation,
+        headers: {
+          "Authorization":
+              "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+        });
+
+    if (response is ApiSuccess) {
+      return left(ApiSuccess(
+          response.data
+              .map((e) => LocationModel.fromJson(e))
+              .toList()
+              .cast<LocationModel>(),
+          response.statusCode));
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message["detail"],
+            statusCode: response.statusCode));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> addNewLocation({
+    required String country,
+    required String city,
+    required String building,
+    required String apartmentNumber,
+    required String phoneNumber,
+  }) async {
+    ApiResults response =
+        await dioHelper.postData(endPoint: Endpoints.addLocation, data: {
+      "country": country,
+      "city": city,
+      "building": building,
+      "apartment_number": apartmentNumber,
+      "phone_number": phoneNumber
+    }, headers: {
+      "Authorization":
+          "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+    });
+
+    if (response is ApiSuccess) {
+      return left(ApiSuccess('تم الاضافة بنجاح', response.statusCode));
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message.toString(),
+            statusCode: response.statusCode));
+      }
+      return right(response as ApiFailure);
+    }
+  }
 }

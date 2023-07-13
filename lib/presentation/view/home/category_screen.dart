@@ -107,15 +107,22 @@ class CustomHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Expanded(
-          flex: 1,
-          child: CardForIconWidget(
-            icon: Icon(
-              Icons.arrow_back,
-              color: ColorManager.brownColor,
-            ),
-          ),
-        ),
+        Expanded(
+            flex: 1,
+            child: Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: ColorManager.brownColor,
+                  )),
+            )),
         const SizedBox(
           width: 20,
         ),

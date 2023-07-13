@@ -84,3 +84,29 @@ class VerifyNewEmailFailedState extends ProfileState {
   final String message;
   VerifyNewEmailFailedState({required this.message});
 }
+
+// this state for get location list request
+class LocationLoadingState extends ProfileState {}
+
+class LocationSuccessState extends ProfileState {
+  final List<LocationModel> locations;
+  LocationSuccessState({required this.locations});
+}
+
+class LocationFailedState extends ProfileState {
+  final String message;
+  LocationFailedState({required this.message});
+}
+
+// this state for add new location request
+class AddLocationLoadingState extends ProfileState {}
+
+class AddLocationSuccessState extends ProfileState {
+  final String message;
+  AddLocationSuccessState({required this.message});
+}
+
+class AddLocationFailedState extends ProfileState {
+  final String message;
+  AddLocationFailedState({required this.message});
+}
