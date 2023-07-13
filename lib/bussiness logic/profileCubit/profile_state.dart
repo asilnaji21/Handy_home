@@ -33,7 +33,7 @@ class UserInfoFailedState extends ProfileState {
   UserInfoFailedState({required this.message});
 }
 
-// this state for edit user info request 
+// this state for edit user info request
 class EditPersonalInfoLoadingState extends ProfileState {}
 
 class EditPersonalInfoSuccessState extends ProfileState {
@@ -44,4 +44,43 @@ class EditPersonalInfoSuccessState extends ProfileState {
 class EditPersonalInfoFailedState extends ProfileState {
   final String message;
   EditPersonalInfoFailedState({required this.message});
+}
+
+// this state for verify password request
+class VerifyPasswordLoadingState extends ProfileState {}
+
+class VerifyPasswordSuccessState extends ProfileState {
+  final String message;
+  VerifyPasswordSuccessState({required this.message});
+}
+
+class VerifyPasswordFailedState extends ProfileState {
+  final String message;
+  VerifyPasswordFailedState({required this.message});
+}
+
+// this state for change email request
+class ChangeEmailLoadingState extends ProfileState {}
+
+class ChangeEmailSuccessState extends ProfileState {
+  final String message;
+  ChangeEmailSuccessState({required this.message});
+}
+
+class ChangeEmailFailedState extends ProfileState {
+  final String message;
+  ChangeEmailFailedState({required this.message});
+}
+
+// this state for verify new email code request
+class VerifyNewEmailLoadingState extends ProfileState {}
+
+class VerifyNewEmailSuccessState extends ProfileState {
+  final String message;
+  VerifyNewEmailSuccessState({required this.message});
+}
+
+class VerifyNewEmailFailedState extends ProfileState {
+  final String message;
+  VerifyNewEmailFailedState({required this.message});
 }

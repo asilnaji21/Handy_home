@@ -120,8 +120,14 @@ class RouteGenerator {
             builder: (_) => const AddressesManagementScreen());
       case RouteConstants.newEmailScreen:
         return MaterialPageRoute(builder: (_) => const NewEmailScreen());
-         case RouteConstants.otpScreen:
-        return MaterialPageRoute(builder: (_) => const OtpScreen());
+      case RouteConstants.otpScreen:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => ProfileCubit(),
+                  child: OtpScreen(
+                    email: settings.arguments as String,
+                  ),
+                ));
       default:
         return unDefineRoute();
     }

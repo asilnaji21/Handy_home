@@ -45,13 +45,13 @@ class Endpoints {
   static const String activeOrder = '/api/orders/active-order/';
 
 //profile endpoint
-  static const String becomeServiceProvider='/api/users/create-service-provider/';
-  static const String editUserInfo =
-      '/api/users/edit-user/';
-  static const String getUserInfo =
-      '/api/users/user-data/';
-  
-
+  static const String becomeServiceProvider =
+      '/api/users/create-service-provider/';
+  static const String editUserInfo = '/api/users/edit-user/';
+  static const String getUserInfo = '/api/users/user-data/';
+  static const String verifyPassword = '/api/users/verify-password/';
+  static const String changeEmail = '/api/users/change-email/';
+  static const String verifyNewEmail = '/api/users/verify-new-email/';
 }
 
 void printTest(String text) {

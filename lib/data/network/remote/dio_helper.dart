@@ -53,6 +53,7 @@ class DioHelper {
       print(response.statusCode);
       // i make it in this way because the api return difference response at this status code so i need to handel the response for all cases
       if (response.statusCode == 400) {
+        print(response.data);
         return ApiFailure(response.data, statusCode: 400);
       }
       printResponse('base:    ${dio.options.baseUrl}');
@@ -131,7 +132,7 @@ class DioHelper {
     }
   }
 
-    // -----------------------------put  Data ---------------------------- //
+  // -----------------------------put  Data ---------------------------- //
 
   Future<ApiResults> putData(
       {required String endPoint,

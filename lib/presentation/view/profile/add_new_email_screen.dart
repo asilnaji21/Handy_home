@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:handy_home_app/bussiness%20logic/profileCubit/profile_cubit.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
 
 import '../../../app/l10n/locale_keys.g.dart';
@@ -8,7 +10,9 @@ import '../../../app/routes/route_constants.dart';
 
 import '../../../customwidget/button_custom.dart';
 import '../../../customwidget/header_custom.dart';
+import '../../../customwidget/loading_widget.dart';
 import '../../../customwidget/sizedbox_custom.dart';
+import '../../../customwidget/snackbar.dart';
 import '../../../customwidget/textformfield_custom.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/values_manager.dart';
@@ -51,7 +55,7 @@ class _NewEmailScreenState extends State<NewEmailScreen> {
                   SizedBoxCustom(
                     height: AppHeightSize.h16,
                   ),
-                  HeaderCustom(
+                  const HeaderCustom(
                     text1: 'اضافة البريد الالكتروني الجديد',
                     subText: 'قم بكتابة البريد الالكتروني الجديد لاعتماده!',
                     textAlign: TextAlign.center,
@@ -68,13 +72,35 @@ class _NewEmailScreenState extends State<NewEmailScreen> {
                   SizedBoxCustom(
                     height: AppHeightSize.h18,
                   ),
-                  CustomButtonPrimary(
-                    onPressed: () {
-                      if (formFieldKey.currentState!.validate()) {
-                        NavigationManager.pushNamed(RouteConstants.otpScreen);
+                  BlocListener<ProfileCubit, ProfileState>(
+                    listener: (context, state) {
+                      if (state is ChangeEmailLoadingState) {
+                        showLoading(context);
+                      } else if (state is ChangeEmailSuccessState) {
+                        showSnackBar(context,
+                            text: state.message,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white);
+                        NavigationManager.pushNamed(RouteConstants.otpScreen,
+                            arguments: emailController.text);
+                      } else if (state is ChangeEmailFailedState) {
+                        NavigationManager.pop();
+                        showSnackBar(context,
+                            text: state.message,
+                            backgroundColor: Colors.grey,
+                            textColor: Colors.black);
                       }
                     },
-                    text: Text('تأكيد'),
+                    child: CustomButtonPrimary(
+                      onPressed: () {
+                        if (formFieldKey.currentState!.validate()) {
+                          context
+                              .read<ProfileCubit>()
+                              .changeEmail(email: emailController.text);
+                        }
+                      },
+                      text: Text('تأكيد'),
+                    ),
                   ),
                 ],
               ),

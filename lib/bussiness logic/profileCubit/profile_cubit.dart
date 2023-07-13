@@ -59,4 +59,31 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(EditPersonalInfoSuccessState(message: l.data as String));
     }, (r) => emit(EditPersonalInfoFailedState(message: r.message)));
   }
+
+  verifyPassword({required String password}) async {
+    emit(VerifyPasswordLoadingState());
+
+    final data = await profileRepository.verifyPassword(password: password);
+    data.fold((l) {
+      emit(VerifyPasswordSuccessState(message: l.data as String));
+    }, (r) => emit(VerifyPasswordFailedState(message: r.message)));
+  }
+
+  changeEmail({required String email}) async {
+    emit(ChangeEmailLoadingState());
+
+    final data = await profileRepository.changeEmail(email: email);
+    data.fold((l) {
+      emit(ChangeEmailSuccessState(message: l.data as String));
+    }, (r) => emit(ChangeEmailFailedState(message: r.message)));
+  }
+
+  verifyNewEmail({required String code}) async {
+    emit(VerifyNewEmailLoadingState());
+
+    final data = await profileRepository.verifyNewEmailAdded(code: code);
+    data.fold((l) {
+      emit(VerifyNewEmailSuccessState(message: l.data as String));
+    }, (r) => emit(VerifyNewEmailFailedState(message: r.message)));
+  }
 }

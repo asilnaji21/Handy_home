@@ -100,4 +100,109 @@ class ProfileRepository {
       return right(response as ApiFailure);
     }
   }
+
+  Future<Either<ApiSuccess, ApiFailure>> verifyPassword({
+    required String password,
+  }) async {
+    ApiResults response =
+        await dioHelper.postData(endPoint: Endpoints.verifyPassword, data: {
+      "password": password,
+    }, headers: {
+      "Authorization":
+          "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+    });
+
+    if (response is ApiSuccess) {
+      return left(
+        ApiSuccess(
+          response.data["detail"],
+          response.statusCode,
+        ),
+      );
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message["password"][0] as String));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> changeEmail({
+    required String email,
+  }) async {
+    ApiResults response = await dioHelper.postData(
+        endPoint: Endpoints.changeEmail,
+        data: {
+          "email": email
+        },
+        headers: {
+          "Authorization":
+              "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+        });
+
+    if (response is ApiSuccess) {
+      return left(
+        ApiSuccess(
+          response.data["detail"],
+          response.statusCode,
+        ),
+      );
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message["email"][0] as String));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> verifyNewEmailAdded(
+      {required String code}) async {
+    ApiResults response = await dioHelper.postData(
+        endPoint: '/api/users/verify-new-email/',
+        data: {
+          "code": code
+        },
+        headers: {
+          "Authorization":
+              "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+        });
+
+    if (response is ApiSuccess) {
+      return left(ApiSuccess(response.data["detail"], response.statusCode));
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message["detail"],
+            statusCode: response.statusCode));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  // Future<Either<ApiSuccess, ApiFailure>> verifyNewEmailCode({
+  //   required String code,
+  // }) async {
+  //   ApiResults response = await dioHelper.postData(
+  //       endPoint: Endpoints.verifyNewEmail,
+  //       data: {
+  //         "code": code
+  //       },
+  //       headers: {
+  //         "Authorization":
+  //             "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+  //       });
+  //   if (response is ApiSuccess) {
+  //     return left(
+  //       ApiSuccess(
+  //         response.data["detail"],
+  //         response.statusCode,
+  //       ),
+  //     );
+  //   } else {
+  //     if (response is ApiFailure && response.statusCode == 400) {
+  //       return right(
+  //           ApiFailure(response.message["detail"] ?? 'an error happened'));
+  //     }
+  //     return right(response as ApiFailure);
+  //   }
+  // }
 }

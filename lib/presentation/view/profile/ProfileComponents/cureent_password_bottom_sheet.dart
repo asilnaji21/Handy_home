@@ -22,6 +22,7 @@ Future<dynamic> changeEmailBottomSheet(
 
   GlobalKey<FormFieldState> fieldKey = GlobalKey<FormFieldState>();
   return showModalBottomSheet(
+    barrierColor: Colors.grey,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     context: context,
     backgroundColor: ColorManager.background,
@@ -40,7 +41,7 @@ Future<dynamic> changeEmailBottomSheet(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'تعديل البيانات الشخصية',
+                    'يرجى ادخال كلمة سر الحساب',
                     style: StyleManger.headline1(fontSize: 22),
                   ),
                   const CardForIconWidget(
@@ -70,31 +71,31 @@ Future<dynamic> changeEmailBottomSheet(
             ),
             BlocListener<ProfileCubit, ProfileState>(
               listener: (context, state) {
-                // if (state is EditPersonalInfoLoadingState) {
-                //   showLoading(context);
-                // } else if (state is EditPersonalInfoSuccessState) {
-                //   NavigationManager.pop();
-                //   NavigationManager.pop();
-
-                //   showSnackBar(context,
-                //       text: state.message,
-                //       backgroundColor: Colors.green,
-                //       textColor: Colors.white);
-                // } else if (state is EditPersonalInfoFailedState) {
-                //   NavigationManager.pop();
-                //   NavigationManager.pop();
-                //   showSnackBar(context,
-                //       text: state.message,
-                //       backgroundColor: Colors.grey,
-                //       textColor: Colors.black);
-                // }
+                if (state is VerifyPasswordLoadingState) {
+                  showLoading(context);
+                } else if (state is VerifyPasswordSuccessState) {
+                  showSnackBar(context,
+                      text: state.message,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white);
+                  NavigationManager.pushNamed(RouteConstants.newEmailScreen);
+                } else if (state is VerifyPasswordFailedState) {
+                  NavigationManager.pop();
+                  NavigationManager.pop();
+                  context.read<ProfileCubit>().getUserInfo();
+                  showSnackBar(context,
+                      text: state.message,
+                      backgroundColor: Colors.grey,
+                      textColor: Colors.black);
+                }
               },
               child: CustomButtonWithBackgroundWidget(
                   onPressed: () {
                     if (fieldKey.currentState!.validate()) {
                       FocusManager.instance.primaryFocus?.unfocus();
-                      NavigationManager.pushNamed(
-                          RouteConstants.newEmailScreen);
+                      context
+                          .read<ProfileCubit>()
+                          .verifyPassword(password: passwordController.text);
                     }
                   },
                   text: 'تأكيد'),

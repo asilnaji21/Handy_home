@@ -216,6 +216,7 @@ class _BecomeServiceProviderApplicationScreenState
           if (state is BecomeServiceProviderLoadingState) {
             showLoading(context);
           } else if (state is BecomeServiceProviderSuccessState) {
+            context.read<ProfileCubit>().getUserInfo();
             showSnackBar(context,
                 text: 'تم طلب ارسال الطلب بنجاح',
                 backgroundColor: Colors.green,
