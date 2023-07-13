@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../presentation/resources/color_manager.dart';
 
 Future<bool?> customDialogWidget(BuildContext context,
-    {required String message}) async {
+    {required String message, Color? buttonColor}) async {
   return await showDialog(
     context: context,
     builder: (context) => Dialog(
@@ -23,7 +23,8 @@ Future<bool?> customDialogWidget(BuildContext context,
                 Expanded(
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorManager.redDarkColor,
+                          backgroundColor:
+                              buttonColor ?? ColorManager.redDarkColor,
                           elevation: 0),
                       onPressed: () {
                         Navigator.pop(context, true);

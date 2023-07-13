@@ -118,3 +118,45 @@ class ProfileCubit extends Cubit<ProfileState> {
     }, (r) => emit(AddLocationFailedState(message: r.message)));
   }
 }
+
+class DeleteCubit extends Cubit<DeleteState> {
+  DeleteCubit() : super(DeleteState());
+  ProfileRepository profileRepository = ProfileRepository();
+
+  deleteLocation({required String endPoint}) async {
+    emit(DeleteLocationLoadingState());
+
+    final data = await profileRepository.deleteLocation(endpoint: endPoint);
+    data.fold((l) {
+      emit(DeleteLocationSuccessState(message: l.data as String));
+    }, (r) => emit(DeleteLocationFailedState(message: r.message)));
+  }
+}
+
+class EditCubit extends Cubit<EditState> {
+  EditCubit() : super(EditState());
+  ProfileRepository profileRepository = ProfileRepository();
+
+  editLocation({
+    required String endpoint,
+    required String country,
+    required String city,
+    required String building,
+    required String apartmentNumber,
+    required String phoneNumber,
+  }) async {
+    emit(EditLoadingState());
+    print('ddddddddddd');
+    final data = await profileRepository.editLocation(
+      endpoint: endpoint,
+      country: country,
+      city: city,
+      building: building,
+      apartmentNumber: apartmentNumber,
+      phoneNumber: phoneNumber,
+    );
+    data.fold((l) {
+      emit(EditSuccessState(message: l.data as String));
+    }, (r) => emit(EditFailedState(message: r.message)));
+  }
+}

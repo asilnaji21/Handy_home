@@ -4,21 +4,24 @@ import 'package:flutter_svg/svg.dart';
 import 'package:handy_home_app/bussiness%20logic/profileCubit/profile_cubit.dart';
 import 'package:handy_home_app/presentation/resources/assets_manager.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../../../app/routes/navigation_manager.dart';
 import '../../../../customwidget/custom_button_with_background_widget.dart';
 import '../../../../customwidget/loading_widget.dart';
 import '../../../../customwidget/snackbar.dart';
 import '../../../../customwidget/textformfield_custom.dart';
+import '../../../../data/models/location_model.dart';
 import '../../../resources/color_manager.dart';
 import '../../../resources/style_manager.dart';
 import '../../home/category_screen.dart';
 
 class AddAddressBottomSheet extends StatefulWidget {
   const AddAddressBottomSheet({
+    this.location,
     Key? key,
   }) : super(key: key);
-
+  final LocationModel? location;
   @override
   State<AddAddressBottomSheet> createState() => _AddAddressBottomSheetState();
 }
@@ -31,6 +34,24 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
   TextEditingController apartmentNumberController = TextEditingController();
   TextEditingController mobileNumberController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    addressNameController.setText(widget.location != null ? 'منزل ' : '');
+    countryController
+        .setText(widget.location != null ? widget.location!.country : '');
+    cityController
+        .setText(widget.location != null ? widget.location!.city : '');
+    buildingNameController
+        .setText(widget.location != null ? widget.location!.building : '');
+    apartmentNumberController.setText(
+        widget.location != null ? widget.location!.apartmentNumber : '');
+    mobileNumberController.setText(widget.location != null
+        ? widget.location!.phoneNumber.substring(2)
+        : '');
+  }
+
   @override
   void dispose() {
     addressNameController.dispose();
@@ -63,7 +84,9 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'إضافة عنوان جديد',
+                      widget.location != null
+                          ? 'تعديل عنوان'
+                          : 'إضافة عنوان جديد',
                       style: StyleManger.headline1(fontSize: 22),
                     ),
                     const CardForIconWidget(
@@ -126,8 +149,30 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 16,
+                    BlocListener<EditCubit, EditState>(
+                      listener: (context, state) {
+                        if (state is EditLoadingState) {
+                          showLoading(context);
+                        } else if (state is EditSuccessState) {
+                          context.read<ProfileCubit>().getLocation();
+                          showSnackBar(context,
+                              text: state.message,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white);
+                          NavigationManager.pop();
+                          NavigationManager.pop();
+                        } else if (state is EditFailedState) {
+                          NavigationManager.pop();
+                          NavigationManager.pop();
+                          showSnackBar(context,
+                              text: state.message,
+                              backgroundColor: Colors.grey,
+                              textColor: Colors.black);
+                        }
+                      },
+                      child: const SizedBox(
+                        height: 16,
+                      ),
                     ),
                   ],
                 ),
@@ -159,13 +204,22 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
                     if (formKey.currentState!.validate()) {
                       FocusManager.instance.primaryFocus?.unfocus();
 
-                      context.read<ProfileCubit>().addNewLocation(
-                            country: countryController.text,
-                            city: cityController.text,
-                            building: buildingNameController.text,
-                            apartmentNumber: apartmentNumberController.text,
-                            phoneNumber: '05' + mobileNumberController.text,
-                          );
+                      widget.location != null
+                          ? context.read<EditCubit>().editLocation(
+                                endpoint: widget.location!.detail,
+                                country: countryController.text,
+                                city: cityController.text,
+                                building: buildingNameController.text,
+                                apartmentNumber: apartmentNumberController.text,
+                                phoneNumber: '05' + mobileNumberController.text,
+                              )
+                          : context.read<ProfileCubit>().addNewLocation(
+                                country: countryController.text,
+                                city: cityController.text,
+                                building: buildingNameController.text,
+                                apartmentNumber: apartmentNumberController.text,
+                                phoneNumber: '05' + mobileNumberController.text,
+                              );
                     }
                   },
                   boxShadow: [

@@ -110,3 +110,36 @@ class AddLocationFailedState extends ProfileState {
   final String message;
   AddLocationFailedState({required this.message});
 }
+
+// this state for delete location request
+
+class DeleteState {}
+
+class DeleteLocationLoadingState extends DeleteState {}
+
+class DeleteLocationSuccessState extends DeleteState {
+  final String message;
+  DeleteLocationSuccessState({required this.message});
+}
+
+class DeleteLocationFailedState extends DeleteState {
+  final String message;
+  DeleteLocationFailedState({required this.message});
+}
+
+// this state for delete location request
+
+class EditState {}
+
+class EditLoadingState extends EditState {}
+
+class EditSuccessState extends EditState {
+  final String message;
+  EditSuccessState({required this.message});
+}
+
+class EditFailedState extends EditState {
+  final String message;
+  EditFailedState({required this.message});
+}
+

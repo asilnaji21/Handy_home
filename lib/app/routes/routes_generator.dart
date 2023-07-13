@@ -117,14 +117,19 @@ class RouteGenerator {
 
       case RouteConstants.addressesManagementScreen:
         return MaterialPageRoute(
-            builder: (_) => const AddressesManagementScreen());
+            builder: (_) => MultiBlocProvider(providers: [
+                  BlocProvider(
+                    create: (context) => DeleteCubit(),
+                  ),
+                  
+                ], child: const AddressesManagementScreen()));
       case RouteConstants.newEmailScreen:
         return MaterialPageRoute(builder: (_) => const NewEmailScreen());
       case RouteConstants.otpScreen:
         return MaterialPageRoute(
             builder: (_) => OtpScreen(
-              email: settings.arguments as String,
-            ));
+                  email: settings.arguments as String,
+                ));
       default:
         return unDefineRoute();
     }

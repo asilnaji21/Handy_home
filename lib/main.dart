@@ -33,8 +33,11 @@ void main() async {
           BlocProvider(
             create: (context) => HomeCubit(),
           ),
-           BlocProvider(
+          BlocProvider(
             create: (context) => ProfileCubit(),
+          ),
+          BlocProvider(
+            create: (context) => EditCubit(),
           ),
         ],
         child: MyApp(),

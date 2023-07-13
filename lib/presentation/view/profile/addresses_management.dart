@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/bussiness%20logic/profileCubit/profile_cubit.dart';
+import 'package:handy_home_app/customwidget/custom_dialog_widget.dart';
+import 'package:handy_home_app/customwidget/loading_widget.dart';
+import 'package:handy_home_app/customwidget/snackbar.dart';
 import 'package:handy_home_app/customwidget/textformfield_custom.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 import 'package:skeletons/skeletons.dart';
@@ -88,20 +92,83 @@ class _AddressesManagementScreenState extends State<AddressesManagementScreen> {
                                             ColorManager.background,
                                         iconColor: Colors.grey,
                                         icon: Icons.edit,
-                                        onTap: () {
-                                          print('edit');
+                                        onTap: () async {
+                                          bool? value = await customDialogWidget(
+                                              context,
+                                              buttonColor: ColorManager
+                                                  .primaryMainEnableColor,
+                                              message:
+                                                  'هل انت متأكد من تعديل العنوان');
+                                          if (value != null && value) {
+                                            showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topLeft: Radius
+                                                                  .circular(8),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      8))),
+                                              clipBehavior: Clip.antiAlias,
+                                              context: context,
+                                              builder: (context) =>
+                                                  AddAddressBottomSheet(
+                                                location:
+                                                    state.locations[index],
+                                              ),
+                                            );
+                                          }
                                         }),
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    CustomIconButton(
-                                      backgroundColor:
-                                          ColorManager.redLightColor,
-                                      iconColor: ColorManager.redDarkColor,
-                                      icon: Icons.delete,
-                                      onTap: () {
-                                        print('delete');
+                                    BlocListener<DeleteCubit, DeleteState>(
+                                      listener: (context, deleteState) {
+                                        if (deleteState
+                                            is DeleteLocationLoadingState) {
+                                          showLoading(context);
+                                        } else if (deleteState
+                                            is DeleteLocationSuccessState) {
+                                          NavigationManager.pop();
+
+                                          // showSnackBar(context,
+                                          //     text: deleteState.message,
+                                          //     backgroundColor: Colors.green,
+                                          //     textColor: Colors.white);
+                                          context
+                                              .read<ProfileCubit>()
+                                              .getLocation();
+                                        } else if (deleteState
+                                            is DeleteLocationFailedState) {
+                                          NavigationManager.pop();
+                                          showSnackBar(context,
+                                              text: deleteState.message,
+                                              backgroundColor: Colors.grey,
+                                              textColor: Colors.black);
+                                        }
                                       },
+                                      child: CustomIconButton(
+                                        backgroundColor:
+                                            ColorManager.redLightColor,
+                                        iconColor: ColorManager.redDarkColor,
+                                        icon: Icons.delete,
+                                        onTap: () async {
+                                          bool? value = await customDialogWidget(
+                                              context,
+                                              message:
+                                                  'هل انت متأكد من حذف العنوان');
+                                          if (value != null && value == true) {
+                                            context
+                                                .read<DeleteCubit>()
+                                                .deleteLocation(
+                                                    endPoint: state
+                                                        .locations[index]
+                                                        .detail);
+                                          }
+                                        },
+                                      ),
                                     )
                                   ],
                                 ),

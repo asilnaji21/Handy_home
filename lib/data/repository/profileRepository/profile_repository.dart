@@ -232,4 +232,55 @@ class ProfileRepository {
       return right(response as ApiFailure);
     }
   }
+
+  Future<Either<ApiSuccess, ApiFailure>> deleteLocation({
+    required String endpoint,
+  }) async {
+    ApiResults response = await dioHelper.deleteData(
+        endPoint: endpoint,
+        headers: {
+          "Authorization":
+              "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+        });
+
+    if (response is ApiSuccess) {
+      return left(ApiSuccess('تم الحذف بنجاح', response.statusCode));
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message.toString(),
+            statusCode: response.statusCode));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> editLocation({
+    required String endpoint,
+    required String country,
+    required String city,
+    required String building,
+    required String apartmentNumber,
+    required String phoneNumber,
+  }) async {
+    ApiResults response = await dioHelper.patchData(endPoint: endpoint, data: {
+      "country": country,
+      "city": city,
+      "building": building,
+      "apartment_number": apartmentNumber,
+      "phone_number": phoneNumber
+    }, headers: {
+      "Authorization":
+          "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+    });
+
+    if (response is ApiSuccess) {
+      return left(ApiSuccess('تم التعديل بنجاح', response.statusCode));
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message.toString(),
+            statusCode: response.statusCode));
+      }
+      return right(response as ApiFailure);
+    }
+  }
 }
