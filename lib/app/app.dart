@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           theme: getApplicationTheme(),
           debugShowCheckedModeBanner: false,
-          // initialRoute: RouteConstants.onBoardingRoute,
+          // initialRoute: RouteConstants.loginRoute,
             initialRoute: getIt<SharedPrefController>().getLoggedIn()
                 ? RouteConstants.homeRoute
                 : RouteConstants.loginRoute,

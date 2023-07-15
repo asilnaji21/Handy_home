@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:handy_home_app/presentation/view/home/HomeComponents/home_horizontal_category_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:handy_home_app/bussiness%20logic/searchCubit/search_cubit.dart';
+import 'dart:async';
+import 'package:skeletons/skeletons.dart';
 
 import '../../../customwidget/search_custom_widget.dart';
 import '../../resources/style_manager.dart';
@@ -13,20 +16,29 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  TextEditingController searchController = TextEditingController();
   @override
   void initState() {
     super.initState();
+    context.read<SearchCubit>().services();
+  }
+
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 30, left: 30, right: 30),
-            child: Column(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 30, left: 30, right: 30),
+        child: BlocBuilder<SearchCubit, SearchState>(
+          builder: (context, state) {
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -36,84 +48,79 @@ class _SearchScreenState extends State<SearchScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                const SearchCustomWidget(),
+                SearchCustomWidget(
+                  searchController: searchController,
+                  onChanged: (value) {
+                    if (_debounce?.isActive ?? false) _debounce!.cancel();
+                    _debounce = Timer(const Duration(milliseconds: 500), () {
+                      context.read<SearchCubit>().services(searchValue: value);
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  searchController.text.isEmpty
+                      ? 'اقتراحات سريعة'
+                      : 'نتائج البحث',
+                  style: StyleManger.headline1(fontSize: 18),
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                    itemBuilder: (context, index) {
+                      if (state is SearchLoadingState) {
+                        return SkeletonItem(
+                          child: Card(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                          ),
+                        );
+                      } else if (state is SearchSuccessState) {
+                        if (state.services.isEmpty) {
+                          return const Center(
+                            child: Text(
+                              'لا يوجد خدمات',
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        }
+                        return SingleServiceWidget(
+                          width: 160,
+                          image: state.services[index].image,
+                          loadingPlaceholder: Container(
+                            height: 70,
+                            width: 70,
+                            decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(8)),
+                          ),
+                          price:
+                              '${state.services[index].priceFrom}-${state.services[index].priceTo}',
+                          serviceName: state.services[index].name,
+                        );
+                      } else {
+                        return const Text('something went wrong');
+                      }
+                    },
+                    itemCount: state is SearchSuccessState
+                        ? state.services.isEmpty
+                            ? 1
+                            : state.services.length
+                        : state is SearchLoadingState
+                            ? 10
+                            : 1,
+                  ),
+                ),
               ],
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Expanded(
-              child: ListView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.only(right: 30),
-            children: [
-              Text(
-                'عمليات البحث الاخيرة',
-                style: StyleManger.headline1(fontSize: 18),
-              ),
-              SizedBox(
-                height: 205,
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => const SingleServiceWidget(
-                    width: 160,
-                    image:
-                        "https://mohammedashrafdagga.pythonanywhere.com/media/services_images/services.png",
-                    price: '30-50',
-                    serviceName: "تركيب مفاصل للأبواب",
-                  ),
-                  itemCount: 30,
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Text(
-                'اقتراحات سريعة',
-                style: StyleManger.headline1(fontSize: 18),
-              ),
-              SizedBox(
-                height: 205,
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => const SingleServiceWidget(
-                    width: 160,
-                    image:
-                        "https://mohammedashrafdagga.pythonanywhere.com/media/services_images/services.png",
-                    price: '30-50',
-                    serviceName: "تركيب مفاصل للأبواب",
-                  ),
-                  itemCount: 30,
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Text(
-                ' خدمات اخرى',
-                style: StyleManger.headline1(fontSize: 18),
-              ),
-              SizedBox(
-                height: 205,
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => const SingleServiceWidget(
-                    width: 160,
-                    image:
-                        "https://mohammedashrafdagga.pythonanywhere.com/media/services_images/services.png",
-                    price: '30-50',
-                    serviceName: "تركيب مفاصل للأبواب",
-                  ),
-                  itemCount: 30,
-                  scrollDirection: Axis.horizontal,
-                ),
-              )
-            ],
-          )),
-        ],
+            );
+          },
+        ),
       ),
     );
   }

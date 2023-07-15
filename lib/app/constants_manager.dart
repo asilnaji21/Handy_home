@@ -54,6 +54,9 @@ class Endpoints {
   static const String verifyNewEmail = '/api/users/verify-new-email/';
   static const String getLocation = '/api/users/location/';
   static const String addLocation = '/api/users/location/';
+
+  // search endpoint
+  static const String searchEndpoint = '/api/services/';
 }
 
 void printTest(String text) {
