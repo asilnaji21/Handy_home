@@ -33,12 +33,13 @@ class Endpoints {
   }
 
   static String serviceDetails({required int id}) {
-    return '/api/services/$id/detail/';
+    return '$baseUrl/api/services/$id/detail/';
   }
 
   static const String latestAdded = '/api/services/latest-add/';
   static const String orderFixedService = '/api/orders/';
   static const String orderCustomService = '/api/users/create-custom-service/';
+  static const String addReview = '/api/reviews/';
 
 // booked service endpoint
   static const String allOrder = '/api/orders/all-order/';

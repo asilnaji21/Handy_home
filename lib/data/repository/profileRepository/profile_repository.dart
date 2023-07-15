@@ -209,6 +209,7 @@ class ProfileRepository {
     required String building,
     required String apartmentNumber,
     required String phoneNumber,
+    required String addressName
   }) async {
     ApiResults response =
         await dioHelper.postData(endPoint: Endpoints.addLocation, data: {
@@ -216,7 +217,8 @@ class ProfileRepository {
       "city": city,
       "building": building,
       "apartment_number": apartmentNumber,
-      "phone_number": phoneNumber
+      "phone_number": phoneNumber,
+      "address_name":addressName
     }, headers: {
       "Authorization":
           "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
@@ -261,13 +263,15 @@ class ProfileRepository {
     required String building,
     required String apartmentNumber,
     required String phoneNumber,
+    required String addressName
   }) async {
     ApiResults response = await dioHelper.patchData(endPoint: endpoint, data: {
       "country": country,
       "city": city,
       "building": building,
       "apartment_number": apartmentNumber,
-      "phone_number": phoneNumber
+      "phone_number": phoneNumber,
+      "address_name":addressName,
     }, headers: {
       "Authorization":
           "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"

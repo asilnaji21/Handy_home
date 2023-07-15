@@ -37,10 +37,28 @@ class HomeCubit extends Cubit<HomeState> {
   serviceDetails({required String endPoint}) async {
     emit(ServiceDetailsLoadingState());
 
-    final data = await homeRepository.getServiceDetails(serviceEndPoint: endPoint);
+    final data =
+        await homeRepository.getServiceDetails(serviceEndPoint: endPoint);
     data.fold((l) {
       emit(ServiceDetailsSuccessState(serviceDetails: l.data as ServiceModel));
     }, (r) => emit(ServiceDetailsFailedState(message: r.message)));
+  }
+
+  addReview({
+    required int reviewValue,
+    required String comment,
+    required int service,
+  }) async {
+    emit(ReviewLoadingState());
+
+    final data = await homeRepository.addReview(
+      reviewValue: reviewValue,
+      comment: comment,
+      service: service,
+    );
+    data.fold((l) {
+      emit(ReviewSuccessState(message: l.data as String));
+    }, (r) => emit(ReviewFailedState(message: r.message)));
   }
 
   orderFixedService(
@@ -48,10 +66,12 @@ class HomeCubit extends Cubit<HomeState> {
       required int totalPrice,
       required String date,
       required String time,
+      required int location,
       required int service}) async {
     emit(OrderFixedServiceLoadingState());
 
     final data = await homeRepository.orderFixedService(
+        location: location,
         quantity: quantity,
         totalPrice: totalPrice,
         date: date,

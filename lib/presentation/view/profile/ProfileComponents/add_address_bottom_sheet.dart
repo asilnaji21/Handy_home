@@ -38,7 +38,8 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
   @override
   void initState() {
     super.initState();
-    addressNameController.setText(widget.location != null ? 'منزل ' : '');
+    addressNameController
+        .setText(widget.location != null ? widget.location!.addressName : '');
     countryController
         .setText(widget.location != null ? widget.location!.country : '');
     cityController
@@ -138,10 +139,12 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
                       height: 16,
                     ),
                     TextFormField(
+                      maxLength: 8,
                       controller: mobileNumberController,
                       validator: (value) => value!.isValidPhone,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
+                        counter: SizedBox(),
                         hintText: 'رقم الهاتف',
                         suffixIcon: SvgPicture.asset(
                           IconPath.mobilePrefixIcon,
@@ -206,6 +209,7 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
 
                       widget.location != null
                           ? context.read<EditCubit>().editLocation(
+                                addressName: addressNameController.text,
                                 endpoint: widget.location!.detail,
                                 country: countryController.text,
                                 city: cityController.text,
@@ -214,6 +218,7 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
                                 phoneNumber: '05' + mobileNumberController.text,
                               )
                           : context.read<ProfileCubit>().addNewLocation(
+                                addressName: addressNameController.text,
                                 country: countryController.text,
                                 city: cityController.text,
                                 building: buildingNameController.text,

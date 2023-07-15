@@ -103,10 +103,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String building,
     required String apartmentNumber,
     required String phoneNumber,
+    required String addressName,
   }) async {
     emit(AddLocationLoadingState());
 
     final data = await profileRepository.addNewLocation(
+      addressName: addressName,
       country: country,
       city: city,
       building: building,
@@ -144,10 +146,12 @@ class EditCubit extends Cubit<EditState> {
     required String building,
     required String apartmentNumber,
     required String phoneNumber,
+    required String addressName
   }) async {
     emit(EditLoadingState());
     print('ddddddddddd');
     final data = await profileRepository.editLocation(
+      addressName: addressName,
       endpoint: endpoint,
       country: country,
       city: city,

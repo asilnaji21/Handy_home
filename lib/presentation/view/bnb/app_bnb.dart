@@ -69,10 +69,7 @@ List<Widget> tabs = [
     child: const HomeScreen(),
   ),
   const NotificationScreen(),
-  BlocProvider(
-    create: (context) => BookedServiceCubit(),
-    child: const BookedServiceScreen(),
-  ),
+  const BookedServiceScreen(),
    BlocProvider(
     create: (context) => SearchCubit(),
     child: const SearchScreen(),

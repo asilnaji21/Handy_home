@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class ServiceModel {
   final String name;
   final String image;
@@ -58,6 +59,11 @@ class ServiceModel {
     data['detail'] = detail;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'ServiceModel(name: $name, image: $image, priceFrom: $priceFrom, priceTo: $priceTo, detail: $detail, serviceInclude: $serviceInclude, serviceExclude: $serviceExclude, id: $id, reviews: $reviews)';
+  }
 }
 
 class CategoryWithServicesModel {
@@ -104,5 +110,10 @@ class ReviewModel {
         createdAt: json['create_at'],
         updatedAt: json['update_at'],
         comment: json['comment']);
+  }
+
+  @override
+  String toString() {
+    return 'ReviewModel(id: $id, name: $name, image: $image, review: $review, comment: $comment, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }

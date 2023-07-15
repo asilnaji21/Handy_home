@@ -30,7 +30,7 @@ class CustomerCommentWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Image.network(
-                'https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg',
+                image,
                 fit: BoxFit.contain,
               ),
               clipBehavior: Clip.antiAlias,

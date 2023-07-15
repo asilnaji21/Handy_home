@@ -6,11 +6,16 @@ import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/bussiness%20logic/homeCubit/home_cubit.dart';
 import 'package:handy_home_app/customwidget/custom_button_with_background_widget.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
+import 'package:skeletons/skeletons.dart';
 
+import '../../../bussiness logic/profileCubit/profile_cubit.dart';
 import '../../../customwidget/loading_widget.dart';
 import '../../../customwidget/snackbar.dart';
+import '../../../data/models/location_model.dart';
 import '../../../data/models/service_info_model.dart';
+import '../../resources/color_manager.dart';
 import '../../resources/style_manager.dart';
+import '../profile/ProfileComponents/add_address_bottom_sheet.dart';
 import 'HomeComponents/order_service_bottom_sheet.dart';
 import 'category_screen.dart';
 
@@ -29,10 +34,14 @@ class _OrderCustomServiceScreenState extends State<OrderCustomServiceScreen> {
   TimeOfDay? selectedTime;
   int? selectedCategory;
   bool isScroll = false;
+
+  LocationModel? selectedLocation;
+
   TextEditingController detailsController = TextEditingController();
   @override
   void initState() {
     super.initState();
+    context.read<ProfileCubit>().getLocation();
     scrollController.addListener(() {
       setState(() {
         isScroll = scrollController.offset > 0;
@@ -163,21 +172,87 @@ class _OrderCustomServiceScreenState extends State<OrderCustomServiceScreen> {
                               'اي تفاصيل اضافية تساعدنا في فهم احتياجكم لهذه الخدمة'),
                     ),
                     const LabelTextFieldWidget(text: 'الموقع الجغرافي'),
-                    TextFormField(
-                      validator: (value) => value!.isNotEmptyField,
-                      decoration: const InputDecoration(
-                        hintText: 'اضغط لاختيار الموقع المناسب',
-                        suffixIcon: Icon(
-                          Icons.location_on_outlined,
-                          color: Colors.grey,
-                        ),
-                      ),
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      builder: (context, state) {
+                        if (state is LocationLoadingState) {
+                          return SkeletonItem(
+                              child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8)),
+                          ));
+                        }
+                        if (state is LocationSuccessState) {
+                          if (state.locations.isEmpty) {
+                            return TextFormField(
+                              enabled: false,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'اضف عنوان جديد'
+                                      : null,
+                              decoration: const InputDecoration(
+                                  hintText:
+                                      'اضف عنوان جديد ,لا يوجد عناوين مضافة',
+                                  hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15,
+                                      color: ColorManager.redDarkColor),
+                                  errorStyle: TextStyle(
+                                      height: 0.8,
+                                      fontWeight: FontWeight.normal)),
+                            );
+                          }
+                          return DropdownButtonFormField<LocationModel>(
+                            items: state.locations
+                                .map(
+                                  (e) => DropdownMenuItem(
+                                    child: Text(e.addressName),
+                                    value: e,
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                if (value != null) {
+                                  selectedLocation = value;
+                                }
+                              });
+                            },
+                            validator: (value) =>
+                                value == null || value.apartmentNumber.isEmpty
+                                    ? 'هذا الحقل مطلوب'
+                                    : null,
+                            hint: Text(
+                              'اضغط  لاختيار الموقع المناسب',
+                              style: StyleManger.headline2(color: Colors.grey),
+                            ),
+                            icon: const Icon(
+                              Icons.expand_more_outlined,
+                              size: 30,
+                            ),
+                          );
+                        } else {
+                          return const Text('something went wrong');
+                        }
+                      },
                     ),
                     TextButton(
                         style: TextButton.styleFrom(
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.zero),
-                        onPressed: () {},
+                        onPressed: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    topRight: Radius.circular(8))),
+                            clipBehavior: Clip.antiAlias,
+                            context: context,
+                            builder: (context) => const AddAddressBottomSheet(),
+                          );
+                        },
                         child: const Text(
                           '+ اضافة عنوان جديد',
                           style: TextStyle(
@@ -231,7 +306,7 @@ class _OrderCustomServiceScreenState extends State<OrderCustomServiceScreen> {
                     date: DateFormat('yyyy-MM-dd').format(selectedDate!),
                     time: selectedTime!.format(context).split(" ")[0],
                     category: selectedCategory!,
-                    location: 13,
+                    location: selectedLocation!.id,
                   );
             }
           },

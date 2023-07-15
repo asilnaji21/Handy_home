@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/app/routes/navigation_manager.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
+import 'package:handy_home_app/bussiness%20logic/profileCubit/profile_cubit.dart';
+import 'package:handy_home_app/data/models/location_model.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/validation_manager.dart';
+import 'package:skeletons/skeletons.dart';
 
 import '../../../../bussiness logic/homeCubit/home_cubit.dart';
 import '../../../../customwidget/loading_widget.dart';
@@ -12,6 +15,7 @@ import '../../../../customwidget/snackbar.dart';
 import '../../../../data/models/service_info_model.dart';
 import '../../../../data/models/service_model.dart';
 import '../../../resources/style_manager.dart';
+import '../../profile/ProfileComponents/add_address_bottom_sheet.dart';
 import '../category_screen.dart';
 
 class OrderServiceBottomSheet extends StatefulWidget {
@@ -30,7 +34,14 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   int serviceCount = 1;
+  LocationModel? selectedLocation;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileCubit>().getLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,21 +194,89 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                           ],
                         ),
                         const LabelTextFieldWidget(text: 'الموقع الجغرافي'),
-                        TextFormField(
-                          validator: (value) => value!.isNotEmptyField,
-                          decoration: const InputDecoration(
-                            hintText: 'اضغط لاختيار الموقع المناسب',
-                            suffixIcon: Icon(
-                              Icons.location_on_outlined,
-                              color: Colors.grey,
-                            ),
-                          ),
+                        BlocBuilder<ProfileCubit, ProfileState>(
+                          builder: (context, state) {
+                            if (state is LocationLoadingState) {
+                              return SkeletonItem(
+                                  child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8)),
+                              ));
+                            }
+                            if (state is LocationSuccessState) {
+                              if (state.locations.isEmpty) {
+                                return TextFormField(
+                                  enabled: false,
+                                  validator: (value) =>
+                                      value == null || value.isEmpty
+                                          ? 'اضف عنوان جديد'
+                                          : null,
+                                  decoration: const InputDecoration(
+                                      hintText:
+                                          'اضف عنوان جديد ,لا يوجد عناوين مضافة',
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 15,
+                                          color: ColorManager.redDarkColor),
+                                      errorStyle: TextStyle(
+                                          height: 0.8,
+                                          fontWeight: FontWeight.normal)),
+                                );
+                              }
+                              return DropdownButtonFormField<LocationModel>(
+                                items: state.locations
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        child: Text(e.addressName),
+                                        value: e,
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (value != null) {
+                                      selectedLocation = value;
+                                    }
+                                  });
+                                },
+                                validator: (value) => value == null ||
+                                        value.apartmentNumber.isEmpty
+                                    ? 'هذا الحقل مطلوب'
+                                    : null,
+                                hint: Text(
+                                  'اضغط  لاختيار الموقع المناسب',
+                                  style:
+                                      StyleManger.headline2(color: Colors.grey),
+                                ),
+                                icon: const Icon(
+                                  Icons.expand_more_outlined,
+                                  size: 30,
+                                ),
+                              );
+                            } else {
+                              return const Text('something went wrong');
+                            }
+                          },
                         ),
                         TextButton(
                             style: TextButton.styleFrom(
                                 alignment: Alignment.centerLeft,
                                 padding: EdgeInsets.zero),
-                            onPressed: () {},
+                            onPressed: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        topRight: Radius.circular(8))),
+                                clipBehavior: Clip.antiAlias,
+                                context: context,
+                                builder: (context) =>
+                                    const AddAddressBottomSheet(),
+                              );
+                            },
                             child: const Text(
                               '+ اضافة عنوان جديد',
                               style: TextStyle(
@@ -277,7 +356,9 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                                     .format(selectedDate!),
                                 time:
                                     selectedTime!.format(context).split(" ")[0],
-                                service: widget.service!.id!);
+                                service: widget.service!.id!,
+                                location:selectedLocation!.id
+                                );
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -297,7 +378,8 @@ class _OrderServiceBottomSheetState extends State<OrderServiceBottomSheet> {
                       style: StyleManger.headline1(
                           color: ColorManager.primaryMainEnableColor,
                           fontSize: 16),
-                      decoration: const InputDecoration(fillColor: Color(0xFFEBF1F0)),
+                      decoration:
+                          const InputDecoration(fillColor: Color(0xFFEBF1F0)),
                     ),
                   ),
                 ],

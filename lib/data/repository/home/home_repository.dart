@@ -89,6 +89,7 @@ class HomeRepository {
   Future<Either<ApiSuccess, ApiFailure>> orderFixedService(
       {required int quantity,
       required int totalPrice,
+      required int location,
       required String date,
       required String time,
       required int service}) async {
@@ -99,7 +100,8 @@ class HomeRepository {
       "total_price": totalPrice,
       "date_order": date,
       "time_order": time,
-      "service": service
+      "service": service,
+      "location": location
     }, headers: {
       "Authorization":
           "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
@@ -145,6 +147,38 @@ class HomeRepository {
       return left(
         ApiSuccess(
           CustomServiceModel.fromJson(response.data),
+          response.statusCode,
+        ),
+      );
+    } else {
+      if (response is ApiFailure && response.statusCode == 400) {
+        return right(ApiFailure(response.message.toString()));
+      }
+      return right(response as ApiFailure);
+    }
+  }
+
+  Future<Either<ApiSuccess, ApiFailure>> addReview({
+    required int reviewValue,
+    required String comment,
+    required int service,
+  }) async {
+    ApiResults response = await dioHelper.postData(
+        endPoint: Endpoints.addReview,
+        data: {
+          "review": reviewValue,
+          "comment": comment,
+          "service": service
+        },
+        headers: {
+          "Authorization":
+              "Bearer ${getIt<SharedPrefController>().getUser().accessToken}"
+        });
+
+    if (response is ApiSuccess) {
+      return left(
+        ApiSuccess(
+          'تم التقييم بنجاح',
           response.statusCode,
         ),
       );

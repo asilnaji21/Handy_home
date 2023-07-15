@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class OrderedServiceModel {
   final String? name;
   final int id;
@@ -26,18 +27,17 @@ class OrderedServiceModel {
 
   factory OrderedServiceModel.fromJson(Map<String, dynamic> json) {
     return OrderedServiceModel(
-      id: json['id'],
-      orderStatus: json['order_status'],
-      quantity: json['quantity'],
-      totalPrice: json['total_price'] ?? 0,
-      dateOrder: json['date_order'],
-      timeOrder: json['time_order'],
-      createAt: json['create_at'],
-      updateAt: json['update_at'],
-      createBy: json['create_by'],
-      service: json['service'],
-      name: json['service_name']
-    );
+        id: json['id'],
+        orderStatus: json['order_status'],
+        quantity: json['quantity'],
+        totalPrice: json['total_price'] ?? 0,
+        dateOrder: json['date_order'],
+        timeOrder: json['time_order'],
+        createAt: json['create_at'],
+        updateAt: json['update_at'],
+        createBy: json['create_by'],
+        service: json['service'],
+        name: json['service_name']);
   }
 
   Map<String, dynamic> toJson() {
@@ -53,5 +53,10 @@ class OrderedServiceModel {
     data['create_by'] = createBy;
     data['service'] = service;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'OrderedServiceModel(name: $name, id: $id, orderStatus: $orderStatus, quantity: $quantity, totalPrice: $totalPrice, dateOrder: $dateOrder, timeOrder: $timeOrder, createAt: $createAt, updateAt: $updateAt, createBy: $createBy, service: $service)';
   }
 }

@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:handy_home_app/app/constants_manager.dart';
+import 'package:handy_home_app/bussiness%20logic/bookedServiceCubit/booked_service_cubit.dart';
 import 'package:handy_home_app/bussiness%20logic/homeCubit/home_cubit.dart';
 import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 import 'package:handy_home_app/presentation/view/home/category_screen.dart';
+import 'package:skeletons/skeletons.dart';
 import '../../../customwidget/custom_button_with_background_widget.dart';
 import '../../../data/models/service_model.dart';
 import 'HomeComponents/customer_comment_widget.dart';
@@ -29,6 +32,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   void initState() {
     super.initState();
     context.read<HomeCubit>().serviceDetails(endPoint: widget.serviceEndPoint);
+    context.read<BookedServiceCubit>().allOrders();
     scrollController.addListener(() {
       setState(() {
         isScroll = scrollController.offset > 0;
@@ -157,7 +161,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                             .map((e) => Text('❌ $e'))
                             .toList(),
                         const SizedBox(
-                          height: 8,
+                          height: 16,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,21 +170,48 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                               'تعليقات العملاء',
                               style: StyleManger.headline1(fontSize: 16),
                             ),
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      ColorManager.buttonBackgroundColor,
-                                ),
-                                onPressed: () {
-                                  ratingBottomSheet(context,
-                                      controller: ratingController);
-                                },
-                                child: const Text(
-                                  'قيّم تجربتك',
-                                  style: TextStyle(
-                                    color: ColorManager.primaryMainEnableColor,
-                                  ),
-                                ))
+                            BlocBuilder<BookedServiceCubit, BookedServiceState>(
+                              builder: (context, ordersState) {
+                                if (ordersState is AllOrderLoadingState) {
+                                  return SkeletonItem(
+                                    child: Container(
+                                      height: 40,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  );
+                                } else if (ordersState
+                                    is AllOrderSuccessState) {
+                                  if (ordersState.orders.any((element) =>
+                                      (element.service ==
+                                          state.serviceDetails.id) &&
+                                      element.orderStatus == 'مكتمل')) {
+                                    return ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: ColorManager
+                                              .buttonBackgroundColor,
+                                        ),
+                                        onPressed: () {
+                                          ratingBottomSheet(context,
+                                              serviceId:
+                                                  state.serviceDetails.id!);
+                                        },
+                                        child: const Text(
+                                          'قيّم تجربتك',
+                                          style: TextStyle(
+                                            color: ColorManager
+                                                .primaryMainEnableColor,
+                                          ),
+                                        ));
+                                  }
+                                  return SizedBox();
+                                }
+                                return SizedBox();
+                              },
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -190,15 +221,12 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                             .map(
                               (e) => CustomerCommentWidget(
                                 comment: e.comment,
-                                image: e.image,
+                                image: Endpoints.baseUrl + e.image,
                                 name: e.name,
                                 rating: e.review,
                               ),
                             )
                             .toList(),
-                        // const CustomerCommentWidget(),
-                        // const CustomerCommentWidget(),
-                        // const CustomerCommentWidget(),
                       ],
                     ),
                   ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handy_home_app/app/routes/route_constants.dart';
 import 'package:handy_home_app/bussiness%20logic/authCubit/auth_cubit.dart';
+import 'package:handy_home_app/bussiness%20logic/bookedServiceCubit/booked_service_cubit.dart';
 import 'package:handy_home_app/bussiness%20logic/homeCubit/home_cubit.dart';
 import 'package:handy_home_app/presentation/view/authentication/email_opt_screen.dart';
 import 'package:handy_home_app/presentation/view/authentication/emailconfirmation_view.dart';
@@ -81,8 +82,15 @@ class RouteGenerator {
         );
       case RouteConstants.serviceDetailsRoute:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                  create: (context) => HomeCubit(),
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    // BlocProvider(
+                    //   create: (context) => HomeCubit(),
+                    // ),
+                    BlocProvider(
+                      create: (context) => BookedServiceCubit(),
+                    )
+                  ],
                   child: ServiceDetailsScreen(
                     serviceEndPoint: settings.arguments as String,
                   ),
@@ -121,7 +129,6 @@ class RouteGenerator {
                   BlocProvider(
                     create: (context) => DeleteCubit(),
                   ),
-                  
                 ], child: const AddressesManagementScreen()));
       case RouteConstants.newEmailScreen:
         return MaterialPageRoute(builder: (_) => const NewEmailScreen());

@@ -82,7 +82,7 @@ class _AddressesManagementScreenState extends State<AddressesManagementScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      'المنزل ${index + 1}',
+                                      state.locations[index].addressName,
                                       style:
                                           StyleManger.headline1(fontSize: 14),
                                     ),

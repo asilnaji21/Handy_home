@@ -47,6 +47,22 @@ class ServiceDetailsFailedState extends HomeState {
   ServiceDetailsFailedState({required this.message});
 }
 
+//this states for add review
+
+class ReviewLoadingState extends HomeState {}
+
+class ReviewSuccessState extends HomeState {
+  final String message;
+  ReviewSuccessState({required this.message});
+}
+
+class ReviewFailedState extends HomeState {
+  final String message;
+  ReviewFailedState({required this.message});
+}
+
+
+
 //this states for "latest service added"
 
 class LatestServiceAddedInitialState {}

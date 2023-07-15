@@ -1,21 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy_home_app/app/constants_manager.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
+import 'package:handy_home_app/bussiness%20logic/homeCubit/home_cubit.dart';
 import 'package:handy_home_app/customwidget/custom_button_with_background_widget.dart';
 
+import '../../../../customwidget/loading_widget.dart';
+import '../../../../customwidget/snackbar.dart';
 import '../../../resources/color_manager.dart';
 import '../../../resources/style_manager.dart';
 import '../category_screen.dart';
 import '../../../resources/validation_manager.dart';
 
-Future<dynamic> ratingBottomSheet(BuildContext context,
-    {required TextEditingController controller}) {
-  GlobalKey<FormFieldState> fieldKey = GlobalKey<FormFieldState>();
+Future<dynamic> ratingBottomSheet(
+  BuildContext context, {
+  required int serviceId,
+}) {
+  // GlobalKey<FormFieldState> fieldKey = GlobalKey<FormFieldState>();
   return showModalBottomSheet(
+    barrierColor: Colors.grey,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     context: context,
     backgroundColor: ColorManager.background,
     isScrollControlled: true,
-    builder: (context) => Padding(
+    builder: (context) => RatingWidget(
+      // fieldKey: fieldKey
+      serviceId: serviceId,
+    ),
+  );
+}
+
+class RatingWidget extends StatefulWidget {
+  const RatingWidget({
+    Key? key,
+    required this.serviceId,
+  }) : super(key: key);
+
+  final int serviceId;
+
+  @override
+  State<RatingWidget> createState() => _RatingWidgetState();
+}
+
+class _RatingWidgetState extends State<RatingWidget> {
+  final GlobalKey<FormFieldState> fieldKey = GlobalKey<FormFieldState>();
+  TextEditingController commentController = TextEditingController();
+  double selectedRating = 2.5;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: GestureDetector(
@@ -23,12 +58,11 @@ Future<dynamic> ratingBottomSheet(BuildContext context,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 15,
-              ),
-              child: Column(
+            SizedBox(
+              height: 350.h,
+              child: ListView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,10 +82,10 @@ Future<dynamic> ratingBottomSheet(BuildContext context,
                     height: 15,
                   ),
                   TextFormField(
-                    maxLines: 4,
-                    minLines: 4,
+                    maxLines: 3,
+                    minLines: 3,
                     key: fieldKey,
-                    controller: controller,
+                    controller: commentController,
                     validator: (value) => value!.isNotEmptyField,
                     decoration: const InputDecoration(
                         hintText:
@@ -93,7 +127,9 @@ Future<dynamic> ratingBottomSheet(BuildContext context,
                           color: ColorManager.primaryMainEnableColor,
                         ),
                         onRatingUpdate: (rating) {
-                          print(rating);
+                          setState(() {
+                            selectedRating = rating;
+                          });
                         },
                       )
                     ],
@@ -101,16 +137,43 @@ Future<dynamic> ratingBottomSheet(BuildContext context,
                 ],
               ),
             ),
-            CustomButtonWithBackgroundWidget(
-                onPressed: () {
-                  if (fieldKey.currentState!.validate()) {
-                    print('rating ok');
-                  }
-                },
-                text: 'تأكيد التقييم')
+            BlocListener<HomeCubit, HomeState>(
+              listener: (context, state) {
+                if (state is ReviewLoadingState) {
+                  showLoading(context);
+                } else if (state is ReviewSuccessState) {
+                  context.read<HomeCubit>().serviceDetails(
+                      endPoint: Endpoints.serviceDetails(id: widget.serviceId));
+                  NavigationManager.pop();
+                  NavigationManager.pop();
+                  showSnackBar(context,
+                      text: state.message,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white);
+                } else if (state is ReviewFailedState) {
+                  NavigationManager.pop();
+                  NavigationManager.pop();
+                  showSnackBar(context,
+                      text: state.message,
+                      backgroundColor: Colors.grey,
+                      textColor: Colors.black);
+                }
+              },
+              child: CustomButtonWithBackgroundWidget(
+                  onPressed: () {
+                    if (fieldKey.currentState!.validate()) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      context.read<HomeCubit>().addReview(
+                          reviewValue: selectedRating.toInt(),
+                          comment: commentController.text,
+                          service: widget.serviceId);
+                    }
+                  },
+                  text: 'تأكيد التقييم'),
+            )
           ],
         ),
       ),
-    ),
-  );
+    );
+  }
 }
