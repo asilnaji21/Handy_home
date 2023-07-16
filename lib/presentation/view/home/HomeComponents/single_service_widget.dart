@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:handy_home_app/presentation/view/home/HomeComponents/stare_rating_widget.dart';
@@ -46,6 +48,7 @@ class SingleServiceWidget extends StatelessWidget {
                         BoxDecoration(borderRadius: BorderRadius.circular(8)),
                     child: CachedNetworkImage(
                       imageUrl: image,
+                      fit: BoxFit.cover,
                       placeholder: (context, url) =>
                           loadingPlaceholder ??
                           const CircularProgressIndicator(),
@@ -66,12 +69,13 @@ class SingleServiceWidget extends StatelessWidget {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(
+            Padding(
+              padding: const EdgeInsets.only(
                 top: 18,
                 left: 16,
               ),
-              child: StareRatingWidget(ratingNumber: '4.6'),
+              child:
+                  StareRatingWidget(ratingNumber: '${Random().nextInt(5) + 1}'),
             )
           ],
         ),

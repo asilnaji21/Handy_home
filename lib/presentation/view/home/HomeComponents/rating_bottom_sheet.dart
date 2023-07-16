@@ -105,7 +105,7 @@ class _RatingWidgetState extends State<RatingWidget> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) => Container(
                             width: 60,
-                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            margin: const EdgeInsets.symmetric(horizontal: 2),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: Colors.white),
@@ -121,7 +121,7 @@ class _RatingWidgetState extends State<RatingWidget> {
                         allowHalfRating: true,
                         itemCount: 5,
                         glowColor: Colors.white,
-                        itemPadding: const EdgeInsets.symmetric(horizontal: 15),
+                        itemPadding: const EdgeInsets.symmetric(horizontal: 12),
                         itemBuilder: (context, _) => const Icon(
                           Icons.star,
                           color: ColorManager.primaryMainEnableColor,

@@ -4,6 +4,8 @@ import 'package:handy_home_app/bussiness%20logic/searchCubit/search_cubit.dart';
 import 'dart:async';
 import 'package:skeletons/skeletons.dart';
 
+import '../../../app/routes/navigation_manager.dart';
+import '../../../app/routes/route_constants.dart';
 import '../../../customwidget/search_custom_widget.dart';
 import '../../resources/style_manager.dart';
 import '../home/HomeComponents/single_service_widget.dart';
@@ -90,19 +92,27 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                           );
                         }
-                        return SingleServiceWidget(
-                          width: 160,
-                          image: state.services[index].image,
-                          loadingPlaceholder: Container(
-                            height: 70,
-                            width: 70,
-                            decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(8)),
+                        return InkWell(
+                          onTap: () {
+                            NavigationManager.pushNamed(
+                                RouteConstants.serviceDetailsRoute,
+                                arguments: state.services[index].detail);
+                          },
+                          child: SingleServiceWidget(
+                            width: 140,
+                            imageHeight: 90,
+                            image: state.services[index].image,
+                            loadingPlaceholder: Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                            price:
+                                '${state.services[index].priceFrom}-${state.services[index].priceTo}',
+                            serviceName: state.services[index].name,
                           ),
-                          price:
-                              '${state.services[index].priceFrom}-${state.services[index].priceTo}',
-                          serviceName: state.services[index].name,
                         );
                       } else {
                         return const Text('something went wrong');

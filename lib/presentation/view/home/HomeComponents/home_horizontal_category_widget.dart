@@ -5,6 +5,9 @@ import 'package:handy_home_app/data/models/service_model.dart';
 import 'package:handy_home_app/presentation/view/home/HomeComponents/single_service_widget.dart';
 import 'package:skeletons/skeletons.dart';
 
+import '../../../../app/routes/navigation_manager.dart';
+import '../../../../app/routes/route_constants.dart';
+
 class HomeHorizontalCategoryWidget extends StatelessWidget {
   const HomeHorizontalCategoryWidget({
     this.changeTheOrder = false,
@@ -37,24 +40,32 @@ class HomeHorizontalCategoryWidget extends StatelessWidget {
               padding: const EdgeInsets.only(right: 27),
               scrollDirection: Axis.horizontal,
               itemCount: state.services.length,
-              itemBuilder: (context, index) => SingleServiceWidget(
-                imageHeight: 180,
-                image: changeTheOrder
-                    ? servicesChanged[index].image
-                    : state.services[index].image,
-                price: changeTheOrder
-                    ? '${servicesChanged[index].priceFrom}-${servicesChanged[index].priceTo}'
-                    : '${state.services[index].priceFrom}-${state.services[index].priceTo}',
-                serviceName: changeTheOrder
-                    ? servicesChanged[index].name
-                    : state.services[index].name,
-                loadingPlaceholder: Container(
-                  height: 200,
-                  width: 300,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(8),
+              itemBuilder: (context, index) => InkWell(
+                onTap: () {
+                  NavigationManager.pushNamed(
+                      RouteConstants.serviceDetailsRoute,
+                      arguments: state.services[index].detail);
+                },
+                child: SingleServiceWidget(
+                  width: 270,
+                  imageHeight: 180,
+                  image: changeTheOrder
+                      ? servicesChanged[index].image
+                      : state.services[index].image,
+                  price: changeTheOrder
+                      ? '${servicesChanged[index].priceFrom}-${servicesChanged[index].priceTo}'
+                      : '${state.services[index].priceFrom}-${state.services[index].priceTo}',
+                  serviceName: changeTheOrder
+                      ? servicesChanged[index].name
+                      : state.services[index].name,
+                  loadingPlaceholder: Container(
+                    height: 200,
+                    width: 300,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
               ),

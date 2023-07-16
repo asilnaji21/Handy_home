@@ -74,7 +74,7 @@ class AuthRepository {
     } else {
       if (response is ApiFailure && response.statusCode == 400) {
         return right(
-            ApiFailure(response.message['email']['detail'].toString()));
+            ApiFailure(response.message['detail']['0'].toString()));
       }
       return right(response as ApiFailure);
     }

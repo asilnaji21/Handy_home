@@ -8,8 +8,13 @@ import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 import 'package:handy_home_app/presentation/view/home/category_screen.dart';
 import 'package:skeletons/skeletons.dart';
+import '../../../app/locator.dart';
+import '../../../app/routes/navigation_manager.dart';
+import '../../../app/routes/route_constants.dart';
 import '../../../customwidget/custom_button_with_background_widget.dart';
+import '../../../customwidget/custom_dialog_widget.dart';
 import '../../../data/models/service_model.dart';
+import '../../../data/network/local/local_network.dart';
 import 'HomeComponents/customer_comment_widget.dart';
 import 'HomeComponents/order_service_bottom_sheet.dart';
 import 'HomeComponents/rating_bottom_sheet.dart';
@@ -58,7 +63,6 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
             }
           },
           builder: (context, state) {
-            print(state);
             if (state is ServiceDetailsLoadingState) {
               return const CircularLoadingWidget();
             } else if (state is ServiceDetailsSuccessState) {
@@ -126,12 +130,17 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              state.serviceDetails.name,
-                              style: StyleManger.headline1(fontSize: 18),
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                state.serviceDetails.name,
+                                style: StyleManger.headline1(fontSize: 18),
+                              ),
                             ),
-                            Text(
-                                '${state.serviceDetails.priceFrom} - ${state.serviceDetails.priceTo} شيكل'),
+                            Expanded(
+                              child: Text(
+                                  '${state.serviceDetails.priceFrom} - ${state.serviceDetails.priceTo} شيكل'),
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -170,47 +179,53 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                               'تعليقات العملاء',
                               style: StyleManger.headline1(fontSize: 16),
                             ),
-                            BlocBuilder<BookedServiceCubit, BookedServiceState>(
-                              builder: (context, ordersState) {
-                                if (ordersState is AllOrderLoadingState) {
-                                  return SkeletonItem(
-                                    child: Container(
-                                      height: 40,
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  );
-                                } else if (ordersState
-                                    is AllOrderSuccessState) {
-                                  if (ordersState.orders.any((element) =>
-                                      (element.service ==
-                                          state.serviceDetails.id) &&
-                                      element.orderStatus == 'مكتمل')) {
-                                    return ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: ColorManager
-                                              .buttonBackgroundColor,
+                            Visibility(
+                              visible:
+                                  getIt<SharedPrefController>().getLoggedIn(),
+                              child: BlocBuilder<BookedServiceCubit,
+                                  BookedServiceState>(
+                                builder: (context, ordersState) {
+                                  if (ordersState is AllOrderLoadingState) {
+                                    return SkeletonItem(
+                                      child: Container(
+                                        height: 40,
+                                        width: 90,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: Colors.white,
                                         ),
-                                        onPressed: () {
-                                          ratingBottomSheet(context,
-                                              serviceId:
-                                                  state.serviceDetails.id!);
-                                        },
-                                        child: const Text(
-                                          'قيّم تجربتك',
-                                          style: TextStyle(
-                                            color: ColorManager
-                                                .primaryMainEnableColor,
+                                      ),
+                                    );
+                                  } else if (ordersState
+                                      is AllOrderSuccessState) {
+                                    if (ordersState.orders.any((element) =>
+                                        (element.service ==
+                                            state.serviceDetails.id) &&
+                                        element.orderStatus == 'مكتمل')) {
+                                      return ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: ColorManager
+                                                .buttonBackgroundColor,
                                           ),
-                                        ));
+                                          onPressed: () {
+                                            ratingBottomSheet(context,
+                                                serviceId:
+                                                    state.serviceDetails.id!);
+                                          },
+                                          child: const Text(
+                                            'قيّم تجربتك',
+                                            style: TextStyle(
+                                              color: ColorManager
+                                                  .primaryMainEnableColor,
+                                            ),
+                                          ));
+                                    }
+                                    return SizedBox();
                                   }
                                   return SizedBox();
-                                }
-                                return SizedBox();
-                              },
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -240,18 +255,28 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
           },
         ),
         bottomNavigationBar: CustomButtonWithBackgroundWidget(
-            onPressed: () {
-              showModalBottomSheet(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                context: context,
-                backgroundColor: ColorManager.background,
-                useSafeArea: true,
-                isScrollControlled: true,
-                builder: (context) => OrderServiceBottomSheet(
-                  service: service,
-                ),
-              );
+            onPressed: () async {
+              if (getIt<SharedPrefController>().getLoggedIn()) {
+                showModalBottomSheet(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  context: context,
+                  backgroundColor: ColorManager.background,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  builder: (context) => OrderServiceBottomSheet(
+                    service: service,
+                  ),
+                );
+              } else {
+                bool? value = await customDialogWidget(context,
+                    buttonColor: ColorManager.primaryMainEnableColor,
+                    message:
+                        'انت مستخدم زائر , لكي تتمتع بصلاحبات اكثر سجل دخول');
+                if (value != null && value) {
+                  NavigationManager.goToAndRemove(RouteConstants.loginRoute);
+                }
+              }
             },
             text: 'اطلب هذه الخدمة'));
   }

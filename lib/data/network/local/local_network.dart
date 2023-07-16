@@ -7,6 +7,7 @@ import '../../models/user_model.dart';
 enum PrefKeys {
   user,
   isLoggedIn,
+  onBoarding,
 }
 
 class SharedPrefController {
@@ -45,7 +46,19 @@ class SharedPrefController {
     return preferences.getBool(PrefKeys.isLoggedIn.toString()) ?? false;
   }
 
+  setOnBoarding({required bool value}) {
+    preferences.setBool(PrefKeys.onBoarding.toString(), value);
+  }
+
+  bool getOnBoarding() {
+    return preferences.getBool(PrefKeys.onBoarding.toString()) ?? false;
+  }
+
   clear() {
     preferences.clear();
+  }
+
+  remove() {
+    preferences.remove(PrefKeys.user.toString());
   }
 }

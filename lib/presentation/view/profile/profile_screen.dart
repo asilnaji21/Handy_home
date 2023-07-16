@@ -135,7 +135,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   ProfileCustomListTile(
                     text: 'تواصل معنا',
-                    onTap: () {},
+                    onTap: () {
+                      NavigationManager.pushNamed(RouteConstants.callApp);
+
+                    },
                   ),
                   const Divider(
                     thickness: 1,
@@ -143,7 +146,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ProfileCustomListTile(
                     text: 'عن التطبيق',
-                    onTap: () {},
+                    onTap: () {
+                      NavigationManager.pushNamed(RouteConstants.aboutTheApp);
+                    },
                   ),
                   const Divider(
                     thickness: 1,
@@ -151,7 +156,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ProfileCustomListTile(
                     text: 'سياسية الاستخدام',
-                    onTap: () {},
+                    onTap: () {
+                      NavigationManager.pushNamed(RouteConstants.usesPolice);
+                    },
                   ),
                   const Divider(
                     thickness: 1,
@@ -159,7 +166,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ProfileCustomListTile(
                     text: 'سياسية الخصوصية',
-                    onTap: () {},
+                    onTap: () {
+                      NavigationManager.pushNamed(RouteConstants.privacyPolice);
+                    },
                   ),
                   const Divider(
                     thickness: 1,
@@ -167,7 +176,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ProfileCustomListTile(
                     text: 'الأسئلة الشائعة',
-                    onTap: () {},
+                    onTap: () {
+                      NavigationManager.pushNamed(RouteConstants.fAQScreen);
+                    },
                   ),
                 ],
               ),
@@ -209,6 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           refresh: getIt<SharedPrefController>()
                               .getUser()
                               .refreshToken);
+                      getIt<SharedPrefController>().remove();
                       getIt<SharedPrefController>().isLoggedIn(value: false);
                     }
                   },

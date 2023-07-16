@@ -22,7 +22,7 @@ class AuthCubit extends Cubit<AuthState> {
       getIt<SharedPrefController>().isLoggedIn(value: true);
       emit(LoginState(
           loginCodeStatus: LoginStatus.loggedInSuccessfully,
-          message: 'Logged in successfully'));
+          message: 'تم تسجيل الدخول بنجاح'));
     },
         (r) => emit(LoginState(
               loginCodeStatus: LoginStatus.loggedInFailed,

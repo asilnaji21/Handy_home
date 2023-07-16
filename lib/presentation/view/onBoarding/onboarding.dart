@@ -7,6 +7,8 @@ import 'package:handy_home_app/customwidget/button_custom.dart';
 import 'package:handy_home_app/data/models/onboarding_model.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 
+import '../../../app/locator.dart';
+import '../../../data/network/local/local_network.dart';
 import '../../resources/color_manager.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -78,12 +80,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                         CustomButtonPrimary(
                           onPressed: () {
-                            state.currentIndex == 2
-                                ? NavigationManager.goToAndRemove(
-                                    RouteConstants.loginRoute)
-                                : controller.nextPage(
-                                    duration: const Duration(milliseconds: 700),
-                                    curve: Curves.easeIn);
+                            if (state.currentIndex == 2) {
+                              NavigationManager.goToAndRemove(
+                                  RouteConstants.loginRoute);
+                              getIt<SharedPrefController>()
+                                  .setOnBoarding(value: true);
+                            } else {
+                              controller.nextPage(
+                                  duration: const Duration(milliseconds: 700),
+                                  curve: Curves.easeIn);
+                            }
                           },
                           text: Text(state.currentIndex == 2
                               ? 'تسجيل الدخول'
@@ -91,6 +97,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                         TextButton(
                           onPressed: () {
+                            getIt<SharedPrefController>()
+                                .setOnBoarding(value: true);
+
                             NavigationManager.goToAndRemove(
                                 RouteConstants.homeRoute);
                           },

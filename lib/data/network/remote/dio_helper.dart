@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:handy_home_app/app/routes/navigation_manager.dart';
+import 'package:handy_home_app/customwidget/snackbar.dart';
 import 'dart:io';
 import '../../../../app/constants_manager.dart';
 import 'api_result_handler.dart';
@@ -79,6 +82,11 @@ class DioHelper {
       } else if (e.type == DioErrorType.receiveTimeout) {
         // print('unable to connect to the server');
         return ApiFailure("unable to connect to the server");
+      } else if (e.type == DioErrorType.unknown) {
+        if (e.error.toString().contains("SocketException")) {
+          return ApiFailure('No Internet');
+        }
+        return ApiFailure("Unexpected error occurred");
       } else {
         return ApiFailure("An error occurred, try again");
       }
@@ -114,16 +122,27 @@ class DioHelper {
     } on FormatException {
       return ApiFailure("Data syntax error");
     } on DioError catch (e) {
-      print(e.response);
+      print(
+          '************************: ${e.message} -- ${e.response?.statusCode} -- ${e.type} -- ${e.response?.data}');
       if (e.type == DioErrorType.badResponse) {
-        // return ApiFailure(e.response!.data['message']);
-        return ApiFailure(e.message.toString());
+        return ApiFailure(
+            e.response?.data["detail"] ?? 'incorrect login credentials');
+        // return ApiFailure(e.message);
       } else if (e.type == DioErrorType.connectionTimeout) {
         // print('check your connection');
         return ApiFailure("Make sure you are connected to the internet");
       } else if (e.type == DioErrorType.receiveTimeout) {
         // print('unable to connect to the server');
         return ApiFailure("unable to connect to the server");
+      } else if (e.type == DioErrorType.unknown) {
+        if (e.error.toString().contains("SocketException")) {
+          showSnackBar(NavigationManager.navigatorKey.currentContext!,
+              backgroundColor: Colors.grey,
+              textColor: Colors.black,
+              text: 'لا يوجد انترنت تحقق من الاتصال');
+          return ApiFailure('No Internet');
+        }
+        return ApiFailure("Unexpected error occurred");
       } else {
         return ApiFailure("An error occurred, try again");
       }
@@ -186,6 +205,11 @@ class DioHelper {
       } else if (e.type == DioErrorType.receiveTimeout) {
         // print('unable to connect to the server');
         return ApiFailure("unable to connect to the server");
+      } else if (e.type == DioErrorType.unknown) {
+        if (e.error.toString().contains("SocketException")) {
+          return ApiFailure('No Internet');
+        }
+        return ApiFailure("Unexpected error occurred");
       } else {
         return ApiFailure("An error occurred, try again");
       }
@@ -248,6 +272,11 @@ class DioHelper {
       } else if (e.type == DioErrorType.receiveTimeout) {
         // print('unable to connect to the server');
         return ApiFailure("unable to connect to the server");
+      } else if (e.type == DioErrorType.unknown) {
+        if (e.error.toString().contains("SocketException")) {
+          return ApiFailure('No Internet');
+        }
+        return ApiFailure("Unexpected error occurred");
       } else {
         return ApiFailure("An error occurred, try again");
       }
@@ -256,7 +285,7 @@ class DioHelper {
     }
   }
 
-    // -----------------------------patch  Data ---------------------------- //
+  // -----------------------------patch  Data ---------------------------- //
 
   Future<ApiResults> patchData(
       {required String endPoint,
@@ -310,6 +339,11 @@ class DioHelper {
       } else if (e.type == DioErrorType.receiveTimeout) {
         // print('unable to connect to the server');
         return ApiFailure("unable to connect to the server");
+      } else if (e.type == DioErrorType.unknown) {
+        if (e.error.toString().contains("SocketException")) {
+          return ApiFailure('No Internet');
+        }
+        return ApiFailure("Unexpected error occurred");
       } else {
         return ApiFailure("An error occurred, try again");
       }

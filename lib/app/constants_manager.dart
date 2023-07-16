@@ -58,6 +58,12 @@ class Endpoints {
 
   // search endpoint
   static const String searchEndpoint = '/api/services/';
+
+  //notification
+  static const String readNotification='/api/orders/read-notification/';
+  static const String unreadNotification = '/api/orders/unread-notification/';
+  static const String changeNotification = '/api/orders/notification/change/';
+
 }
 
 void printTest(String text) {

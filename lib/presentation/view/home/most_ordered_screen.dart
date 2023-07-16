@@ -6,22 +6,26 @@ import 'package:handy_home_app/presentation/resources/color_manager.dart';
 import 'package:handy_home_app/presentation/resources/style_manager.dart';
 
 import '../../../bussiness logic/homeCubit/home_cubit.dart';
-import '../../../customwidget/search_custom_widget.dart';
 import 'HomeComponents/single_service_widget.dart';
 
-class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({required this.categoryId, Key? key}) : super(key: key);
-  final int categoryId;
+class MostOrderedScreen extends StatefulWidget {
+  const MostOrderedScreen(
+      {
+      required this.name,
+
+      Key? key})
+      : super(key: key);
+  final String name;
 
   @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
+  State<MostOrderedScreen> createState() => _MostOrderedScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
+class _MostOrderedScreenState extends State<MostOrderedScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().categoryServices(id: widget.categoryId);
+    context.read<LatestServiceCubit>().latestAddedService();
   }
 
   @override
@@ -29,15 +33,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 18, left: 30, right: 30),
-        child: BlocBuilder<HomeCubit, HomeState>(
+        child: BlocBuilder<LatestServiceCubit, LatestServiceAddedInitialState>(
           builder: (context, state) {
-            if (state is CategoryServicesLoadingState) {
+            if (state is LatestServiceAddedLoadingState) {
               return const CircularLoadingWidget();
-            } else if (state is CategoryServicesSuccessState) {
+            } else if (state is LatestServiceAddedSuccessState) {
               return Column(
                 children: [
-                  CustomHeaderWidget(
-                      title: 'خدمات ${state.categoryServices.name}'),
+                   CustomHeaderWidget(title: widget.name),
                   const SizedBox(
                     height: 16,
                   ),
@@ -45,24 +48,22 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   Expanded(
                     child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      itemCount: state.categoryServices.services.length,
+                      itemCount: state.services.length,
                       padding: const EdgeInsets.only(top: 10),
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
                             NavigationManager.pushNamed(
                                 RouteConstants.serviceDetailsRoute,
-                                arguments: state
-                                    .categoryServices.services[index].detail);
+                                arguments: state.services[index].detail);
                           },
                           child: SingleServiceWidget(
                             width: double.infinity,
                             imageHeight: 180,
-                            image: state.categoryServices.services[index].image,
+                            image: state.services[index].image,
                             price:
-                                '${state.categoryServices.services[index].priceFrom} - ${state.categoryServices.services[index].priceTo}',
-                            serviceName:
-                                state.categoryServices.services[index].name,
+                                '${state.services[index].priceFrom} - ${state.services[index].priceTo}',
+                            serviceName: state.services[index].name,
                             loadingPlaceholder: Container(
                               height: 180,
                               padding: const EdgeInsets.symmetric(
